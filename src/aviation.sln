@@ -3,13 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.FlightCli", "TheFipster.Aviation.FlightCli\TheFipster.Aviation.FlightCli.csproj", "{E8337EB7-7138-48DA-8B1B-D026DE1235CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.FlightCli", "TheFipster.Aviation.FlightCli\TheFipster.Aviation.FlightCli.csproj", "{E8337EB7-7138-48DA-8B1B-D026DE1235CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Domain", "TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj", "{72DA9F21-DD21-4767-B706-AF01A67A107C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Domain", "TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj", "{72DA9F21-DD21-4767-B706-AF01A67A107C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.BlackBox", "TheFipster.Aviation.Modules.BlackBox\TheFipster.Aviation.Modules.BlackBox.csproj", "{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.SimToolkitPro", "TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj", "{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.SimToolkitPro", "TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj", "{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.Airports", "TheFipster.Aviation.Modules.Airports\TheFipster.Aviation.Modules.Airports.csproj", "{67D0852C-56FE-469E-8F67-16278227BD29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.CoreCli", "TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj", "{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.Simbrief", "TheFipster.Aviation.Modules.Simbrief\TheFipster.Aviation.Modules.Simbrief.csproj", "{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

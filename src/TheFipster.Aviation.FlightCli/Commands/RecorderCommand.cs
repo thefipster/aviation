@@ -1,4 +1,5 @@
-﻿using TheFipster.Aviation.Domain;
+﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
@@ -24,7 +25,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Console.ReadLine();
             recorder.Stop();
 
-            new JsonWriter().Write(flight);
+            new JsonWriter<BlackBoxFlight>().Write(flight, "BlackBox", flight.Origin, flight.Destination);
             new CsvWriter().Write(flight);
         }
 
