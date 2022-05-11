@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<SimBase.Document Type="AceXML" version="1,0">
+    <Descr>AceXML Document</Descr>
+    <FlightPlan.FlightPlan>
+        <Title>KDEN to KTEX</Title>
+        <FPType>IFR</FPType>
+        <RouteType>HighAlt</RouteType>
+        <CruisingAlt>38000.000</CruisingAlt>
+        <DepartureID>KDEN</DepartureID>
+        <DepartureLLA>N39° 51' 42.00",W104° 40' 23.40",+005434.00</DepartureLLA>
+        <DestinationID>KTEX</DestinationID>
+        <DestinationLLA>N37° 57' 13.70",W107° 54' 31.50",+009070.00</DestinationLLA>
+        <Descr>KDEN to KTEX created by SimBrief</Descr>
+        <DepartureName>Denver Intl</DepartureName>
+        <DestinationName>Telluride Regl</DestinationName>
+        <AppVersion>
+            <AppVersionMajor>11</AppVersionMajor>
+            <AppVersionBuild>282174</AppVersionBuild>
+        </AppVersion>
+        <ATCWaypoint id="KDEN">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N39° 51' 42.00",W104° 40' 23.40",+005434.00</WorldPosition>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>KDEN</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="WAKIR">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 44' 55.00",W105° 1' 33.83",+026500.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>WAKIR</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="TUULO">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 40' 7.97",W105° 16' 9.81",+030200.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>TUULO</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="HLTON">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 37' 58.39",W105° 22' 42.80",+031500.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>HLTON</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="MTSUI">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 35' 49.17",W105° 29' 14.31",+032700.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>MTSUI</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="BAYLR">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 33' 11.99",W105° 37' 6.04",+034100.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>BAYLR</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="BOBBA">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 23' 41.94",W106° 11' 10.06",+038000.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>BOBBA</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="TEHRU">
+            <ATCWaypointType>Intersection</ATCWaypointType>
+            <WorldPosition>N39° 14' 33.38",W106° 43' 15.21",+038000.00</WorldPosition>
+            <DepartureFP>BAYLR6</DepartureFP>
+            <RunwayNumberFP>8</RunwayNumberFP>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>TEHRU</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="ETL">
+            <ATCWaypointType>VOR</ATCWaypointType>
+            <WorldPosition>N38° 2' 24.91",W108° 15' 30.87",+011600.00</WorldPosition>
+            <ICAO>
+                <ICAORegion>K2</ICAORegion>
+                <ICAOIdent>ETL</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+        <ATCWaypoint id="KTEX">
+            <ATCWaypointType>Airport</ATCWaypointType>
+            <WorldPosition>N37° 57' 13.70",W107° 54' 31.50",+009070.00</WorldPosition>
+            <RunwayNumberFP>9</RunwayNumberFP>
+            <ICAO>
+                <ICAOIdent>KTEX</ICAOIdent>
+            </ICAO>
+        </ATCWaypoint>
+    </FlightPlan.FlightPlan>
+</SimBase.Document>
