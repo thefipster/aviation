@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Globalization;
+using System.Xml.Linq;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Simbrief;
 
@@ -41,8 +42,8 @@ namespace TheFipster.Aviation.Modules.Simbrief
 
                 airport.Icao = icao;
                 airport.Elevation = int.Parse(elevation);
-                airport.Latitude = double.Parse(latitude);
-                airport.Longitude = double.Parse(longitude);
+                airport.Latitude = double.Parse(latitude, CultureInfo.InvariantCulture);
+                airport.Longitude = double.Parse(longitude, CultureInfo.InvariantCulture);
                 airport.Name = name;
                 airport.Runway = runway;
                 airport.TransitionAltitude = int.Parse(transitionAltitude);
