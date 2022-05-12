@@ -8,15 +8,15 @@ using TheFipster.Aviation.Domain;
 
 namespace TheFipster.Aviation.Modules.Merger
 {
-    public class WaypointMerger
+    public class BlackBoxMerger
     {
-        public IEnumerable<Domain.Merged.Waypoint> Merge(BlackBoxFlight blackbox)
+        public IEnumerable<Domain.Merged.Record> Merge(BlackBoxFlight blackbox)
         {
-            var list = new List<Domain.Merged.Waypoint>();
+            var list = new List<Domain.Merged.Record>();
 
             foreach (var point in blackbox.Records)
             {
-                var merge = new Domain.Merged.Waypoint();
+                var merge = new Domain.Merged.Record();
 
                 merge.Timestamp = point.Timestamp;
                 merge.AltimeterFeet = point.AltimeterFeet;
