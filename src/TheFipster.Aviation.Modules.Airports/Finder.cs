@@ -5,14 +5,13 @@ namespace TheFipster.Aviation.Modules.Airports
 {
     public class Finder
     {
+        private const string DatabaseFile = "airport-codes.json";
         private readonly IEnumerable<Airport> airports;
 
         public Finder()
         {
             var location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var file = "airports.json";
-
-            var path = Path.Combine(location, "Aviation", "data", file);
+            var path = Path.Combine(location, "Aviation", "data", DatabaseFile);
 
             if (!File.Exists(path))
                 throw new ApplicationException("Couldn't locate airports.json file.");

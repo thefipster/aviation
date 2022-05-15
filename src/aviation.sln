@@ -17,7 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.CoreCli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.Simbrief", "TheFipster.Aviation.Modules.Simbrief\TheFipster.Aviation.Modules.Simbrief.csproj", "{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.Merger", "TheFipster.Aviation.Modules.Merger\TheFipster.Aviation.Modules.Merger.csproj", "{978EE538-6E12-48B6-A862-EF6F64044BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.Merger", "TheFipster.Aviation.Modules.Merger\TheFipster.Aviation.Modules.Merger.csproj", "{978EE538-6E12-48B6-A862-EF6F64044BFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6679851C-774A-4D38-ACD4-823B849B41E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,15 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{72DA9F21-DD21-4767-B706-AF01A67A107C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{67D0852C-56FE-469E-8F67-16278227BD29} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{978EE538-6E12-48B6-A862-EF6F64044BFB} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD8F5506-AE4F-4710-856C-F25F1BB25E3F}

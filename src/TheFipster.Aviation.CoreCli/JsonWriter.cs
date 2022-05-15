@@ -8,8 +8,7 @@ namespace TheFipster.Aviation.CoreCli
         {
             var location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
-            var file = string.Empty;
-            file = string.IsNullOrEmpty(to) 
+            var file = string.IsNullOrEmpty(to) 
                 ? $"{@from} - {fileType}.json" 
                 : $"{@from} - {to} - {fileType}.json";
 
