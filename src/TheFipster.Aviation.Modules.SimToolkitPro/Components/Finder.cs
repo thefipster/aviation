@@ -1,8 +1,8 @@
 ﻿namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
 {
-    public class Searcher
+    public class Finder
     {
-        public FileInfo Load(string directory)
+        public FileInfo Find(string directory)
         {
             var filepaths = Directory.GetFiles(directory, "*.json");
             var files = filepaths.Select(path => new FileInfo(path));

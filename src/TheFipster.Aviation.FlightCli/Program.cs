@@ -9,8 +9,9 @@ using TheFipster.Aviation.FlightCli.Options;
 //args = new [] { "rec", "-d", "KLAS", "-a", "KLAX" };
 //args = new [] { "airpt", "-i", "KTEX" };
 //args = new [] { "woop" };
-args = new [] { "--help" };
+//args = new [] { "--help" };
 //args = new [] { "toolkit" };
+args = new[] { "fin", "EDDL", "EDDK" };  
 //args = new[]
 //{
 //    "merge",
@@ -49,14 +50,16 @@ void run()
 
     Parser.Default.ParseArguments<
             AirportDetailsOptions,
+            FinishOptions,
             MergeOptions,
             RecorderOptions,
             SimbriefImportOptions,
             SimToolkitProImportOptions>(args)
         .WithParsed<AirportDetailsOptions>(o => { new AirportDetailsCommand().Run(o); })
+        .WithParsed<FinishOptions>(o => { new FinishCommand().Run(o); })
         .WithParsed<MergeOptions>(o => { new MergeCommand().Run(o); })
         .WithParsed<RecorderOptions>(o => { new RecorderCommand().Run(o); })
-        .WithParsed<SimbriefImportOptions>(o => { new SimbriefImportCommand().Run(o); })
+        .WithParsed<SimbriefImportOptions>(o => { new SimbriefImportCommand(config).Run(o); })
         .WithParsed<SimToolkitProImportOptions>(o => { new SimToolkitProImportCommand(config).Run(o); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
