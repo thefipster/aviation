@@ -17,7 +17,14 @@ namespace TheFipster.Aviation.Modules.Airports
                 throw new ApplicationException("Couldn't locate airports.json file.");
 
             var json = File.ReadAllText(path);
-            
+
+            airports = JsonSerializer.Deserialize<IEnumerable<Airport>>(json);
+        }
+
+        public Finder(string airportFile)
+        {
+            var json = File.ReadAllText(airportFile);
+
             airports = JsonSerializer.Deserialize<IEnumerable<Airport>>(json);
         }
 

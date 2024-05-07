@@ -20,7 +20,7 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro
         public void Load(string folder)
         {
             var file = searcher.Find(folder);
-            var flights = importer.Read(file.FullName);
+            var flights = importer.Read(file);
 
             foreach (var flight in flights)
                 writer.Write(

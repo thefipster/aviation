@@ -22,7 +22,10 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
                     return file;
             }
 
-            throw new ApplicationException($"Couldn't find a simbrief xml file in the directory {directory}"); 
+            throw new ApplicationException($"Couldn't find a simbrief xml file in the directory {directory}");
         }
+
+        public IEnumerable<string> FindExportFiles(string directory, string departureICAO, string arrivalICAO) 
+            => Directory.GetFiles(directory, $"{departureICAO}{arrivalICAO}*");
     }
 }

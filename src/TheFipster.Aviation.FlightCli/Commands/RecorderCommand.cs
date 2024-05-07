@@ -9,11 +9,18 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
     internal class RecorderCommand
     {
-        BlackBoxFlight flight;
+        BlackBoxFlight? flight;
 
         internal void Run(RecorderOptions options)
         {
-            flight = new BlackBoxFlight(options.DepartureAirport, options.ArrivalAirport);
+            Record(options.DepartureAirport, options.ArrivalAirport);
+            new JsonWriter<BlackBoxFlight>().Write(flight, "BlackBox", flight.Origin, flight.Destination);
+            new CsvWriter().Write(flight);
+        }
+
+        internal BlackBoxFlight Record(string departure, string arrival)
+        {
+            flight = new BlackBoxFlight(departure, arrival);
 
             var recorder = new Recorder();
             recorder.Tick += Recorder_Tick;
@@ -24,9 +31,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             Console.ReadLine();
             recorder.Stop();
+            recorder.Tick -= Recorder_Tick;
 
-            new JsonWriter<BlackBoxFlight>().Write(flight, "BlackBox", flight.Origin, flight.Destination);
-            new CsvWriter().Write(flight);
+            return flight;
         }
 
         void Recorder_Tick(object sender, Record e)

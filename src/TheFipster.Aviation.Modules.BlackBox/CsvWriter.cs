@@ -13,9 +13,14 @@ namespace TheFipster.Aviation.Modules.BlackBox
         {
             var location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var dir = "Aviation";
-            var file = $"{flight.Origin} - {flight.Destination} - BlackBox.csv";
 
-            var path = Path.Combine(location, dir, file);
+            var path = Path.Combine(location, dir);
+            Write(path, flight);
+        }
+        public void Write(string path, BlackBoxFlight flight)
+        {
+            var file = $"{flight.Origin} - {flight.Destination} - BlackBox.csv";
+            var filepath = Path.Combine(path, file);
 
             var sb = new StringBuilder();
             sb.AppendLine(header);
@@ -27,7 +32,7 @@ namespace TheFipster.Aviation.Modules.BlackBox
             }
 
             var text = sb.ToString();
-            File.WriteAllText(path, text);
+            File.WriteAllText(filepath, text);
         }
 
         private string makeLine(Record record)
