@@ -32,7 +32,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var flightPath = createFlightFolder(departure, arrival);
             var simbriefData = moveSimbriefFiles(simbriefFiles, flightPath);
             createAirportFiles(simbriefData, flightPath);
-            //var blackbox = recordBlackBox(departure, arrival, flightPath);
+            var blackbox = recordBlackBox(departure, arrival, flightPath);
             //var stkpFlight = extractStkpFlight(departure, arrival, flightPath);
 
             moveNavigraphCharts(flightPath);

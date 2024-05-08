@@ -5,12 +5,9 @@ using TheFipster.Aviation.FlightCli.Commands;
 using TheFipster.Aviation.FlightCli.Options;
 
 //args = new [] { "simbrief", "-f", @"C:\Users\felix\Aviation\flight\KDENKTEX_XML_1652208542.xml" };
-//args = new [] { "stkp", "-f", @"C:\Users\felix\Aviation\data\export.json" };
 //args = new [] { "rec", "-d", "EDDL", "-a", "EDDK" };
-//args = new [] { "airpt", "-i", "KTEX" };
 //args = new [] { "woop" };
 //args = new [] { "--help" };
-//args = new [] { "toolkit" };
 //args = new[] { "fin", "EDDL", "EDDK" };  
 //args = new[]
 //{
@@ -22,7 +19,11 @@ using TheFipster.Aviation.FlightCli.Options;
 //    "-s", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - Simbrief.json",
 //    "-t", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - SimToolkitPro.json",
 //};
-args = new[] { "wizard" };
+//args = new[] { "wizard" };
+args = new[] { "scan" };
+//args = new[] { "track" };
+//args = new[] { "land" };
+//args = new[] { "ports" };
 
 try
 {
@@ -50,20 +51,24 @@ void run() {
     var newConfig = new HardcodedConfig();
 
     Parser.Default.ParseArguments<
-            AirportDetailsOptions,
+            AirportOptions,
             FinishOptions,
             MergeOptions,
             RecorderOptions,
             SimbriefImportOptions,
-            SimToolkitProImportOptions,
-            WizardOptions>(args)
-        .WithParsed<AirportDetailsOptions>(o => { new AirportDetailsCommand().Run(o); })
+            TrackOptions,
+            WizardOptions,
+            ScanOptions,
+            LandingOptions>(args)
+        .WithParsed<AirportOptions>(o => { new AirportCommand(newConfig).Run(o); })
         .WithParsed<FinishOptions>(o => { new FinishCommand().Run(o); })
         .WithParsed<MergeOptions>(o => { new MergeCommand().Run(o); })
         .WithParsed<RecorderOptions>(o => { new RecorderCommand().Run(o); })
         .WithParsed<SimbriefImportOptions>(o => { new SimbriefImportCommand(config).Run(o); })
-        .WithParsed<SimToolkitProImportOptions>(o => { new SimToolkitProImportCommand(config).Run(o); })
+        .WithParsed<TrackOptions>(o => { new TrackCommand(newConfig).Run(o); })
         .WithParsed<WizardOptions>(o => { new WizardCommand(newConfig).Run(o); })
+        .WithParsed<ScanOptions>(o => { new ScanCommand(newConfig).Run(o); })
+        .WithParsed<LandingOptions>(o => { new LandingCommand(newConfig).Run(o); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

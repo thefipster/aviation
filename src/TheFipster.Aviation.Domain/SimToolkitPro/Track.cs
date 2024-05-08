@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace TheFipster.Aviation.Domain.SimToolkitPro
 {
     public class Track
     {
+        [JsonPropertyName("departure")]
+        public string Departure { get; set; }
+
+        [JsonPropertyName("arrival")]
+        public string Arrival { get; set; }
+
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
+        [JsonPropertyName("features")]
         public List<Feature> Features { get; set; }
     }
 }

@@ -8,8 +8,10 @@ namespace TheFipster.Aviation.Domain
         [JsonPropertyName("fleet")]
         public List<Fleet> Fleet { get; set; }
 
+        [JsonPropertyName("landings")]
         public List<Landing> Landings { get; set; }
 
+        [JsonPropertyName("logbook")]
         public List<Logbook> Logbook { get; set; }
     }
 }

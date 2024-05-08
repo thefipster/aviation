@@ -10,13 +10,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
     {
         internal void Run(MergeOptions options)
         {
-            var simbrief = new JsonReader<SimBriefFlight>().Read(options.SimbriefFile);
-            var blackbox = new JsonReader<BlackBoxFlight>().Read(options.BlackboxFile);
-            var toolkit = new JsonReader<SimToolkitProFlight>().Read(options.ToolkitFile);
+            var simbrief = new JsonReader<SimBriefFlight>().FromFile(options.SimbriefFile);
+            var blackbox = new JsonReader<BlackBoxFlight>().FromFile(options.BlackboxFile);
+            var toolkit = new JsonReader<SimToolkitProFlight>().FromFile(options.ToolkitFile);
             var airports = new List<Airport>();
             foreach (var airportFile in options.AirportFiles)
             {
-                var airport = new JsonReader<Airport>().Read(airportFile);
+                var airport = new JsonReader<Airport>().FromFile(airportFile);
                 airports.Add(airport);
             }
 

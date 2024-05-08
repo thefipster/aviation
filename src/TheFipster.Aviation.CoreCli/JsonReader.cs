@@ -4,7 +4,7 @@ namespace TheFipster.Aviation.CoreCli
 {
     public class JsonReader<T>
     {
-        public T Read(string filepath)
+        public T? FromFile(string filepath)
         {
             if (!File.Exists(filepath))
                 throw new ApplicationException($"File {filepath} was not found.");
@@ -13,12 +13,30 @@ namespace TheFipster.Aviation.CoreCli
 
             try
             {
-                var result = JsonSerializer.Deserialize<T>(json);
+                return FromText(json);
+            }
+            catch (ApplicationException ex)
+            {
+                throw new ApplicationException($"File {filepath} doesn't contain valid json.", ex);
+            }
+            
+        }
+
+        public T? FromText(string json)
+        {
+            try
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                T? result = JsonSerializer.Deserialize<T>(json, options);
                 return result;
             }
             catch (Exception ex)
             {
-                throw new ApplicationException($"File {filepath} is not valid json. {ex.Message}");
+                throw new ApplicationException($"This is not valid json. {ex.Message}", ex);
             }
         }
     }

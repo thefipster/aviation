@@ -7,7 +7,7 @@ namespace TheFipster.Aviation.Modules.BlackBox
 {
     public class CsvWriter
     {
-        private string header = "Timestamp;Altimeter;Bank Angle;Brakes;Heading;Elevation;Engine1N1;Engine1N2;Engine2N1;Engine2N2;Flaps;Fuel;Gear;GpsAltitude;GS;IAS;Lat;Lon;OnGround;OAT;Pitch;RadioAltimeter;TAT;TAS;VS;WindDirection;WindSpeed";
+        public const string Header = "Timestamp;Altimeter;Bank Angle;Brakes;Heading;Elevation;Engine1N1;Engine1N2;Engine2N1;Engine2N2;Flaps;Fuel;Gear;GpsAltitude;GS;IAS;Lat;Lon;OnGround;OAT;Pitch;RadioAltimeter;TAT;TAS;VS;WindDirection;WindSpeed";
 
         public void Write(BlackBoxFlight flight)
         {
@@ -23,7 +23,7 @@ namespace TheFipster.Aviation.Modules.BlackBox
             var filepath = Path.Combine(path, file);
 
             var sb = new StringBuilder();
-            sb.AppendLine(header);
+            sb.AppendLine(Header);
 
             foreach (var record in flight.Records)
             {

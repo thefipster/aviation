@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.Domain.SimToolkitPro;
+﻿using TheFipster.Aviation.Domain.SimToolkitPro;
 
 namespace TheFipster.Aviation.Domain
 {
@@ -20,7 +15,7 @@ namespace TheFipster.Aviation.Domain
             Landing = landing;
         }
 
-        public Logbook Logbook { get; set; }
-        public Landing Landing { get; set; }
+        public Logbook? Logbook { get; set; }
+        public Landing? Landing { get; set; }
     }
 }

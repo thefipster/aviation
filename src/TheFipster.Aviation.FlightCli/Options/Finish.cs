@@ -1,9 +1,4 @@
 ﻿using CommandLine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
@@ -11,6 +6,6 @@ namespace TheFipster.Aviation.FlightCli.Options
     internal class FinishOptions
     {
         [Option(Required = true)]
-        public string Flight { get; set; }
+        public string? Flight { get; set; }
     }
 }

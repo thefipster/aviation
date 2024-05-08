@@ -39,5 +39,7 @@ namespace TheFipster.Aviation.Domain.Datahub
 
         [JsonPropertyName("type")]
         public string Type { get; set; }
+
+        public bool IsEmpty => string.IsNullOrEmpty(Ident);
     }
 }

@@ -6,9 +6,9 @@ namespace TheFipster.Aviation.FlightCli.Options
     internal class RecorderOptions
     {
         [Option('d', "dep", Required = true, HelpText = "Departure Airport ICAO")]
-        public string DepartureAirport { get; set; }
+        public string? DepartureAirport { get; set; }
 
         [Option('a', "arr", Required = true, HelpText = "Arrival Airport ICAO")]
-        public string ArrivalAirport { get; set; }
+        public string? ArrivalAirport { get; set; }
     }
 }
