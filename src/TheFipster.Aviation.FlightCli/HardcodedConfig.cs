@@ -9,5 +9,6 @@
         public string NavigraphFolder => "E:\\aviation\\Data\\Navigraph";
 
         public string SimToolkitProDatabaseFile => "C:\\Users\\felix\\OneDrive\\Dokumente\\SimToolkitPro\\userdata.db";
+        public string FlightPlanFile => "E:\\aviation\\Worldtour\\FlightPlan.json";
     }
 }

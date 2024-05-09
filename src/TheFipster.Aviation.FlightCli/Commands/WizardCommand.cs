@@ -2,6 +2,7 @@
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
@@ -26,11 +27,11 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var departure = getAirport("departure");
             var arrival = getAirport("arrival");
 
-            var simbriefFiles = dispatchSimbrief(departure, arrival);
-            var flightPath = createFlightFolder(departure, arrival);
-            var simbriefData = moveSimbriefFiles(simbriefFiles, flightPath);
+            dispatchSimbrief(departure.Ident, arrival.Ident);
+            var flightPath = createFlightFolder(departure.Ident, arrival.Ident);
+            var simbriefFlight = moveSimbriefFiles(flightPath, departure.Ident, arrival.Ident);
 
-            createAirportFiles(simbriefData, flightPath);
+            createAirportFiles(simbriefFlight, flightPath);
             recordBlackBox(departure, arrival, flightPath);
             moveNavigraphCharts(flightPath);
 
@@ -49,15 +50,11 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Console.WriteLine($"Print the used charts from Navigraph as pdf into the folder {config.NavigraphFolder}");
             Console.WriteLine("When you're ready press ENTER.");
             Console.ReadLine();
-            Console.WriteLine($"Moving charts to {flightPath}");
-            var navigraphFiles = Directory.GetFiles(config.NavigraphFolder);
-            foreach (var file in navigraphFiles)
-            {
-                var filename = Path.GetFileName(file);
-                var newFile = Path.Combine(flightPath, filename);
-                File.Move(file, newFile);
-                Console.WriteLine($"\t {filename}");
-            }
+            Console.WriteLine($"Moving charts: {config.NavigraphFolder} --> {flightPath}");
+            var files = new FileOperations().MoveFiles(config.NavigraphFolder, flightPath);
+
+            foreach(var file in files )
+                Console.WriteLine($"\t {Path.GetFileName(file)}");
         }
 
         private BlackBoxFlight recordBlackBox(Airport departure, Airport arrival, string flightPath)
@@ -104,62 +101,51 @@ namespace TheFipster.Aviation.FlightCli.Commands
             return airport;
         }
 
-        private IEnumerable<string> dispatchSimbrief(Airport departure, Airport arrival)
+        private IEnumerable<string> dispatchSimbrief(string departure, string arrival)
         {
             Console.WriteLine("Dispatch your flight with SimBrief. When the files are synced this continues...");
             List<string> simbriefFiles = new List<string>();
             do
             {
                 Thread.Sleep(1000);
-                simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
+                simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure, arrival).ToList();
 
                 if (simbriefFiles.Count > 0)
                 {
                     Console.WriteLine("Simbrief export detected. Waiting until download finished.");
                     Thread.Sleep(5000);
-                    simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
+                    simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure, arrival).ToList();
                 }
             }
             while (simbriefFiles.Count == 0);
             return simbriefFiles;
         }
 
-        private string createFlightFolder(Airport departure, Airport arrival)
+        private string createFlightFolder(string departure, string arrival)
         {
-            var flightNo = Directory.GetDirectories(config.FlightsFolder).Count() + 1;
-            var flightTerminators = $"{departure.Ident} - {arrival.Ident}";
-            var flightName = $"{flightNo:D4} - {flightTerminators}";
-            var flightPath = Path.Combine(config.FlightsFolder, flightName);
-
-            if (Directory.GetDirectories(config.FlightsFolder, $"*{flightTerminators}").Any())
-                throw new ApplicationException($"The flight from {departure.Name} to {arrival.Name} already exists.");
+            var flightPath = new FileOperations()
+                .CreateFlightFolder(
+                config.FlightPlanFile, 
+                config.FlightsFolder, 
+                departure, 
+                arrival);
 
             Console.WriteLine($"Creating flight folder at {flightPath}.");
-            Directory.CreateDirectory(flightPath);
             return flightPath;
         }
 
-        private SimBriefFlight moveSimbriefFiles(IEnumerable<string> simbriefFiles, string flightPath)
+        private SimBriefFlight moveSimbriefFiles(string flightPath, string departure, string arrival)
         {
             Console.WriteLine($"Copying simbrief files to {flightPath}:");
-            string? xmlFile = null;
-            foreach (var oldFilepath in simbriefFiles)
-            {
-                var filename = Path.GetFileName(oldFilepath);
-                var newFilepath = Path.Combine(flightPath, filename);
-                Console.WriteLine($"\t {filename}");
-                File.Move(oldFilepath, newFilepath);
+            var searchPattern = $"{departure}{arrival}";
+            new FileOperations().MoveFiles(config.SimbriefFolder, flightPath, searchPattern);
 
-                if (Path.GetExtension(newFilepath) == ".xml")
-                    xmlFile = newFilepath;
-            }
+            var files = new FlightFileScanner().GetFiles(flightPath, FileTypes.SimbriefXml);
+            if (!files.Any())
+                throw new FileNotFoundException("Couldn't find SimBrief XML file.");
 
-            if (string.IsNullOrWhiteSpace(xmlFile) || !File.Exists(xmlFile))
-                throw new ApplicationException("Simbrief XML data file couldn't be located.");
-
-            Console.WriteLine($"Found data file: {xmlFile}.");
-            var simbriefData = new SimbriefXmlLoader().Read(xmlFile);
-
+            Console.WriteLine($"Found data file: {files.First()}.");
+            var simbriefData = new SimbriefXmlLoader().Read(files.First());
             return simbriefData;
         }
 
@@ -175,7 +161,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             var airport = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(icao);
             if (isRequired && airport == null)
-                throw new ApplicationException("Couldn't locate {icao} in airport data file.");
+                throw new AirportNotFoundException("Couldn't locate {icao} in airport data file.");
 
             if (airport != null)
             {
