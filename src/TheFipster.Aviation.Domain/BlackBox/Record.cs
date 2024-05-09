@@ -66,13 +66,13 @@ namespace TheFipster.Aviation.Domain.BlackBox
 
         
         [JsonPropertyName("flp")]
-        public string FlapsConfig { get; set; }
+        public string? FlapsConfig { get; set; }
         
         [JsonPropertyName("gr")]
-        public string GearPosition { get; set; }
+        public string? GearPosition { get; set; }
         
         [JsonPropertyName("brk")]
-        public string BrakesActivated { get; set; }
+        public string? BrakesActivated { get; set; }
         
         [JsonPropertyName("gnd")]
         public bool OnGroundFlag { get; set; }

@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.Domain
 {
-    public class BlackBoxFlight
+    public class BlackBoxFlight : JsonBase
     {
         public BlackBoxFlight()
         {
@@ -16,8 +16,8 @@ namespace TheFipster.Aviation.Domain
             Destination = destination;
         }
 
-        public string Origin { get; set; }
-        public string Destination { get; set; }
+        public string? Origin { get; set; }
+        public string? Destination { get; set; }
 
         public ICollection<Record> Records { get; set; }
     }

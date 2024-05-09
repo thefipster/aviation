@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.SimToolkitPro.Components;
 
@@ -24,12 +21,18 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Console.Write($"Scanning SimToolkitPro Export Folder for landings");
             var latestExportFilepath = new Finder().Find(config.SimToolkitProFolder);
             var exportData = new JsonReader<SimToolkitProExport>().FromFile(latestExportFilepath);
+
+            if (exportData == null || exportData.Landings == null)
+            {
+                Console.WriteLine("couldn't load export file.");
+                return;
+            }
+
             Console.WriteLine($" using latest export file: {Path.GetFileName(latestExportFilepath)}");
             Console.WriteLine();
 
             foreach (var landing in exportData.Landings)
             {
-                var aircraft = exportData.Fleet.FirstOrDefault(x => x.LocalId == landing.FleetId);
                 var flight = exportData.Logbook.FirstOrDefault(x => x.LocalId == landing.FlightId);
 
                 if (flight == null)
@@ -41,8 +44,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 try
                 {
                     var flightFolder = new FileSystemFinder().GetFlightFolder(config.FlightsFolder, departure, arrival);
-                    var report = new LandingReport(landing, flight, aircraft);
-                    new JsonWriter<LandingReport>().Write(flightFolder, report, "Landing", departure, arrival);
+                    landing.FileType = FileTypes.LandingJson;
+                    new JsonWriter<Landing>().Write(flightFolder, landing, FileTypes.LandingJson, departure, arrival, true);
                     Console.WriteLine($"\t matched {departure} - {arrival}.");
                 }
                 catch (Exception)

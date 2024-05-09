@@ -24,10 +24,4 @@
     <ProjectReference Include="..\TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

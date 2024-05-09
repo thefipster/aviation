@@ -1,7 +1,11 @@
-﻿namespace TheFipster.Aviation.Domain.Enums
+﻿using System.Text.Json.Serialization;
+
+namespace TheFipster.Aviation.Domain.Enums
 {
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum FileTypes
     {
+        Empty,
         OfpPdf,
         Chart,
         BlackBoxCsv,
@@ -23,6 +27,12 @@
         ChartDeparture,
         ChartArrival,
         ChartApproach,
-        ChartTaxi
+        ChartTaxi,
+        NotamJson,
+        LogbookJson,
+        OfpHtml,
+        RouteJson,
+        Screenshot,
+        WaypointsJson
     }
 }

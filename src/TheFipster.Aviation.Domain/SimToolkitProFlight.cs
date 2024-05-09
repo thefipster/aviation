@@ -2,11 +2,11 @@
 
 namespace TheFipster.Aviation.Domain
 {
-    public class SimToolkitProFlight
+    public class SimToolkitProFlight : JsonBase
     {
-        public SimToolkitProFlight()
+        public SimToolkitProFlight() 
         {
-
+            Logbook = new Logbook();
         }
 
         public SimToolkitProFlight(Logbook log, Landing? landing)
@@ -15,7 +15,7 @@ namespace TheFipster.Aviation.Domain
             Landing = landing;
         }
 
-        public Logbook? Logbook { get; set; }
+        public Logbook Logbook { get; set; }
         public Landing? Landing { get; set; }
     }
 }

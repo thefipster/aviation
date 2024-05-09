@@ -16,8 +16,7 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
             var export = JsonSerializer.Deserialize<SimToolkitProExport>(json, options);
             var flights = new List<SimToolkitProFlight>();
 
-            foreach (var log in export.Logbook.Where(x => x.Status.ToLower() == "completed")
-                                              .OrderBy(x => x.LocalId))
+            foreach (var log in export.Logbook.OrderBy(x => x.LocalId))
             {
                 var landing = export.Landings.FirstOrDefault(x => x.FlightId == log.LocalId);
                 var flight = new SimToolkitProFlight(log, landing);

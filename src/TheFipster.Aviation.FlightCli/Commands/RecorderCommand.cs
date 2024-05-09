@@ -1,6 +1,7 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
+using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
 
@@ -10,12 +11,20 @@ namespace TheFipster.Aviation.FlightCli.Commands
     internal class RecorderCommand
     {
         BlackBoxFlight? flight;
+        private HardcodedConfig config;
+
+        public RecorderCommand(HardcodedConfig config)
+        {
+            this.config = config;
+        }
 
         internal void Run(RecorderOptions options)
         {
+            var folder = new FileSystemFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
+
             Record(options.DepartureAirport, options.ArrivalAirport);
-            new JsonWriter<BlackBoxFlight>().Write(flight, "BlackBox", flight.Origin, flight.Destination);
-            new CsvWriter().Write(flight);
+            new JsonWriter<BlackBoxFlight>().Write(folder, flight, FileTypes.BlackBoxJson, flight.Origin, flight.Destination);
+            new CsvWriter().Write(folder, flight, FileTypes.BlackBoxCsv, flight.Origin, flight.Destination);
         }
 
         internal BlackBoxFlight Record(string departure, string arrival)

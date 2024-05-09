@@ -33,13 +33,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
             }
 
             Track? track = extractTrack(flight);
+            track.FileType = Domain.Enums.FileTypes.TrackJson;
             Console.WriteLine($" - {track.Features.First().Geometry.Coordinates.Count} coordinates.");
-            new JsonWriter<Track>().Write(folder, track, "Track", track.Departure, track.Arrival);
+            new JsonWriter<Track>().Write(folder, track, "Track", track.Departure, track.Arrival, true);
         }
 
         private SimToolkitProFlight? getFlight(string folder)
         {
-            var files = new ScanCommand(config).Scan(folder);
+            var files = new FileSystemFinder().GetFiles(folder);
             foreach (var file in files)
                 if (file.Value == Domain.Enums.FileTypes.SimToolkitProJson)
                     return new JsonReader<SimToolkitProFlight>().FromFile(file.Key);

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

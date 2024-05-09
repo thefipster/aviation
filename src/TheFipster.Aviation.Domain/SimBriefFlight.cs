@@ -2,17 +2,17 @@
 
 namespace TheFipster.Aviation.Domain
 {
-    public class SimBriefFlight
+    public class SimBriefFlight : JsonBase
     {
         public SimBriefFlight()
         {
             Waypoints = new List<Waypoint>();
         }
 
-        public string AiracCycle { get; set; }
+        public string? AiracCycle { get; set; }
         public long DispatchDate { get; set; }
-        public string Airline { get; set; }
-        public string FlightNumber { get; set; }
+        public string? Airline { get; set; }
+        public string? FlightNumber { get; set; }
         public int CostIndex { get; set; }
         public int Altitude { get; set; }
         public int WindComponent { get; set; }
@@ -20,11 +20,16 @@ namespace TheFipster.Aviation.Domain
         public int RouteDistance { get; set; }
         public int AirDistance { get; set; }
         public int Passengers { get; set; }
-        public string Route { get; set; }
+        public string? Route { get; set; }
+        public int FuelBurn { get; set; }
+        public int PlannedTas { get; set; }
+        public float PlannedMach { get; set; }
+        public int WindDirection { get; set; }
+        public int WindSpeed { get; set; }
 
-        public Airport Departure { get; set; }
-        public Airport Arrival { get; set; }
-        public Airport Alternate { get; set; }
+        public Airport? Departure { get; set; }
+        public Airport? Arrival { get; set; }
+        public Airport? Alternate { get; set; }
 
         public ICollection<Waypoint> Waypoints { get; set; }
     }

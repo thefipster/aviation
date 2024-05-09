@@ -1,16 +1,13 @@
-﻿using FSUIPC;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Datahub;
+using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.Airports;
 using TheFipster.Aviation.Modules.BlackBox;
+using TheFipster.Aviation.Modules.Simbrief;
 using TheFipster.Aviation.Modules.Simbrief.Components;
+using TheFipster.Aviation.Modules.SimToolkitPro;
 using TheFipster.Aviation.Modules.SimToolkitPro.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
@@ -28,14 +25,35 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             var departure = getAirport("departure");
             var arrival = getAirport("arrival");
+
             var simbriefFiles = dispatchSimbrief(departure, arrival);
             var flightPath = createFlightFolder(departure, arrival);
             var simbriefData = moveSimbriefFiles(simbriefFiles, flightPath);
-            createAirportFiles(simbriefData, flightPath);
-            var blackbox = recordBlackBox(departure, arrival, flightPath);
-            //var stkpFlight = extractStkpFlight(departure, arrival, flightPath);
 
+            createAirportFiles(simbriefData, flightPath);
+            recordBlackBox(departure, arrival, flightPath);
             moveNavigraphCharts(flightPath);
+
+            extractFromSimToolkitPro(departure, arrival, flightPath);
+            extractFromSimbrief(flightPath);
+        }
+
+        private static IEnumerable<string> extractFromSimbrief(string flightPath)
+        {
+            new SimbriefImporter().Import(flightPath);
+
+            var simbriefFile = new FileSystemFinder().GetFiles(flightPath, FileTypes.SimbriefXml);
+            var flight = new SimbriefXmlLoader().Read(simbriefFile.First());
+            flight.FileType = FileTypes.SimbriefJson;
+            new JsonWriter<SimBriefFlight>().Write(flightPath, flight, "Simbrief", flight.Departure.Icao, flight.Arrival.Icao);
+            return simbriefFile;
+        }
+
+        private static void extractTrackFromSimToolkitPro(string flightPath)
+        {
+            var track = new TrackExtracter().Extract(flightPath);
+            track.FileType = FileTypes.TrackJson;
+            new JsonWriter<Track>().Write(flightPath, track, "Track", track.Departure, track.Arrival);
         }
 
         private void moveNavigraphCharts(string flightPath)
@@ -56,26 +74,26 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private BlackBoxFlight recordBlackBox(Airport departure, Airport arrival, string flightPath)
         {
-            var recorder = new RecorderCommand();
+            var recorder = new RecorderCommand(config);
             var blackbox = recorder.Record(departure.Ident, arrival.Ident);
-            new JsonWriter<BlackBoxFlight>().Write(flightPath, blackbox, "BlackBox", departure.Ident, arrival.Ident);
-            new CsvWriter().Write(flightPath, blackbox);
+            blackbox.FileType = FileTypes.BlackBoxJson;
+            new JsonWriter<BlackBoxFlight>().Write(flightPath, blackbox, FileTypes.BlackBoxJson, departure.Ident, arrival.Ident);
+            new CsvWriter().Write(flightPath, blackbox, FileTypes.BlackBoxCsv, departure.Ident, arrival.Ident);
             Console.Clear();
             return blackbox;
         }
 
-        private SimToolkitProFlight extractStkpFlight(Airport departure, Airport arrival, string flightPath)
+        private SimToolkitProFlight extractFromSimToolkitPro(Airport departure, Airport arrival, string flightPath)
         {
-            Console.WriteLine($"Please create a SimToolkitPro data export into the folder {config.SimToolkitProFolder} and tell me when the download finished by pressing ENTER.");
+            Console.WriteLine($"Press ENTER when you have completed the SimToolkitPro Flight.");
             Console.ReadLine();
-            var filepath = new Modules.SimToolkitPro.Components.Finder().Find(config.SimToolkitProFolder);
-            var flightsList = new Modules.SimToolkitPro.Components.Loader().Read(filepath);
-            var flight = flightsList.FirstOrDefault(x => x.Logbook.Dep == departure.Ident && x.Logbook.Arr == arrival.Ident);
-            if (flight == null)
-                throw new ApplicationException($"Couldn't find flight in SimToolkitPro Export {filepath}.");
 
-            new JsonWriter<SimToolkitProFlight>().Write(flightPath, flight, "SimToolkitPro", departure.Ident, arrival.Ident);
-            Console.WriteLine($"Extracting STKP flight information from {filepath}.");
+            var flight = new SimToolkitProImporter()
+                .Import(
+                    flightPath, 
+                    config.SimToolkitProDatabaseFile, 
+                    departure.Ident, 
+                    arrival.Ident);
 
             return flight;
         }
@@ -106,13 +124,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
             do
             {
                 Thread.Sleep(1000);
-                simbriefFiles = new Modules.Simbrief.Components.Finder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
+                simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
 
                 if (simbriefFiles.Count > 0)
                 {
                     Console.WriteLine("Simbrief export detected. Waiting until download finished.");
                     Thread.Sleep(5000);
-                    simbriefFiles = new Modules.Simbrief.Components.Finder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
+                    simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure.Ident, arrival.Ident).ToList();
                 }
             }
             while (simbriefFiles.Count == 0);
@@ -153,7 +171,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 throw new ApplicationException("Simbrief XML data file couldn't be located.");
 
             Console.WriteLine($"Found data file: {xmlFile}.");
-            var simbriefData = new Modules.Simbrief.Components.Loader().Read(xmlFile);
+            var simbriefData = new SimbriefXmlLoader().Read(xmlFile);
 
             return simbriefData;
         }
@@ -174,6 +192,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             if (airport != null)
             {
+                airport.FileType = FileTypes.AirportJson;
                 new JsonWriter<Airport>().Write(flightPath, airport, "Airport", airport.Ident);
                 Console.WriteLine($"\t {icao} - {airport.Name}");
             }

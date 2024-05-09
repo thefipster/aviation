@@ -10,5 +10,7 @@
         public string Runway { get; set; }
         public int TransitionAltitude { get; set; }
         public int TransitionLevel { get; set; }
+        public string? Metar { get; set; }
+        public string? Taf { get; set; }
     }
 }
