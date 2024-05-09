@@ -4,21 +4,8 @@ using TheFipster.Aviation.Domain.Enums;
 
 namespace TheFipster.Aviation.CoreCli
 {
-    public class FileSystemFinder : IFileSystemFinder
+    public class FlightFileScanner : IFlightFileScanner
     {
-        public IEnumerable<string> GetFlightFolders(string flightsFolder)
-            => Directory.GetDirectories(flightsFolder);
-
-        public string GetFlightFolder(string flightsFolder, string departure, string arrival)
-        {
-            var search = $"* - {departure} - {arrival}";
-            var candidates = Directory.GetDirectories(flightsFolder, search);
-            if (!candidates.Any())
-                throw new ApplicationException($"Couldn't find flight from {departure} to {arrival}.");
-
-            return candidates.First();
-        }
-
         public Dictionary<string, FileTypes> GetFiles(string flightFolder)
         {
             var flight = new Dictionary<string, FileTypes>();
@@ -38,27 +25,6 @@ namespace TheFipster.Aviation.CoreCli
             foreach (var file in files)
                 if (file.Value == filetype)
                     yield return file.Key;
-        }
-
-        public int GetLeg(string flightFolder)
-        {
-            var folder = Path.GetFileName(flightFolder);
-            var split = folder.Split('-');
-            return int.Parse(split[0].Trim());
-        }
-
-        public string GetDeparture(string flightFolder)
-        {
-            var folder = Path.GetFileName(flightFolder);
-            var split = folder.Split('-');
-            return split[1].Trim();
-        }
-
-        public string GetArrival(string flightFolder)
-        {
-            var folder = Path.GetFileName(flightFolder);
-            var split = folder.Split('-');
-            return split[2].Trim();
         }
 
         private FileTypes scanFile(string file)

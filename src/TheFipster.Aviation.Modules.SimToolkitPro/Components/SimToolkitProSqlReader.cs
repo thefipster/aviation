@@ -5,7 +5,7 @@ using TheFipster.Aviation.Domain.SimToolkitPro;
 
 namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
 {
-    public class SqlReader
+    public class SimToolkitProSqlReader
     {
         public SimToolkitProFlight Read(string dbFile, string departure, string arrival)
         {

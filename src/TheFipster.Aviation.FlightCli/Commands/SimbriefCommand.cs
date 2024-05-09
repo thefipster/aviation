@@ -16,7 +16,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         internal void Run(SimbriefOptions _)
         {
             Console.WriteLine("Converting SimBrief export:");
-            var folders = new FileSystemFinder().GetFlightFolders(config.FlightsFolder);
+            var folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
 
             foreach (var folder in folders)
             {

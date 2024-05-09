@@ -21,7 +21,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             this.config = config;
         }
 
-        internal void Run(WizardOptions o)
+        internal void Run(WizardOptions _)
         {
             var departure = getAirport("departure");
             var arrival = getAirport("arrival");
@@ -38,22 +38,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             extractFromSimbrief(flightPath);
         }
 
-        private static IEnumerable<string> extractFromSimbrief(string flightPath)
+        private SimBriefFlight extractFromSimbrief(string flightPath)
         {
-            new SimbriefImporter().Import(flightPath);
-
-            var simbriefFile = new FileSystemFinder().GetFiles(flightPath, FileTypes.SimbriefXml);
-            var flight = new SimbriefXmlLoader().Read(simbriefFile.First());
-            flight.FileType = FileTypes.SimbriefJson;
-            new JsonWriter<SimBriefFlight>().Write(flightPath, flight, "Simbrief", flight.Departure.Icao, flight.Arrival.Icao);
-            return simbriefFile;
-        }
-
-        private static void extractTrackFromSimToolkitPro(string flightPath)
-        {
-            var track = new TrackExtracter().Extract(flightPath);
-            track.FileType = FileTypes.TrackJson;
-            new JsonWriter<Track>().Write(flightPath, track, "Track", track.Departure, track.Arrival);
+            var flight = new SimbriefImporter().Import(flightPath);
+            return flight;
         }
 
         private void moveNavigraphCharts(string flightPath)
@@ -76,9 +64,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             var recorder = new RecorderCommand(config);
             var blackbox = recorder.Record(departure.Ident, arrival.Ident);
-            blackbox.FileType = FileTypes.BlackBoxJson;
             new JsonWriter<BlackBoxFlight>().Write(flightPath, blackbox, FileTypes.BlackBoxJson, departure.Ident, arrival.Ident);
-            new CsvWriter().Write(flightPath, blackbox, FileTypes.BlackBoxCsv, departure.Ident, arrival.Ident);
+            new BlackBoxCsvWriter().Write(flightPath, blackbox, FileTypes.BlackBoxCsv, departure.Ident, arrival.Ident);
             Console.Clear();
             return blackbox;
         }
@@ -106,7 +93,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             {
                 var icaoCode = Console.ReadLine();
                 if (!string.IsNullOrEmpty(icaoCode))
-                    airport = new Modules.Airports.Finder(config.AirportFile).SearchWithIcao(icaoCode.ToUpper());
+                    airport = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(icaoCode.ToUpper());
 
                 if (airport != null)
                     Console.WriteLine(airport.Name);
@@ -186,14 +173,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void createAirportFile(string icao, string flightPath, bool isRequired)
         {
-            var airport = new Modules.Airports.Finder(config.AirportFile).SearchWithIcao(icao);
+            var airport = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(icao);
             if (isRequired && airport == null)
                 throw new ApplicationException("Couldn't locate {icao} in airport data file.");
 
             if (airport != null)
             {
-                airport.FileType = FileTypes.AirportJson;
-                new JsonWriter<Airport>().Write(flightPath, airport, "Airport", airport.Ident);
+                new JsonWriter<Airport>().Write(flightPath, airport, FileTypes.AirportJson, airport.Ident);
                 Console.WriteLine($"\t {icao} - {airport.Name}");
             }
         }

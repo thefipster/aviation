@@ -9,15 +9,15 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
     {
         public Route Load(string flightFolder)
         {
-            var xmlFiles = new FileSystemFinder().GetFiles(flightFolder, FileTypes.SimbriefXml);
+            var xmlFiles = new FlightFileScanner().GetFiles(flightFolder, FileTypes.SimbriefXml);
             if (!xmlFiles.Any())
-                throw new ApplicationException("Simbrief xml data file not found.");
+                throw new FileNotFoundException("Simbrief xml data file not found.");
 
             var flight = new SimbriefXmlLoader().Read(xmlFiles.First());
 
-            var files = new FileSystemFinder().GetFiles(flightFolder, FileTypes.RouteKml);
+            var files = new FlightFileScanner().GetFiles(flightFolder, FileTypes.RouteKml);
             if (!files.Any())
-                throw new ApplicationException("Simbrief kml route file not found.");
+                throw new FileNotFoundException("Simbrief kml route file not found.");
 
             var route = new Route(flight.Departure.Icao, flight.Arrival.Icao);
             route.FileType = FileTypes.RouteJson;

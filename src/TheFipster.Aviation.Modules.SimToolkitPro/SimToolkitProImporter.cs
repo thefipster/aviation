@@ -10,17 +10,10 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro
     {
         public SimToolkitProFlight Import(string flightFolder, string stkpDbFile, string departure, string arrival)
         {
-            var flight = new SqlReader().Read(stkpDbFile, departure, arrival);
-            flight.FileType = FileTypes.SimToolkitProJson;
-
+            var flight = new SimToolkitProSqlReader().Read(stkpDbFile, departure, arrival);
             var landing = flight.Landing;
-            landing.FileType = FileTypes.LandingJson;
-
             var logbook = flight.Logbook;
-            logbook.FileType = FileTypes.LogbookJson;
-
-            var track = new TrackExtracter().Extract(flightFolder);
-            track.FileType = FileTypes.TrackJson;
+            var track = new SimToolkitProTrackExtracter().Extract(flightFolder);
 
             new JsonWriter<SimToolkitProFlight>().Write(flightFolder, flight, FileTypes.SimToolkitProJson, departure, arrival);
             new JsonWriter<Landing>().Write(flightFolder, landing, FileTypes.LandingJson, departure, arrival);

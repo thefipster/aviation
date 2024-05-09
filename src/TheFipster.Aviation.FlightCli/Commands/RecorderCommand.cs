@@ -20,18 +20,18 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         internal void Run(RecorderOptions options)
         {
-            var folder = new FileSystemFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
+            var folder = new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
 
             Record(options.DepartureAirport, options.ArrivalAirport);
             new JsonWriter<BlackBoxFlight>().Write(folder, flight, FileTypes.BlackBoxJson, flight.Origin, flight.Destination);
-            new CsvWriter().Write(folder, flight, FileTypes.BlackBoxCsv, flight.Origin, flight.Destination);
+            new BlackBoxCsvWriter().Write(folder, flight, FileTypes.BlackBoxCsv, flight.Origin, flight.Destination);
         }
 
         internal BlackBoxFlight Record(string departure, string arrival)
         {
             flight = new BlackBoxFlight(departure, arrival);
 
-            var recorder = new Recorder();
+            var recorder = new BlackBoxRecorder();
             recorder.Tick += Recorder_Tick;
 
             Console.WriteLine("Press Enter to start recording");

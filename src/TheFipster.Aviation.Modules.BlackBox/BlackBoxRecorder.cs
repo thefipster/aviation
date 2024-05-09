@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.Modules.BlackBox
 {
-    public class Recorder
+    public class BlackBoxRecorder
     {
         private Timer timer;
         private readonly Telemetry telemetry;
@@ -12,7 +12,7 @@ namespace TheFipster.Aviation.Modules.BlackBox
 
         private bool isCancelled;
 
-        public Recorder()
+        public BlackBoxRecorder()
         {
             telemetry = new Telemetry();
             timer = new Timer(tick, null, Timeout.Infinite, Timeout.Infinite);

@@ -3,16 +3,21 @@ using TheFipster.Aviation.Domain;
 
 namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
 {
-    public class Loader
+    public class SimToolkitProExportLoader
     {
         private readonly JsonSerializerOptions? options = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
-        public IEnumerable<SimToolkitProFlight> Read(string filepath)
+        /// <summary>
+        /// Loads the given export file.
+        /// </summary>
+        /// <param name="exportFilepath">Filepath to the export file.</param>
+        /// <returns>Parsed object <see cref="SimToolkitProFlight"/>.</returns>
+        public IEnumerable<SimToolkitProFlight> Load(string exportFilepath)
         {
-            var json = File.ReadAllText(filepath);
+            var json = File.ReadAllText(exportFilepath);
             var export = JsonSerializer.Deserialize<SimToolkitProExport>(json, options);
             var flights = new List<SimToolkitProFlight>();
 

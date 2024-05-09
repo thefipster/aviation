@@ -4,13 +4,13 @@ using TheFipster.Aviation.Domain.SimToolkitPro;
 
 namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
 {
-    public class TrackExtracter
+    public class SimToolkitProTrackExtracter
     {
         public Track Extract(string flightPath)
         {
-            var files = new FileSystemFinder().GetFiles(flightPath, Domain.Enums.FileTypes.SimToolkitProJson);
+            var files = new FlightFileScanner().GetFiles(flightPath, Domain.Enums.FileTypes.SimToolkitProJson);
             if (!files.Any())
-                throw new ApplicationException($"No SimToolkitPro file in folder {flightPath}.");
+                throw new FileNotFoundException($"No SimToolkitPro JSON in folder {flightPath}.");
 
             var file = files.First();
             var flight = new JsonReader<SimToolkitProFlight>().FromFile(file);

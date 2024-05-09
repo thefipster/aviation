@@ -3,43 +3,18 @@ using System.Text;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
 
 namespace TheFipster.Aviation.Modules.BlackBox
 {
-    public class CsvWriter
+    public class BlackBoxCsvWriter
     {
-        //public void Write(BlackBoxFlight flight)
-        //{
-        //    var location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        //    var dir = "Aviation";
-
-        //    var path = Path.Combine(location, dir);
-        //    Write(path, flight);
-        //}
-        //public void Write(string path, BlackBoxFlight flight)
-        //{
-        //    var file = $"{flight.Origin} - {flight.Destination} - BlackBox.csv";
-        //    var filepath = Path.Combine(path, file);
-
-        //    var sb = new StringBuilder();
-        //    sb.AppendLine(Const.BlackBoxHeader);
-
-        //    foreach (var record in flight.Records)
-        //    {
-        //        var line = makeLine(record);
-        //        sb.AppendLine(line);
-        //    }
-
-        //    var text = sb.ToString();
-        //    File.WriteAllText(filepath, text);
-        //}
-
         public void Write(string flightFolder, BlackBoxFlight flight, FileTypes filetype, string? departure, string? arrival = null, bool overwrite = false)
         {
             string filetypeName = filetype switch
             {
                 FileTypes.BlackBoxCsv => "BlackBox",
-                _ => throw new ApplicationException($"Unknown csv file type {filetype}.")
+                _ => throw new UnknownFileTypeException($"Unknown csv file type {filetype}.")
             };
 
             var file = string.IsNullOrEmpty(arrival)

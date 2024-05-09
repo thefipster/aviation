@@ -11,12 +11,12 @@ namespace TheFipster.Aviation.FlightApi.Controllers
     {
         private readonly ILogger<LegsController> _logger;
         private readonly IConfiguration _config;
-        private readonly IFileSystemFinder _finder;
+        private readonly IFlightFinder _finder;
 
         public LegsController(
             ILogger<LegsController> logger, 
             IConfiguration config, 
-            IFileSystemFinder finder)
+            IFlightFinder finder)
         {
             _logger = logger;
             _config = config;

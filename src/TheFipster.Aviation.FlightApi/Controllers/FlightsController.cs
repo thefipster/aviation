@@ -14,16 +14,22 @@ namespace TheFipster.Aviation.FlightApi.Controllers
     {
         private readonly ILogger<FlightsController> _logger;
         private readonly IConfiguration _config;
-        private readonly IFileSystemFinder _finder;
+        private readonly IFlightFinder _finder;
+        private readonly IFlightFileScanner _scanner;
+        private readonly IFlightMeta _meta;
 
         public FlightsController(
             ILogger<FlightsController> logger,
             IConfiguration config,
-            IFileSystemFinder finder)
+            IFlightFinder finder,
+            IFlightFileScanner scanner,
+            IFlightMeta meta)
         {
             _logger = logger;
             _config = config;
             _finder = finder;
+            _scanner = scanner;
+            _meta = meta;
         }
 
         [HttpGet(Name = "GetFlights")]
@@ -35,9 +41,9 @@ namespace TheFipster.Aviation.FlightApi.Controllers
 
             foreach (var flight in flights)
             {
-                var no = _finder.GetLeg(flight);
-                var from = _finder.GetDeparture(flight);
-                var to = _finder.GetArrival(flight);
+                var no = _meta.GetLeg(flight);
+                var from = _meta.GetDeparture(flight);
+                var to = _meta.GetArrival(flight);
 
                 yield return new Leg(no, from, to);
             }
@@ -48,7 +54,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var simbriefSearch = _finder.GetFiles(flightFolder, FileTypes.SimbriefJson);
+            var simbriefSearch = _scanner.GetFiles(flightFolder, FileTypes.SimbriefJson);
             if (simbriefSearch == null)
                 throw new KeyNotFoundException($"Simbrief JSON file from {departure} to {arrival} was not found.");
 
@@ -61,7 +67,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var ofpHtml = _finder.GetFiles(flightFolder, FileTypes.OfpHtml);
+            var ofpHtml = _scanner.GetFiles(flightFolder, FileTypes.OfpHtml);
             if (ofpHtml == null)
                 throw new KeyNotFoundException($"OFP HTML file from {departure} to {arrival} was not found.");
 
@@ -75,7 +81,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var routeJson = _finder.GetFiles(flightFolder, FileTypes.RouteJson);
+            var routeJson = _scanner.GetFiles(flightFolder, FileTypes.RouteJson);
             if (routeJson == null)
                 throw new KeyNotFoundException($"Route JSON file from {departure} to {arrival} was not found.");
 
@@ -88,14 +94,14 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _finder.GetFiles(flightFolder, FileTypes.BlackBoxJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.BlackBoxJson);
             if (files != null && files.Any())
             {
                 var route = new JsonReader<BlackBoxFlight>().FromFile(files.First());
                 return route.Records.Select(x => new Coordinate(x.LatitudeDecimals, x.LongitudeDecimals, x.GpsAltitudeMeters));
             }
 
-            files = _finder.GetFiles(flightFolder, FileTypes.TrackJson);
+            files = _scanner.GetFiles(flightFolder, FileTypes.TrackJson);
             if (files != null && files.Any())
             {
                 var track = new JsonReader<Track>().FromFile(files.First());
@@ -110,7 +116,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _finder.GetFiles(flightFolder, FileTypes.WaypointsJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.WaypointsJson);
             if (files == null)
                 throw new KeyNotFoundException($"Waypoint JSON file from {departure} to {arrival} was not found.");
 
@@ -123,7 +129,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _finder.GetFiles(flightFolder, FileTypes.LandingJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.LandingJson);
             if (files == null)
                 throw new KeyNotFoundException($"Landing JSON file from {departure} to {arrival} was not found.");
 
@@ -136,7 +142,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _finder.GetFiles(flightFolder, FileTypes.NotamJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.NotamJson);
             if (files == null)
                 throw new KeyNotFoundException($"Notams JSON file from {departure} to {arrival} was not found.");
 
@@ -149,7 +155,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _finder.GetFiles(flightFolder, FileTypes.LogbookJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.LogbookJson);
             if (files == null)
                 throw new KeyNotFoundException($"Logbook JSON file from {departure} to {arrival} was not found.");
 

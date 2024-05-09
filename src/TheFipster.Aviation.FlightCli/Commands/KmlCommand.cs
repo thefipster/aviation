@@ -17,7 +17,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         internal void Run(KmlOptions options)
         {
             Console.Write($"Extracting route from simbrief kml.");
-            var flights = new FileSystemFinder().GetFlightFolders(config.FlightsFolder);
+            var flights = new FlightFinder().GetFlightFolders(config.FlightsFolder);
             foreach (var flight in flights)
             {
                 var route = new SimbriefKmlLoader().Load(flight);

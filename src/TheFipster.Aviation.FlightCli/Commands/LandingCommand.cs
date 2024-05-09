@@ -3,7 +3,6 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.SimToolkitPro.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -16,10 +15,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             this.config = config;
         }
 
-        internal void Run(LandingOptions o)
+        internal void Run(LandingOptions _)
         {
             Console.Write($"Scanning SimToolkitPro Export Folder for landings");
-            var latestExportFilepath = new Finder().Find(config.SimToolkitProFolder);
+            var latestExportFilepath = new FlightFinder().GetLatestFile(config.SimToolkitProFolder, "*.json");
             var exportData = new JsonReader<SimToolkitProExport>().FromFile(latestExportFilepath);
 
             if (exportData == null || exportData.Landings == null)
@@ -43,7 +42,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
                 try
                 {
-                    var flightFolder = new FileSystemFinder().GetFlightFolder(config.FlightsFolder, departure, arrival);
+                    var flightFolder = new FlightFinder().GetFlightFolder(config.FlightsFolder, departure, arrival);
                     landing.FileType = FileTypes.LandingJson;
                     new JsonWriter<Landing>().Write(flightFolder, landing, FileTypes.LandingJson, departure, arrival, true);
                     Console.WriteLine($"\t matched {departure} - {arrival}.");

@@ -7,12 +7,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
     internal class ToolkitCommand
     {
         private HardcodedConfig config;
-        private FileSystemFinder finder;
+        private FlightFinder finder;
+        private FlightMeta meta;
 
         public ToolkitCommand(HardcodedConfig config)
         {
             this.config = config;
-            this.finder = new FileSystemFinder();
+            this.finder = new FlightFinder();
+            this.meta = new FlightMeta();
         }
 
         internal void Run(ToolkitOptions options)
@@ -21,8 +23,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var flights = finder.GetFlightFolders(config.FlightsFolder);
             foreach (var flight in flights)
             {
-                var departure = finder.GetDeparture(flight);
-                var arrival = finder.GetArrival(flight);
+                var departure = meta.GetDeparture(flight);
+                var arrival = meta.GetArrival(flight);
 
                 new SimToolkitProImporter().Import(flight, config.SimToolkitProDatabaseFile, departure, arrival);
                 Console.WriteLine($"\t {flight}");

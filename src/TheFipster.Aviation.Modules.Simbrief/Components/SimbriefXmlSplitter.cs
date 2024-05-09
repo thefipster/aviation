@@ -10,9 +10,9 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
     {
         public SplitResult Split(string flightFolder)
         {
-            var files = new FileSystemFinder().GetFiles(flightFolder, FileTypes.SimbriefXml);
+            var files = new FlightFileScanner().GetFiles(flightFolder, FileTypes.SimbriefXml);
             if (!files.Any())
-                throw new ApplicationException("Couldn't find simbrief xml data file.");
+                throw new FileNotFoundException("Couldn't find simbrief xml data file.");
 
             var result = new SplitResult();
 

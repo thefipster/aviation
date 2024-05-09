@@ -3,7 +3,8 @@ using TheFipster.Aviation.CoreCli.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<IFileSystemFinder, FileSystemFinder>();
+builder.Services.AddTransient<IFlightFinder, FlightFinder>();
+builder.Services.AddTransient<IFlightFileScanner, FlightFileScanner>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,5 +1,6 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Datahub;
+using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Simbrief.Components;
 
@@ -20,7 +21,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var flightFolders = Directory.GetDirectories(config.FlightsFolder);
             foreach (var folder in flightFolders)
             {
-                var files = new FileSystemFinder().GetFiles(folder);
+                var files = new FlightFileScanner().GetFiles(folder);
                 if (!files.ContainsValue(Domain.Enums.FileTypes.SimbriefXml))
                 {
                     Console.WriteLine($"\t skipping {folder} - no simbrief xml.");
@@ -47,34 +48,34 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 }
 
                 var arrivalIcao = flight.Arrival.Icao;
-                var arrival = new Modules.Airports.Finder(config.AirportFile).SearchWithIcao(arrivalIcao);
+                var arrival = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(arrivalIcao);
                 if (arrival == null)
                 {
                     Console.WriteLine($"\t skipping {folder} - arrival airport missing.");
                     continue;
                 }
                 arrival.FileType = Domain.Enums.FileTypes.AirportJson;
-                new JsonWriter<Airport>().Write(folder, arrival, "Airport", arrivalIcao, null, true);
+                new JsonWriter<Airport>().Write(folder, arrival, FileTypes.AirportJson, arrivalIcao, null, true);
 
                 var departureIcao = flight.Departure.Icao;
-                var departure = new Modules.Airports.Finder(config.AirportFile).SearchWithIcao(departureIcao);
+                var departure = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(departureIcao);
                 if (departure == null)
                 {
                     Console.WriteLine($"\t skipping {folder} - departure airport missing.");
                     continue;
                 }
                 departure.FileType = Domain.Enums.FileTypes.AirportJson;
-                new JsonWriter<Airport>().Write(folder, departure, "Airport", departureIcao, null, true);
+                new JsonWriter<Airport>().Write(folder, departure, FileTypes.AirportJson, departureIcao, null, true);
 
                 var alternateIcao = flight.Alternate.Icao;
-                var alternate = new Modules.Airports.Finder(config.AirportFile).SearchWithIcao(alternateIcao);
+                var alternate = new Modules.Airports.AirportFinder(config.AirportFile).SearchWithIcao(alternateIcao);
                 if (alternate == null)
                 {
                     Console.WriteLine($"\t skipping {folder} - alternate airport missing.");
                     continue;
                 }
                 alternate.FileType = Domain.Enums.FileTypes.AirportJson;
-                new JsonWriter<Airport>().Write(folder, alternate, "Airport", alternateIcao, null, true);
+                new JsonWriter<Airport>().Write(folder, alternate, FileTypes.AirportJson, alternateIcao, null, true);
 
                 Console.WriteLine($"\t checked {folder} - {departureIcao}/{arrivalIcao}/{alternateIcao}");
             }

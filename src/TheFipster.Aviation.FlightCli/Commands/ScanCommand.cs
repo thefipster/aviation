@@ -27,7 +27,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             foreach (var flightFolder in flightFolders)
             {
                 var flightName = Path.GetFileName(flightFolder);
-                var flight = new FileSystemFinder().GetFiles(flightFolder);
+                var flight = new FlightFileScanner().GetFiles(flightFolder);
                 flights.Add(flightName, flight);
             }
 

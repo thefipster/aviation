@@ -30,8 +30,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
             flight.Landing = mergedLanding;
             flight.Blackbox = mergedBlackBox;
             flight.Waypoints = mergedWaypoints;
-
-            new JsonWriter<Domain.Merged.Flight>().Write(flight, "Flight", flight.Departure, flight.Arrival);
         }
     }
 }
