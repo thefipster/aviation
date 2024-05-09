@@ -6,7 +6,7 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
 {
     public class SimToolkitProTrackExtracter
     {
-        public Track Extract(string flightPath)
+        public Track FromFile(string flightPath)
         {
             var files = new FlightFileScanner().GetFiles(flightPath, Domain.Enums.FileTypes.SimToolkitProJson);
             if (!files.Any())
@@ -18,6 +18,15 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
             Track? track = new JsonReader<Track>().FromText(flight.Logbook.TrackedGeoJson);
             track.Departure = flight.Logbook.Dep;
             track.Arrival = flight.Logbook.Arr;
+
+            return track;
+        }
+
+        public Track FromText(string trackedGeoJson, string departure, string arrival)
+        {
+            Track? track = new JsonReader<Track>().FromText(trackedGeoJson);
+            track.Departure = departure;
+            track.Arrival = arrival;
 
             return track;
         }

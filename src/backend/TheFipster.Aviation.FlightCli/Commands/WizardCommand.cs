@@ -3,13 +3,11 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
-using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
 using TheFipster.Aviation.Modules.Simbrief;
 using TheFipster.Aviation.Modules.Simbrief.Components;
 using TheFipster.Aviation.Modules.SimToolkitPro;
-using TheFipster.Aviation.Modules.SimToolkitPro.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -137,7 +135,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private SimBriefFlight moveSimbriefFiles(string flightPath, string departure, string arrival)
         {
             Console.WriteLine($"Copying simbrief files to {flightPath}:");
-            var searchPattern = $"{departure}{arrival}";
+            var searchPattern = $"{departure}{arrival}*";
             new FileOperations().MoveFiles(config.SimbriefFolder, flightPath, searchPattern);
 
             var files = new FlightFileScanner().GetFiles(flightPath, FileTypes.SimbriefXml);

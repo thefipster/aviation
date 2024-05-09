@@ -11,14 +11,22 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro
         public SimToolkitProFlight Import(string flightFolder, string stkpDbFile, string departure, string arrival)
         {
             var flight = new SimToolkitProSqlReader().Read(stkpDbFile, departure, arrival);
-            var landing = flight.Landing;
-            var logbook = flight.Logbook;
-            var track = new SimToolkitProTrackExtracter().Extract(flightFolder);
-
             new JsonWriter<SimToolkitProFlight>().Write(flightFolder, flight, FileTypes.SimToolkitProJson, departure, arrival);
-            new JsonWriter<Landing>().Write(flightFolder, landing, FileTypes.LandingJson, departure, arrival);
+
+            var logbook = flight.Logbook;
             new JsonWriter<Logbook>().Write(flightFolder, logbook, FileTypes.LogbookJson, departure, arrival);
-            new JsonWriter<Track>().Write(flightFolder, track, FileTypes.TrackJson, departure, arrival);
+
+            if (!string.IsNullOrWhiteSpace(flight.Landing.LocalId))
+            {
+                var landing = flight.Landing;
+                new JsonWriter<Landing>().Write(flightFolder, landing, FileTypes.LandingJson, departure, arrival);
+            }
+
+            if (!string.IsNullOrWhiteSpace(logbook.TrackedGeoJson) && logbook.TrackedGeoJson != "[]")
+            {
+                var track = new SimToolkitProTrackExtracter().FromText(logbook.TrackedGeoJson, logbook.Dep, logbook.Arr);
+                new JsonWriter<Track>().Write(flightFolder, track, FileTypes.TrackJson, departure, arrival);
+            }
 
             return flight;
         }

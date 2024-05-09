@@ -24,10 +24,11 @@ namespace TheFipster.Aviation.CoreCli
             return latestFile.FullName;
         }
 
-        public IEnumerable<string> MoveFiles(string oldFolder, string newFolder, string searchPattern = null)
+        public ICollection<string> MoveFiles(string oldFolder, string newFolder, string searchPattern = null)
         {
+            var newFiles = new List<string>();
             IEnumerable<string> files;
-            if (string.IsNullOrWhiteSpace (searchPattern))
+            if (string.IsNullOrWhiteSpace(searchPattern))
                 files = Directory.GetFiles(oldFolder);
             else
                 files = Directory.GetFiles(oldFolder, searchPattern);
@@ -37,8 +38,10 @@ namespace TheFipster.Aviation.CoreCli
                 var filename = Path.GetFileName(file);
                 var newFile = Path.Combine(newFolder, filename);
                 File.Move(file, newFile);
-                yield return newFile;
+                newFiles.Add(newFile);
             }
+
+            return newFiles;
         }
 
         public string CreateFlightFolder(string flightPlanFile, string flightsFolder, string departure, string arrival)
@@ -53,6 +56,9 @@ namespace TheFipster.Aviation.CoreCli
             var flightTerminators = $"{departure} - {arrival}";
             var flightName = $"{flightNo:D4} - {flightTerminators}";
             var flightPath = Path.Combine(flightsFolder, flightName);
+
+            if (Directory.Exists(flightPath))
+                throw new DuplicateFlightException(departure, arrival);
 
             if (Directory.GetDirectories(flightsFolder, $"*{flightTerminators}").Any())
                 throw new DuplicateFlightException(departure, arrival);
