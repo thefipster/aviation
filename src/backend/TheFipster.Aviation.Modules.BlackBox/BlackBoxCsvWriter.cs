@@ -18,8 +18,8 @@ namespace TheFipster.Aviation.Modules.BlackBox
             };
 
             var file = string.IsNullOrEmpty(arrival)
-                ? $"{departure} - {filetypeName}.json"
-                : $"{departure} - {arrival} - {filetypeName}.json";
+                ? $"{departure} - {filetypeName}.csv"
+                : $"{departure} - {arrival} - {filetypeName}.csv";
 
             var path = Path.Combine(flightFolder, file);
 

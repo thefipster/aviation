@@ -19,14 +19,18 @@ using TheFipster.Aviation.FlightCli.Options;
 //    "-t", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - SimToolkitPro.json",
 //};
 //args = new[] { "wizard" };
-//args = new[] { "scan" };
+args = new[] { "scan" };
+//args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
 //args = new[] { "track" };
 //args = new[] { "land" };
-//args = new[] { "ports" };
+//args = new[] { "airports" };
 //args = new[] { "simbrief" };
 //args = new[] { "notam" };
 //args = new[] { "toolkit" };
 //args = new[] { "kml" };
+//args = new[] { "trim" };
+//args = new[] { "stats" };
+//args = new[] { "preview", "-h", "300" };
 //args = new [] { "sql", "-d", "CYXT", "-a", "PAPG" };
 
 try
@@ -65,7 +69,11 @@ void run() {
             NotamOptions,
             SqlOptions,
             ToolkitOptions,
-            KmlOptions>(args)
+            KmlOptions,
+            TrimOptions,
+            RenameOptions,
+            StatsOptions,
+            PreviewOptions>(args)
         .WithParsed<AirportOptions>(options => { new AirportCommand(config).Run(options); })
         .WithParsed<MergeOptions>(options => { new MergeCommand().Run(options); })
         .WithParsed<RecorderOptions>(options => { new RecorderCommand(config).Run(options); })
@@ -78,6 +86,10 @@ void run() {
         .WithParsed<SqlOptions>(options => { new SqlCommand(config).Run(options); })
         .WithParsed<ToolkitOptions>(options => { new ToolkitCommand(config).Run(options); })
         .WithParsed<KmlOptions>(options => { new KmlCommand(config).Run(options); })
+        .WithParsed<TrimOptions>(options => { new TrimCommand(config).Run(options); })
+        .WithParsed<RenameOptions>(options => { new RenameCommand(config).Run(options); })
+        .WithParsed<StatsOptions>(options => { new StatsCommand(config).Run(options); })
+        .WithParsed<PreviewOptions>(options => { new PreviewCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

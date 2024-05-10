@@ -23,9 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{293A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6679851C-774A-4D38-ACD4-823B849B41E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.FlightApi", "TheFipster.Aviation.FlightApi\TheFipster.Aviation.FlightApi.csproj", "{0C1A14F7-0D4E-422C-B9AD-6F09A3E823C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.FlightApi", "TheFipster.Aviation.FlightApi\TheFipster.Aviation.FlightApi.csproj", "{0C1A14F7-0D4E-422C-B9AD-6F09A3E823C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.DirtyLittleHelper", "TheFipster.Aviation.DirtyLittleHelper\TheFipster.Aviation.DirtyLittleHelper.csproj", "{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.DirtyLittleHelper", "TheFipster.Aviation.DirtyLittleHelper\TheFipster.Aviation.DirtyLittleHelper.csproj", "{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thefipster.Aviation.Modules.Screenshots", "Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj", "{7F0978F5-F058-4B46-8E24-0E775F413402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
 		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 		{978EE538-6E12-48B6-A862-EF6F64044BFB} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{7F0978F5-F058-4B46-8E24-0E775F413402} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD8F5506-AE4F-4710-856C-F25F1BB25E3F}

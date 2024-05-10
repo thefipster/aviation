@@ -1,4 +1,6 @@
-﻿namespace TheFipster.Aviation.Domain
+﻿using TheFipster.Aviation.Domain.Datahub;
+
+namespace TheFipster.Aviation.Domain
 {
     public class Leg
     {

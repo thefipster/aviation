@@ -27,6 +27,15 @@ namespace TheFipster.Aviation.CoreCli
                     yield return file.Key;
         }
 
+        public string GetFile(string flightFolder, FileTypes filetype)
+        {
+            var files = GetFiles(flightFolder, filetype);
+            if (!files.Any())
+                throw new FileNotFoundException($"There is no {filetype} file in {flightFolder}.");
+
+            return files.First();
+        }
+
         private FileTypes scanFile(string file)
         {
             switch (Path.GetExtension(file))
@@ -54,6 +63,10 @@ namespace TheFipster.Aviation.CoreCli
                 case ".png":
                     {
                         return FileTypes.Screenshot;
+                    }
+                case ".jpg":
+                    {
+                        return FileTypes.Thumbnail;
                     }
                 case ".kml":
                     {

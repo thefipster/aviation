@@ -4,7 +4,7 @@ namespace TheFipster.Aviation.CoreCli
 {
     public class JsonReader<T>
     {
-        public T? FromFile(string filepath)
+        public T FromFile(string filepath)
         {
             if (!File.Exists(filepath))
                 throw new ApplicationException($"File {filepath} was not found.");
@@ -22,7 +22,7 @@ namespace TheFipster.Aviation.CoreCli
             
         }
 
-        public T? FromText(string json)
+        public T FromText(string json)
         {
             try
             {
@@ -32,6 +32,9 @@ namespace TheFipster.Aviation.CoreCli
                 };
 
                 T? result = JsonSerializer.Deserialize<T>(json, options);
+                if (result == null)
+                    throw new ApplicationException($"This is not correctly typed json.");
+
                 return result;
             }
             catch (Exception ex)

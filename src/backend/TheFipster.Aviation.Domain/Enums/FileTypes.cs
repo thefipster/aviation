@@ -33,6 +33,9 @@ namespace TheFipster.Aviation.Domain.Enums
         OfpHtml,
         RouteJson,
         Screenshot,
-        WaypointsJson
+        WaypointsJson,
+        BlackBoxTrimmedJson,
+        StatsJson,
+        Thumbnail
     }
 }

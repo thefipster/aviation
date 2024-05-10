@@ -49,6 +49,27 @@ namespace TheFipster.Aviation.FlightApi.Controllers
             }
         }
 
+        [HttpGet("stats", Name = "GetStats")]
+        public IEnumerable<Stats> GetStats()
+        {
+            var flightsFolder = _config["FlightsFolder"];
+            var folders = _finder.GetFlightFolders(flightsFolder);
+
+            foreach (var folder in folders)
+            {
+                Stats? stats = null;
+                try
+                {
+                    var file = _scanner.GetFile(folder, FileTypes.StatsJson);
+                    stats = new JsonReader<Stats>().FromFile(file);
+                }
+                catch (FileNotFoundException) { /* skipping */ }
+
+                if (stats != null)
+                    yield return stats;
+            }
+        }
+
         [HttpGet("{departure}/{arrival}", Name = "GetFlight")]
         public SimBriefFlight GetFlight(string departure, string arrival)
         {

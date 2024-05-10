@@ -36,10 +36,12 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void print(Dictionary<string, Dictionary<string, FileTypes>> flights)
         {
+            var totalCount = 0;
             foreach (var flight in flights)
             {
+                totalCount += flight.Value.Count();
                 var folder = Path.GetFileName(flight.Key);
-                Console.WriteLine(folder);
+                Console.WriteLine($"{folder} - {flight.Value.Count()} files");
                 Console.WriteLine();
                 foreach (var file in flight.Value.OrderBy(x => x.Key))
                 {
@@ -83,12 +85,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                             break;
                         case FileTypes.Screenshot:
+                        case FileTypes.Thumbnail:
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             break;
                         case FileTypes.AirportJson:
                         case FileTypes.MergedFlightJson:
                         case FileTypes.BlackBoxCsv:
                         case FileTypes.BlackBoxJson:
+                        case FileTypes.BlackBoxTrimmedJson:
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             break;
                         default:
@@ -102,6 +106,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 Console.WriteLine();
                 Console.WriteLine();
             }
+
+            Console.WriteLine($"Total: {totalCount} files.");
+            Console.WriteLine();
         }
     }
 }

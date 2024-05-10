@@ -32,9 +32,32 @@ namespace TheFipster.Aviation.FlightCli.Commands
             createAirportFiles(simbriefFlight, flightPath);
             recordBlackBox(departure, arrival, flightPath);
             moveNavigraphCharts(flightPath);
+            moveScreenshots(flightPath);
 
             extractFromSimToolkitPro(departure, arrival, flightPath);
             extractFromSimbrief(flightPath);
+
+            renameImports(departure.Ident, arrival.Ident, flightPath);
+        }
+
+        private void renameImports(string departure, string arrival, string flightPath)
+        {
+            var renamer = new RenameCommand(config);
+            var options = new RenameOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            renamer.Run(options);
+        }
+
+        private void moveScreenshots(string flightPath)
+        {
+            Console.WriteLine($"Moving screenshots from {config.ScreenshotFolder} --> {flightPath}");
+            var files = new FileOperations().MoveFiles(config.ScreenshotFolder, flightPath, "Microsoft Flight Simulator*.png");
+            foreach (var file in files)
+                Console.WriteLine($"\t {Path.GetFileName(file)}");
         }
 
         private SimBriefFlight extractFromSimbrief(string flightPath)

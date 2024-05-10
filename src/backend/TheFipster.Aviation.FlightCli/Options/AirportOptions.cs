@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
-    [Verb("ports", HelpText = "Creates json files for departure, arrival and alternate for all flights.")]
+    [Verb("airports", HelpText = "Scans the flight plan and creates all airport files.")]
     internal class AirportOptions
     {
     }
