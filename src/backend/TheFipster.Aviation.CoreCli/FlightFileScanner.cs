@@ -62,11 +62,11 @@ namespace TheFipster.Aviation.CoreCli
                     }
                 case ".png":
                     {
-                        return FileTypes.Screenshot;
+                        return scanPng(file);
                     }
                 case ".jpg":
                     {
-                        return FileTypes.Thumbnail;
+                        return scanJpg(file);
                     }
                 case ".kml":
                     {
@@ -79,6 +79,22 @@ namespace TheFipster.Aviation.CoreCli
             }
 
             return FileTypes.Unknown;
+        }
+
+        private FileTypes scanPng(string file)
+        {
+            if (file.Contains("Chart"))
+                return FileTypes.ChartImage;
+
+            return FileTypes.Screenshot;
+        }
+
+        private FileTypes scanJpg(string file)
+        {
+            if (file.Contains("Chart"))
+                return FileTypes.ChartThumbnail;
+
+            return FileTypes.Thumbnail;
         }
 
         private FileTypes scanJson(string file)
@@ -135,18 +151,18 @@ namespace TheFipster.Aviation.CoreCli
             if (filename.Contains("OFP") || filename.Contains("_PDF_"))
                 return FileTypes.OfpPdf;
 
-            if (filename.Contains("Airport"))
-                return FileTypes.ChartAirport;
-            if (filename.Contains("Parking"))
-                return FileTypes.ChartParking;
-            if (filename.Contains("APP"))
-                return FileTypes.ChartApproach;
-            if (filename.Contains("STAR"))
-                return FileTypes.ChartArrival;
-            if (filename.Contains("SID"))
-                return FileTypes.ChartDeparture;
-            if (filename.Contains("Taxi"))
-                return FileTypes.ChartTaxi;
+            //if (filename.Contains("Airport"))
+            //    return FileTypes.ChartAirport;
+            //if (filename.Contains("Parking"))
+            //    return FileTypes.ChartParking;
+            //if (filename.Contains("APP"))
+            //    return FileTypes.ChartApproach;
+            //if (filename.Contains("STAR"))
+            //    return FileTypes.ChartArrival;
+            //if (filename.Contains("SID"))
+            //    return FileTypes.ChartDeparture;
+            //if (filename.Contains("Taxi"))
+            //    return FileTypes.ChartTaxi;
 
             return FileTypes.Chart;
         }

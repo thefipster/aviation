@@ -49,7 +49,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
                     {
                         case FileTypes.Unknown:
                         case FileTypes.Error:
-                        case FileTypes.Chart:
                             Console.ForegroundColor = ConsoleColor.DarkRed;
                             break;
                         case FileTypes.SimbriefXml:
@@ -72,12 +71,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
                         case FileTypes.LogbookJson:
                             Console.ForegroundColor = ConsoleColor.Blue;
                             break;
-                        case FileTypes.ChartAirport:
-                        case FileTypes.ChartApproach:
-                        case FileTypes.ChartArrival:
-                        case FileTypes.ChartDeparture:
-                        case FileTypes.ChartParking:
-                        case FileTypes.ChartTaxi:
+                        case FileTypes.Chart:
+                        case FileTypes.ChartImage:
+                        case FileTypes.ChartThumbnail:
                             Console.ForegroundColor = ConsoleColor.Magenta;
                             break;
                         case FileTypes.MsfsFlightPlan:

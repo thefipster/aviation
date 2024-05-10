@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.FlightA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.DirtyLittleHelper", "TheFipster.Aviation.DirtyLittleHelper\TheFipster.Aviation.DirtyLittleHelper.csproj", "{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thefipster.Aviation.Modules.Screenshots", "Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj", "{7F0978F5-F058-4B46-8E24-0E775F413402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thefipster.Aviation.Modules.Screenshots", "Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj", "{7F0978F5-F058-4B46-8E24-0E775F413402}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using System.Reflection;
 using TheFipster.Aviation.FlightCli;
 using TheFipster.Aviation.FlightCli.Commands;
 using TheFipster.Aviation.FlightCli.Options;
@@ -20,6 +21,8 @@ using TheFipster.Aviation.FlightCli.Options;
 //};
 //args = new[] { "wizard" };
 args = new[] { "scan" };
+//args = new[] { "chart" };
+//args = new[] { "preview", "-h", "300" };
 //args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
 //args = new[] { "track" };
 //args = new[] { "land" };
@@ -30,12 +33,11 @@ args = new[] { "scan" };
 //args = new[] { "kml" };
 //args = new[] { "trim" };
 //args = new[] { "stats" };
-//args = new[] { "preview", "-h", "300" };
 //args = new [] { "sql", "-d", "CYXT", "-a", "PAPG" };
 
 try
 {
-    run();
+    Run();
     Console.WriteLine($"Finished");
 }
 catch (ApplicationException ex)
@@ -54,26 +56,11 @@ catch (Exception ex)
     Console.WriteLine();
 }
 
-void run() {
+void Run() {
     var config = new HardcodedConfig();
+    var optionTypes = GetTypesWithVerbAttribute().ToArray();
 
-    Parser.Default.ParseArguments<
-            AirportOptions,
-            MergeOptions,
-            RecorderOptions,
-            SimbriefOptions,
-            TrackOptions,
-            WizardOptions,
-            ScanOptions,
-            LandingOptions,
-            NotamOptions,
-            SqlOptions,
-            ToolkitOptions,
-            KmlOptions,
-            TrimOptions,
-            RenameOptions,
-            StatsOptions,
-            PreviewOptions>(args)
+    Parser.Default.ParseArguments(args, optionTypes)
         .WithParsed<AirportOptions>(options => { new AirportCommand(config).Run(options); })
         .WithParsed<MergeOptions>(options => { new MergeCommand().Run(options); })
         .WithParsed<RecorderOptions>(options => { new RecorderCommand(config).Run(options); })
@@ -90,6 +77,13 @@ void run() {
         .WithParsed<RenameOptions>(options => { new RenameCommand(config).Run(options); })
         .WithParsed<StatsOptions>(options => { new StatsCommand(config).Run(options); })
         .WithParsed<PreviewOptions>(options => { new PreviewCommand(config).Run(options); })
+        .WithParsed<ChartOptions>(options => { new ChartCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 
+static IEnumerable<Type> GetTypesWithVerbAttribute()
+{
+    foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+        if (type.GetCustomAttributes(typeof(VerbAttribute), true).Length > 0)
+            yield return type;
+}

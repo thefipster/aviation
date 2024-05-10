@@ -1,22 +1,24 @@
-﻿using Thefipster.Aviation.Modules.Screenshots.Components;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Thefipster.Aviation.Modules.Screenshots.Components;
 using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    public class PreviewCommand
+    internal class ChartCommand
     {
         private HardcodedConfig config;
-        private readonly ImageResizer resizer;
 
-        public PreviewCommand(HardcodedConfig config)
+        public ChartCommand(HardcodedConfig config)
         {
             this.config = config;
-            resizer = new ImageResizer();
         }
 
-        internal void Run(PreviewOptions options)
+        internal void Run(ChartOptions options)
         {
             Console.WriteLine("Resizing the screenshots for previewing.");
             IEnumerable<string> folders;
@@ -30,18 +32,11 @@ namespace TheFipster.Aviation.FlightCli.Commands
             {
                 Console.WriteLine($"\t {folder}");
 
-                var screenshots = new FlightFileScanner().GetFiles(folder, FileTypes.Screenshot);
-                foreach (var screenshot in screenshots)
-                {
-                    Console.WriteLine($"\t\t {Path.GetFileName(screenshot)}");
-                    resizer.Resize(screenshot, options.Height);
-                }
-
-                var charts = new FlightFileScanner().GetFiles(folder, FileTypes.ChartImage);
+                var charts = new FlightFileScanner().GetFiles(folder, Domain.Enums.FileTypes.Chart);
                 foreach (var chart in charts)
                 {
                     Console.WriteLine($"\t\t {Path.GetFileName(chart)}");
-                    resizer.Resize(chart, options.Height);
+                    new PdfConverter().ToImage(chart);
                 }
             }
         }

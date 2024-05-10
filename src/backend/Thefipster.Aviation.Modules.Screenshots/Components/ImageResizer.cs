@@ -11,7 +11,7 @@ namespace Thefipster.Aviation.Modules.Screenshots.Components
             if (!File.Exists(filepath))
                 throw new FileNotFoundException($"{filepath} doesn't exist.");
 
-            var newFile = filepath.Replace("Screenshot", "Thumbnail").Replace(".png", ".jpg");
+            var newFile = filepath.Replace(".png", ".jpg");
             if (File.Exists(newFile) && !overwrite)
                 return;
 

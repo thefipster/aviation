@@ -36,6 +36,8 @@ namespace TheFipster.Aviation.Domain.Enums
         WaypointsJson,
         BlackBoxTrimmedJson,
         StatsJson,
-        Thumbnail
+        Thumbnail,
+        ChartImage,
+        ChartThumbnail
     }
 }
