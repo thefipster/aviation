@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
+using TheFipster.Aviation.CoreCli.Abstractions;
 
 namespace TheFipster.Aviation.CoreCli
 {
-    public class JsonReader<T>
+    public class JsonReader<T> : IJsonReader<T>
     {
         public T FromFile(string filepath)
         {

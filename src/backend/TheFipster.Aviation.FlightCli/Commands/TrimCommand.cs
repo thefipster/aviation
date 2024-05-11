@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Options;
@@ -23,7 +18,12 @@ namespace TheFipster.Aviation.FlightCli.Commands
         internal void Run(TrimOptions options)
         {
             Console.WriteLine("Trimming the black box files to contain only engine on section.");
-            var folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
+            IEnumerable<string> folders;
+            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
+                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
+            else
+                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
+
 
             foreach (var folder in folders)
             {

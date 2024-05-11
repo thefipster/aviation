@@ -1,0 +1,11 @@
+<div class="aircraft">
+    <h2>Plane</h2>
+    <img src="https://localhost:7142/api/aircraft/image"/>
+    <h3>{{ aircraft.registration }}</h3>
+    <ul>
+        <li>{{ totalFlights }} flights</li>
+        <li>{{ airHours }}:{{ airMinutes}} h in the air</li>
+        <li>{{ totalDistance | number }} km flown</li>
+        <li>{{ totalFuel | number }} kg fuel burned</li>
+    </ul>
+</div>

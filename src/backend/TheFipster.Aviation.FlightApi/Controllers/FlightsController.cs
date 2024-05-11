@@ -5,6 +5,7 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.SimToolkitPro;
+using TheFipster.Aviation.Modules.FlightPlan.Abstractions;
 
 namespace TheFipster.Aviation.FlightApi.Controllers
 {
@@ -17,19 +18,22 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         private readonly IFlightFinder _finder;
         private readonly IFlightFileScanner _scanner;
         private readonly IFlightMeta _meta;
+        private readonly IOperationsPlan _plan;
 
         public FlightsController(
             ILogger<FlightsController> logger,
             IConfiguration config,
             IFlightFinder finder,
             IFlightFileScanner scanner,
-            IFlightMeta meta)
+            IFlightMeta meta,
+            IOperationsPlan plan)
         {
             _logger = logger;
             _config = config;
             _finder = finder;
             _scanner = scanner;
             _meta = meta;
+            _plan = plan;
         }
 
         [HttpGet(Name = "GetFlights")]
@@ -69,6 +73,14 @@ namespace TheFipster.Aviation.FlightApi.Controllers
                     yield return stats;
             }
         }
+
+        [HttpGet("next", Name = "GetNextFlight")]
+        public PlannedFlight GetNextFlight()
+            => _plan.GetNextFlight();
+
+        [HttpGet("last", Name = "GetLastFlight")]
+        public Stats GetLastFlight()
+            => _plan.GetLastFlight();
 
         [HttpGet("{departure}/{arrival}", Name = "GetFlight")]
         public SimBriefFlight GetFlight(string departure, string arrival)

@@ -19,8 +19,9 @@ using TheFipster.Aviation.FlightCli.Options;
 //    "-s", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - Simbrief.json",
 //    "-t", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - SimToolkitPro.json",
 //};
-//args = new[] { "wizard" };
-args = new[] { "scan" };
+args = new[] { "wizard" };
+//args = new[] { "scan" };
+//args = new[] { "next" };
 //args = new[] { "chart" };
 //args = new[] { "preview", "-h", "300" };
 //args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
@@ -78,6 +79,7 @@ void Run() {
         .WithParsed<StatsOptions>(options => { new StatsCommand(config).Run(options); })
         .WithParsed<PreviewOptions>(options => { new PreviewCommand(config).Run(options); })
         .WithParsed<ChartOptions>(options => { new ChartCommand(config).Run(options); })
+        .WithParsed<NextOptions>(options => { new NextCommand(config).Run(); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

@@ -2,7 +2,7 @@ import { AfterViewInit, Component } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MapLeg } from '../map-leg';
+import { MapLeg } from '../../model/map-leg';
 
 @Component({
   selector: 'app-legs',

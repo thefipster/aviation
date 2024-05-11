@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MapComponent } from '../map/map.component';
-import { LegsComponent } from '../legs/legs.component';
+import { MapComponent } from './map/map.component';
+import { LegsComponent } from './legs/legs.component';
 
 @Component({
   selector: 'app-overview',

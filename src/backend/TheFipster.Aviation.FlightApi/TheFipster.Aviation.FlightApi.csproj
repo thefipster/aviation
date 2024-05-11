@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.FlightPlan\TheFipster.Aviation.Modules.FlightPlan.csproj" />
   </ItemGroup>
 
 </Project>

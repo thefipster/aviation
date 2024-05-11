@@ -3,7 +3,7 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.Airports;
+using TheFipster.Aviation.Modules.Airports.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -19,8 +19,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
         internal void Run(AirportOptions options)
         {
             var legs = new JsonReader<IEnumerable<Leg>>().FromFile(config.FlightPlanFile);
-
-            var finder = new AirportFinder(config.AirportFile);
+            var reader = new JsonReader<IEnumerable<Airport>>();
+            var finder = new AirportFinder(reader, config.AirportFile);
 
             foreach (var leg in legs)
             {

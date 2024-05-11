@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FlightMapComponent } from '../flight-map/flight-map.component';
+import { FlightMapComponent } from './flight-map/flight-map.component';
 import { RouterLink } from '@angular/router';
 
 @Component({

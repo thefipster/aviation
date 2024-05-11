@@ -11,7 +11,7 @@ import { ErrorComponent } from './error/error.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HttpClientModule, FlexLayoutModule, OverviewComponent, FlightComponent, ErrorComponent],
+  imports: [RouterOutlet, CommonModule, HttpClientModule, FlexLayoutModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { HttpClient } from "@angular/common/http";
-import { MapLeg } from '../map-leg';
+import { MapLeg } from '../../model/map-leg';
 
 @Component({
   selector: 'app-map',

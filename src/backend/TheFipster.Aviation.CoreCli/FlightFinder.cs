@@ -1,10 +1,26 @@
-﻿using TheFipster.Aviation.CoreCli.Abstractions;
+﻿using Microsoft.Extensions.Configuration;
+using TheFipster.Aviation.CoreCli.Abstractions;
+using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Exceptions;
 
 namespace TheFipster.Aviation.CoreCli
 {
     public class FlightFinder : IFlightFinder
     {
+        private readonly string flightsFolder;
+
+        public FlightFinder() { }
+
+        public FlightFinder(string flightsFolder)
+        {
+            this.flightsFolder = flightsFolder;
+        }
+
+        public FlightFinder(IConfiguration config)
+        {
+            flightsFolder = config[ConfigKeys.FlightsFolderPath];
+        }
+
         public IEnumerable<string> GetFlightFolders(string flightsFolder)
             => Directory.GetDirectories(flightsFolder);
 
@@ -17,6 +33,12 @@ namespace TheFipster.Aviation.CoreCli
 
             return candidates.First();
         }
+
+        public string GetLatestFlight()
+            => GetLatestFlight(flightsFolder);
+
+        public string GetLatestFlight(string flightsFolder)
+            => GetFlightFolders(flightsFolder).OrderByDescending(x => x).First();
 
         public string GetLatestFile(string folder, string searchPattern = null)
         {

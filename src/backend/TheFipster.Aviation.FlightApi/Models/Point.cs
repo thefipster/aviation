@@ -15,6 +15,13 @@ namespace TheFipster.Aviation.FlightApi.Models
             Longitude = double.Parse(split[0].Trim(), CultureInfo.InvariantCulture);
         }
 
+        public Point(string name, double latitude, double longitude)
+        {
+            Name = name;
+            Latitude = latitude;
+            Longitude = longitude;
+        }
+
         public string Icao { get; set; }
         public string Name { get; set; }
         public double Latitude { get; set; }
