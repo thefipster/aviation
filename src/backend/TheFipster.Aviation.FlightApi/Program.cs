@@ -13,12 +13,17 @@ builder.Services.AddTransient<IFlightFinder, FlightFinder>();
 builder.Services.AddTransient<IFlightFileScanner, FlightFileScanner>();
 builder.Services.AddTransient<IFlightMeta, FlightMeta>();
 builder.Services.AddTransient<IFileOperations, FileOperations>();
-builder.Services.AddTransient<IFlightPlanReader, FlightPlanReader>();
+
 builder.Services.AddTransient<IOperationsPlan, OperationsPlan>();
-builder.Services.AddSingleton<IAirportFinder, AirportFinder>();
-builder.Services.AddTransient<IJsonReader<IEnumerable<Leg>>, JsonReader<IEnumerable<Leg>>>();
-builder.Services.AddTransient<IJsonReader<IEnumerable<Airport>>, JsonReader<IEnumerable<Airport>>>();
 builder.Services.AddTransient<IJsonReader<Stats>, JsonReader<Stats>>();
+
+builder.Services.AddSingleton<IAirportFinder, AirportFinder>();
+builder.Services.AddTransient<IJsonReader<IEnumerable<Airport>>, JsonReader<IEnumerable<Airport>>>();
+
+builder.Services.AddTransient<IFlightPlanReader, FlightPlanReader>();
+builder.Services.AddTransient<IFlightPlanWriter, FlightPlanWriter>();
+builder.Services.AddTransient<IJsonReader<IEnumerable<Leg>>, JsonReader<IEnumerable<Leg>>>();
+builder.Services.AddTransient<IJsonWriter<IEnumerable<Leg>>, JsonWriter<IEnumerable<Leg>>>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.AddCors(options =>
@@ -27,6 +32,8 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("*");
+                          policy.WithMethods("*");
+                          policy.WithHeaders("*");
                       });
 });
 

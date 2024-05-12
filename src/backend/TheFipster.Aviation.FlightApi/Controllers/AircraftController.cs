@@ -6,6 +6,8 @@ using TheFipster.Aviation.CoreCli.Abstractions;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightApi.Models;
+using TheFipster.Aviation.Modules.Airports.Abstractions;
+using TheFipster.Aviation.Modules.FlightPlan.Abstractions;
 
 namespace TheFipster.Aviation.FlightApi.Controllers
 {
@@ -17,17 +19,20 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         private readonly IFlightFinder finder;
         private readonly ILogger<AircraftController> logger;
         private readonly IFlightFileScanner scanner;
+        private readonly IAirportFinder airports;
 
         public AircraftController(
             ILogger<AircraftController> logger,
             IConfiguration config,
             IFlightFinder finder,
-            IFlightFileScanner scanner)
+            IFlightFileScanner scanner,
+            IAirportFinder airports)
         {
             this.config = config;
             this.finder = finder;
             this.logger = logger;
             this.scanner = scanner;
+            this.airports = airports;
         }
 
         [HttpGet(Name = "GetAircraft")]
@@ -58,8 +63,9 @@ namespace TheFipster.Aviation.FlightApi.Controllers
             var blackboxFile = scanner.GetFile(flight, Domain.Enums.FileTypes.BlackBoxTrimmedJson);
             var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
             var lastRecord = blackbox.Records.Last();
+            var airport = airports.SearchWithIcao(blackbox.Destination);
 
-            return new Point(aircraft.Registration, lastRecord.LatitudeDecimals, lastRecord.LongitudeDecimals);
+            return new Point(airport.Ident, airport.Name, lastRecord.LatitudeDecimals, lastRecord.LongitudeDecimals);
         }
     }
 }

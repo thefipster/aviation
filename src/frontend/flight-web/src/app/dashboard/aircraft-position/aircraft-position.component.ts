@@ -12,11 +12,13 @@ import * as L from 'leaflet';
 })
 export class AircraftPositionComponent {
   private map:any;
+  public position: Point = {} as Point;
 
   constructor(private http:HttpClient) { }
 
   ngAfterViewInit(): void {
     this.http.get<Point>("https://localhost:7142/api/aircraft/position").subscribe((data:Point) => {
+        this.position = data;
         this.map = L.map('map', {
           center: [ data.latitude, data.longitude ],
           zoom: 12

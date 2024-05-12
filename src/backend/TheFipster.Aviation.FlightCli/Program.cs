@@ -19,7 +19,7 @@ using TheFipster.Aviation.FlightCli.Options;
 //    "-s", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - Simbrief.json",
 //    "-t", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - SimToolkitPro.json",
 //};
-args = new[] { "wizard" };
+//args = new[] { "wizard" };
 //args = new[] { "scan" };
 //args = new[] { "next" };
 //args = new[] { "chart" };

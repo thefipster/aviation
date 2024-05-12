@@ -10,9 +10,10 @@ namespace TheFipster.Aviation.FlightApi.Models
             Icao = departure.Ident;
             Name = departure.Name;
 
+            // coordinate is in format lon, lat
             var split = departure.Coordinates.Split(',');
-            Latitude = double.Parse(split[1].Trim(), CultureInfo.InvariantCulture);
             Longitude = double.Parse(split[0].Trim(), CultureInfo.InvariantCulture);
+            Latitude = double.Parse(split[1].Trim(), CultureInfo.InvariantCulture);
         }
 
         public Point(string name, double latitude, double longitude)
@@ -20,6 +21,12 @@ namespace TheFipster.Aviation.FlightApi.Models
             Name = name;
             Latitude = latitude;
             Longitude = longitude;
+        }
+
+        public Point(string icao, string name, double latitude, double longitude)
+            : this(name, latitude, longitude)
+        {
+            Icao = icao;
         }
 
         public string Icao { get; set; }

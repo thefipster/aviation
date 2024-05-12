@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.CoreCli.Abstractions;
 using TheFipster.Aviation.Domain;
@@ -95,6 +96,8 @@ namespace TheFipster.Aviation.FlightApi.Controllers
             return simbrief;
         }
 
+
+
         [HttpGet("{departure}/{arrival}/ofp", Name = "GetOfp")]
         public ContentResult GetOfp(string departure, string arrival)
         {
@@ -107,6 +110,34 @@ namespace TheFipster.Aviation.FlightApi.Controllers
             var html = System.IO.File.ReadAllText(ofpHtml.First());
 
             return base.Content(html, "text/html");
+        }
+
+        [HttpGet("{departure}/{arrival}/images", Name = "GetImages")]
+        public IEnumerable<string> GetImages(string departure, string arrival)
+        {
+            var flightsFolder = _config["FlightsFolder"];
+            var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.Screenshot);
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                filename = filename.Replace(".png", string.Empty);
+                yield return WebUtility.UrlEncode(filename);
+            }
+        }
+
+        [HttpGet("{departure}/{arrival}/charts", Name = "GetCharts")]
+        public IEnumerable<string> GetCharts(string departure, string arrival)
+        {
+            var flightsFolder = _config["FlightsFolder"];
+            var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.ChartImage);
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                filename = filename.Replace(".png", string.Empty);
+                yield return WebUtility.UrlEncode(filename);
+            }
         }
 
         [HttpGet("{departure}/{arrival}/route", Name = "GetRoute")]
@@ -131,14 +162,25 @@ namespace TheFipster.Aviation.FlightApi.Controllers
             if (files != null && files.Any())
             {
                 var route = new JsonReader<BlackBoxFlight>().FromFile(files.First());
-                return route.Records.Select(x => new Coordinate(x.LatitudeDecimals, x.LongitudeDecimals, x.GpsAltitudeMeters));
+                foreach (var element in route.Records)
+                    yield return new Coordinate(element.LatitudeDecimals, element.LongitudeDecimals, element.GpsAltitudeMeters);
+
+                yield break;
             }
 
             files = _scanner.GetFiles(flightFolder, FileTypes.TrackJson);
             if (files != null && files.Any())
             {
                 var track = new JsonReader<Track>().FromFile(files.First());
-                return track.Features.First().Geometry.Coordinates.Select(x => new Coordinate(x.First(), x.Last()));
+                foreach (var element in track.Features.First().Geometry.Coordinates)
+                {
+                    if (element.Count == 2)
+                        yield return new Coordinate(element[1], element[0]);
+                    if (element.Count == 3)
+                        yield return new Coordinate(element[1], element[0], (int)element[2]);
+                }
+
+                yield break;
             }
 
             throw new KeyNotFoundException($"BlackBox or Track file from {departure} to {arrival} was not found.");

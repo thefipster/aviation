@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.CoreCli.Abstractions;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.FlightApi.Models;
+using TheFipster.Aviation.Modules.Airports.Abstractions;
 
 namespace TheFipster.Aviation.FlightApi.Controllers
 {
@@ -16,15 +15,18 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         private readonly ILogger<LegsController> _logger;
         private readonly IConfiguration _config;
         private readonly IFlightFinder _finder;
+        private readonly IAirportFinder _airports;
 
         public LegsController(
             ILogger<LegsController> logger, 
             IConfiguration config, 
-            IFlightFinder finder)
+            IFlightFinder finder,
+            IAirportFinder airports)
         {
             _logger = logger;
             _config = config;
             _finder = finder;
+            _airports = airports;
         }
 
         [HttpGet(Name = "GetLegs")]
@@ -40,11 +42,8 @@ namespace TheFipster.Aviation.FlightApi.Controllers
 
             foreach (var leg in legs)
             {
-                var departureFile = airportFiles.FirstOrDefault(x => x.Contains(leg.From.Trim()));
-                var departure = new JsonReader<Domain.Datahub.Airport>().FromFile(departureFile);
-
-                var arrivalFile = airportFiles.FirstOrDefault(x => x.Contains(leg.To.Trim()));
-                var arrival = new JsonReader<Domain.Datahub.Airport>().FromFile(arrivalFile);
+                var departure = _airports.SearchWithIcao(leg.From.Trim());
+                var arrival = _airports.SearchWithIcao(leg.To.Trim());
 
                 var done = false;
                 if (flights.Any(x => x.Contains(leg.From.Trim()) && x.Contains(leg.To.Trim())))

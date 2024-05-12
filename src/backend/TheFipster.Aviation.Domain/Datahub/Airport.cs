@@ -9,6 +9,9 @@ namespace TheFipster.Aviation.Domain.Datahub
         [JsonPropertyName("continent")]
         public string? Continent { get; set; }
 
+        /// <summary>
+        /// WARNING the format of this coordinate is "LON, LAT"
+        /// </summary>
         [JsonPropertyName("coordinates")]
         public string? Coordinates { get; set; }
 

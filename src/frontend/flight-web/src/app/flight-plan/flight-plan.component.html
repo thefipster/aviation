@@ -1,0 +1,35 @@
+<h2>Flight Plan biatch</h2>
+
+<table>
+    <thead>
+      <tr>
+        <th align="right">#</th>
+        <th>Departure</th>
+        <th>Arrival</th>
+        <th width="99%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leg of legs">
+        <td align="right">{{leg.no}}</td>
+        <td><span class="nowrap">{{leg.departure.icao}} ({{leg.departure.name}})</span></td>
+        <td><span class="nowrap">{{leg.arrival.icao}} ({{leg.arrival.name}})</span></td>
+        <td>
+            <div *ngIf="!leg.isFlown && index != leg.no" class="toolbar">
+                <button class="button button-outline">Remove</button>
+                <button class="button button-outline" disabled>-|-</button>
+                <button class="button button-outline" (click)="activate(leg.no)">Add between</button>
+            </div>
+            <div *ngIf="leg.isFlown && index != leg.no" class="toolbar">
+                <button class="button button-outline" disabled>Already flown</button>
+            </div>
+            <div *ngIf="index === leg.no" class="toolbar">
+                <button class="button button-outline" (click)="deactivate()">Cancel</button>
+                <label for="airport">Airport</label>
+                <input type="text" name="airport" [value]="icao" (input)="input($event)">
+                <button class="button button-outline" (click)="insertFlight()">Add</button>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
