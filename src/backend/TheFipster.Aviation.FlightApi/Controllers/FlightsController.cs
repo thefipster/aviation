@@ -158,7 +158,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _scanner.GetFiles(flightFolder, FileTypes.BlackBoxJson);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.BlackBoxCompressedJson);
             if (files != null && files.Any())
             {
                 var route = new JsonReader<BlackBoxFlight>().FromFile(files.First());

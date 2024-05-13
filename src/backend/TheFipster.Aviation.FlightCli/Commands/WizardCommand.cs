@@ -36,13 +36,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             moveNavigraphCharts(flightPath);
             moveScreenshots(flightPath);
-
+            geocodeScreenshots(departure, arrival);
             extractFromSimToolkitPro(departure, arrival);
             extractFromSimbrief(departure, arrival);
             renameImports(departure, arrival);
             convertCharts(departure, arrival);
             generatePreviews(departure, arrival);
             trimBlackbox(departure, arrival);
+            compressBlackbox(departure, arrival);
             generateStats(departure, arrival);
         }
 
@@ -52,6 +53,30 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var next = new NextCommand(config);
             next.Run();
             return next.GetNext();
+        }
+
+        private void compressBlackbox(string departure, string arrival)
+        {
+            var compresser = new CompressCommand(config);
+            var options = new CompressOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            compresser.Run(options);
+        }
+
+        private void geocodeScreenshots(string departure, string arrival)
+        {
+            var geocoder = new GeoTagCommand(config);
+            var options = new GeoTagOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            geocoder.Run(options);
         }
 
         private void generateStats(string departure, string arrival)

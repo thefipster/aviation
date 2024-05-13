@@ -22,5 +22,7 @@
         public int FuelDelta { get; set; }
         public LandingStats? Landing { get; set; }
         public int TasPlanned { get; set; }
+        public int Passengers { get; set; }
+        public string? Remarks { get; set; }
     }
 }

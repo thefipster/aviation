@@ -51,6 +51,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 stats.DepartureAt = int.Parse(logbook.ActualDep);
                 stats.ArrivalAt = int.Parse(logbook.ActualArr);
                 stats.Route = logbook.Route;
+                stats.Remarks = logbook.DocsRmk;
 
             }
             catch (Exception )
@@ -72,6 +73,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 stats.RouteDistance = simbrief.RouteDistance;
                 stats.FuelPlanned = simbrief.FuelBurn;
                 stats.TasPlanned = simbrief.PlannedTas;
+                stats.Passengers = simbrief.Passengers;
             }
             catch (Exception)
             {

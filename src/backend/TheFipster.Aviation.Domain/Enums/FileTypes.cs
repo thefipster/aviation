@@ -38,6 +38,8 @@ namespace TheFipster.Aviation.Domain.Enums
         StatsJson,
         Thumbnail,
         ChartImage,
-        ChartThumbnail
+        ChartThumbnail,
+        GeoTagsJson,
+        BlackBoxCompressedJson
     }
 }

@@ -6,35 +6,20 @@ using TheFipster.Aviation.FlightCli.Options;
 
 //args = new [] { "simbrief", "-f", @"C:\Users\felix\Aviation\flight\KDENKTEX_XML_1652208542.xml" };
 //args = new [] { "rec", "-d", "EDDL", "-a", "EDDK" };
-//args = new [] { "woop" };
 //args = new [] { "--help" };
-//args = new[] { "fin", "EDDL", "EDDK" };  
-//args = new[]
-//{
-//    "merge",
-//    "-a", @"C:\Users\felix\Aviation\flight\KDEN - Airport.json",
-//          @"C:\Users\felix\Aviation\flight\KTEX - Airport.json",
-//          @"C:\Users\felix\Aviation\flight\KCOS - Airport.json",
-//    "-b", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - BlackBox.json",
-//    "-s", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - Simbrief.json",
-//    "-t", @"C:\Users\felix\Aviation\flight\KDEN - KTEX - SimToolkitPro.json",
-//};
 //args = new[] { "wizard" };
 //args = new[] { "scan" };
 //args = new[] { "next" };
 //args = new[] { "chart" };
 //args = new[] { "preview", "-h", "300" };
 //args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
-//args = new[] { "track" };
-//args = new[] { "land" };
 //args = new[] { "airports" };
 //args = new[] { "simbrief" };
-//args = new[] { "notam" };
 //args = new[] { "toolkit" };
-//args = new[] { "kml" };
 //args = new[] { "trim" };
 //args = new[] { "stats" };
-//args = new [] { "sql", "-d", "CYXT", "-a", "PAPG" };
+//args = new[] { "geotag" };
+//args = new[] { "compress", "-d", "PACD", "-a", "PASN" };
 
 try
 {
@@ -74,6 +59,8 @@ void Run() {
         .WithParsed<PreviewOptions>(options => { new PreviewCommand(config).Run(options); })
         .WithParsed<ChartOptions>(options => { new ChartCommand(config).Run(options); })
         .WithParsed<NextOptions>(options => { new NextCommand(config).Run(); })
+        .WithParsed<GeoTagOptions>(options => { new GeoTagCommand(config).Run(options); })
+        .WithParsed<CompressOptions>(options => { new CompressCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

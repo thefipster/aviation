@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using TheFipster.Aviation.Domain.Simbrief;
 
 namespace TheFipster.Aviation.Domain.BlackBox
 {
@@ -134,5 +135,17 @@ namespace TheFipster.Aviation.Domain.BlackBox
             Console.WriteLine($"N1: {Engine2N1Percent}%");
             Console.WriteLine($"N2: {Engine2N2Percent}%");
         }
+
+        public override bool Equals(object? obj)
+        {
+            var coordinate = obj as Record;
+            if (coordinate == null) return false;
+
+            return coordinate.LatitudeDecimals == this.LatitudeDecimals
+                && coordinate.LongitudeDecimals == this.LongitudeDecimals;
+        }
+
+        public override string ToString()
+            => $"{LatitudeDecimals:0.00000} | {LongitudeDecimals:0.00000}";
     }
 }
