@@ -13,15 +13,20 @@ namespace TheFipster.Aviation.FlightCli.Commands
             this.config = config;
         }
 
-        internal void Run(SimbriefOptions _)
+        internal void Run(SimbriefOptions options)
         {
-            Console.WriteLine("Converting SimBrief export:");
-            var folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
+            Console.WriteLine("Converting Simbrief export files into Flight, Waypoints, Notams, Route and OFP.");
+            IEnumerable<string> folders;
+            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
+                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
+            else
+                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
+
 
             foreach (var folder in folders)
             {
-                new SimbriefImporter().Import(folder);
                 Console.WriteLine($"\t {folder}");
+                new SimbriefImporter().Import(folder);
             }
         }
     }

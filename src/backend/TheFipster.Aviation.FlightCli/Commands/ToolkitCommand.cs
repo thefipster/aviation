@@ -7,27 +7,25 @@ namespace TheFipster.Aviation.FlightCli.Commands
     internal class ToolkitCommand
     {
         private HardcodedConfig config;
-        private FlightFinder finder;
-        private FlightMeta meta;
 
         public ToolkitCommand(HardcodedConfig config)
         {
             this.config = config;
-            this.finder = new FlightFinder();
-            this.meta = new FlightMeta();
         }
 
         internal void Run(ToolkitOptions options)
         {
-            Console.WriteLine("Splitting all SimToolkitPro files into logbook and landing.");
-            var flights = finder.GetFlightFolders(config.FlightsFolder);
-            foreach (var flight in flights)
-            {
-                var departure = meta.GetDeparture(flight);
-                var arrival = meta.GetArrival(flight);
+            Console.WriteLine("Reading STKP database file and exporting track, logbook and landing.");
+            IEnumerable<string> folders;
+            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
+                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
+            else
+                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
-                new SimToolkitProImporter().Import(flight, config.SimToolkitProDatabaseFile, departure, arrival);
-                Console.WriteLine($"\t {flight}");
+            foreach (var folder in folders)
+            {
+                Console.WriteLine($"\t {folder}");
+                new SimToolkitProImporter().Import(folder, config.SimToolkitProDatabaseFile, options.DepartureAirport, options.ArrivalAirport);
             }
         }
     }

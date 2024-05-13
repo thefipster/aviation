@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Thefipster.Aviation.Modules.Screenshots.Components;
+﻿using Thefipster.Aviation.Modules.Screenshots.Components;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.FlightCli.Options;
 
@@ -20,7 +15,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         internal void Run(ChartOptions options)
         {
-            Console.WriteLine("Resizing the screenshots for previewing.");
+            Console.WriteLine("Converting chart pdfs into pngs.");
             IEnumerable<string> folders;
             if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
                 folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);

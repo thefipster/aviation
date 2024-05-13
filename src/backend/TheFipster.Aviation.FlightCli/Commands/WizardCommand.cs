@@ -1,14 +1,8 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Enums;
-using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.Airports.Components;
-using TheFipster.Aviation.Modules.BlackBox;
-using TheFipster.Aviation.Modules.Simbrief;
 using TheFipster.Aviation.Modules.Simbrief.Components;
-using TheFipster.Aviation.Modules.SimToolkitPro;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -35,16 +29,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             dispatchSimbrief(departure, arrival);
             var flightPath = createFlightFolder(departure, arrival);
-            var simbriefFlight = moveSimbriefFiles(flightPath, departure, arrival);
+            moveSimbriefFiles(flightPath, departure, arrival);
 
-            createAirportFiles(simbriefFlight, flightPath);
-            recordBlackBox(departure, arrival, flightPath);
+            createAirportFiles(departure, arrival);
+            recordBlackBox(departure, arrival);
+
             moveNavigraphCharts(flightPath);
             moveScreenshots(flightPath);
 
-            extractFromSimToolkitPro(departure, arrival, flightPath);
-            extractFromSimbrief(flightPath);
-
+            extractFromSimToolkitPro(departure, arrival);
+            extractFromSimbrief(departure, arrival);
             renameImports(departure, arrival);
             convertCharts(departure, arrival);
             generatePreviews(departure, arrival);
@@ -129,10 +123,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 Console.WriteLine($"\t {Path.GetFileName(file)}");
         }
 
-        private SimBriefFlight extractFromSimbrief(string flightPath)
+        private void extractFromSimbrief(string departure, string arrival)
         {
-            var flight = new SimbriefImporter().Import(flightPath);
-            return flight;
+            var simbrief = new SimbriefCommand(config);
+            var options = new SimbriefOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            simbrief.Run(options);
         }
 
         private void moveNavigraphCharts(string flightPath)
@@ -147,51 +147,31 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 Console.WriteLine($"\t {Path.GetFileName(file)}");
         }
 
-        private BlackBoxFlight recordBlackBox(string departure, string arrival, string flightPath)
+        private void recordBlackBox(string departure, string arrival)
         {
             var recorder = new RecorderCommand(config);
-            var blackbox = recorder.Record(departure, arrival);
-            new JsonWriter<BlackBoxFlight>().Write(flightPath, blackbox, FileTypes.BlackBoxJson, departure, arrival);
-            new BlackBoxCsvWriter().Write(flightPath, blackbox, FileTypes.BlackBoxCsv, departure, arrival);
-            Console.Clear();
-            return blackbox;
+            var options = new RecorderOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            recorder.Run(options);
         }
 
-        private SimToolkitProFlight extractFromSimToolkitPro(string departure, string arrival, string flightPath)
+        private void extractFromSimToolkitPro(string departure, string arrival)
         {
             Console.WriteLine($"Press ENTER when you have completed the SimToolkitPro Flight.");
             Console.ReadLine();
 
-            var flight = new SimToolkitProImporter()
-                .Import(
-                    flightPath, 
-                    config.SimToolkitProDatabaseFile, 
-                    departure, 
-                    arrival);
-
-            return flight;
-        }
-
-        private Airport getAirport(string type)
-        {
-            Console.WriteLine($"Enter your {type} Airport (ICAO):");
-            Airport? airport = null;
-            do
+            var toolkitSql = new ToolkitCommand(config);
+            var options = new ToolkitOptions()
             {
-                var icaoCode = Console.ReadLine();
-                if (!string.IsNullOrEmpty(icaoCode))
-                {
-                    var reader = new JsonReader<IEnumerable<Airport>>();
-                    airport = new AirportFinder(reader, config.AirportFile).SearchWithIcao(icaoCode.ToUpper());
-                }
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
 
-                if (airport != null)
-                    Console.WriteLine(airport.Name);
-                else
-                    Console.WriteLine("Try again mate...");
-            }
-            while (airport == null);
-            return airport;
+            toolkitSql.Run(options);
         }
 
         private IEnumerable<string> dispatchSimbrief(string departure, string arrival)
@@ -242,26 +222,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
             return simbriefData;
         }
 
-        private void createAirportFiles(SimBriefFlight simbriefData, string flightPath)
+        private void createAirportFiles(string departure, string arrival)
         {
-            Console.WriteLine($"Creating airport files:");
-            createAirportFile(simbriefData.Departure.Icao, flightPath, true);
-            createAirportFile(simbriefData.Arrival.Icao, flightPath, true);
-            createAirportFile(simbriefData.Alternate.Icao, flightPath, false);
-        }
-
-        private void createAirportFile(string icao, string flightPath, bool isRequired)
-        {
-            var reader = new JsonReader<IEnumerable<Airport>>();
-            var airport = new AirportFinder(reader, config.AirportFile).SearchWithIcao(icao);
-            if (isRequired && airport == null)
-                throw new AirportNotFoundException("Couldn't locate {icao} in airport data file.");
-
-            if (airport != null)
+            var airports = new AirportCommand(config);
+            var options = new AirportOptions()
             {
-                new JsonWriter<Airport>().Write(flightPath, airport, FileTypes.AirportJson, airport.Ident);
-                Console.WriteLine($"\t {icao} - {airport.Name}");
-            }
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            airports.Run(options);
         }
     }
 }
