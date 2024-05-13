@@ -63,7 +63,6 @@ void Run() {
 
     Parser.Default.ParseArguments(args, optionTypes)
         .WithParsed<AirportOptions>(options => { new AirportCommand(config).Run(options); })
-        .WithParsed<MergeOptions>(options => { new MergeCommand().Run(options); })
         .WithParsed<RecorderOptions>(options => { new RecorderCommand(config).Run(options); })
         .WithParsed<SimbriefOptions>(options => { new SimbriefCommand(config).Run(options); })
         .WithParsed<WizardOptions>(options => { new WizardCommand(config).Run(options); })
