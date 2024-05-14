@@ -61,6 +61,7 @@ namespace TheFipster.Aviation.CoreCli
                 FileTypes.BlackBoxJson => "BlackBox",
                 FileTypes.BlackBoxTrimmedJson => "BlackBoxTrimmed",
                 FileTypes.BlackBoxCompressedJson => "BlackBoxCompressed",
+                FileTypes.BlackBoxStatsJson => "BlackBoxStats",
                 FileTypes.LandingJson => "Landing",
                 FileTypes.LogbookJson => "Logbook",
                 FileTypes.MergedFlightJson => "Flight",
@@ -68,10 +69,12 @@ namespace TheFipster.Aviation.CoreCli
                 FileTypes.SimbriefJson => "Simbrief",
                 FileTypes.SimToolkitProJson => "SimToolkitPro",
                 FileTypes.TrackJson => "Track",
+                FileTypes.TrackCompressedJson => "TrackCompressed",
                 FileTypes.RouteJson => "Route",
                 FileTypes.WaypointsJson => "Waypoints",
                 FileTypes.StatsJson => "Stats",
                 FileTypes.GeoTagsJson => "GeoTags",
+                FileTypes.GpsJson => "Gps",
                 _ => throw new ApplicationException($"Unknown json file type {filetype}.")
             };
         }

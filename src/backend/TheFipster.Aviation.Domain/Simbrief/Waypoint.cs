@@ -4,12 +4,17 @@
     {
         public Waypoint() { }
 
-        public Waypoint(int index, string name, double lat, double lon)
+        public Waypoint(string name, double lat, double lon)
         {
-            Index = index;
             Name = name;
             Latitude = lat;
             Longitude = lon;
+        }
+
+        public Waypoint(int index, string name, double lat, double lon)
+            : this(name, lat, lon)
+        {
+            Index = index;
         }
 
         public int Index { get; set; }

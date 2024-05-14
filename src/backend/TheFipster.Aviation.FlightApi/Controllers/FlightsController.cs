@@ -168,7 +168,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
                 yield break;
             }
 
-            files = _scanner.GetFiles(flightFolder, FileTypes.TrackJson);
+            files = _scanner.GetFiles(flightFolder, FileTypes.TrackCompressedJson);
             if (files != null && files.Any())
             {
                 var track = new JsonReader<Track>().FromFile(files.First());

@@ -17,6 +17,15 @@ namespace TheFipster.Aviation.Domain.Simbrief
             Altitude = x.GpsAltitudeMeters;
         }
 
+        public Coordinate(List<double> point)
+        {
+            Latitude = point[1];
+            Longitude = point[0];
+
+            if (point.Count > 2)
+                Altitude = UnitConverter.FeetToMeters((int)point[2]);
+        }
+
         public Coordinate(double latitude, double longitude)
         {
             Latitude = latitude;

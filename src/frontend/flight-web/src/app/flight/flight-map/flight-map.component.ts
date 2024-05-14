@@ -42,6 +42,8 @@ export class FlightMapComponent implements AfterViewInit {
       for (const element of data) {
         const waypoint = new L.LatLng(element.latitude, element.longitude);
         waypoints.push(waypoint);
+
+        new L.Marker(waypoint).addTo(this.map);
       }
       new L.Polyline(waypoints, { color: "green"}).addTo(this.map);
     })

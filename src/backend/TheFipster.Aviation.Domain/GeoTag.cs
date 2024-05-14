@@ -6,6 +6,8 @@ namespace TheFipster.Aviation.Domain
 {
     public class GeoTag
     {
+        public GeoTag() { }
+
         public GeoTag(string filename, Record blackBoxRecord)
         {
             Screenshot = filename;

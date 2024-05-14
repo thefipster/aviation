@@ -20,6 +20,9 @@ using TheFipster.Aviation.FlightCli.Options;
 //args = new[] { "stats" };
 //args = new[] { "geotag" };
 //args = new[] { "compress", "-d", "PACD", "-a", "PASN" };
+//args = new[] { "optimize", "-d", "PACD", "-a", "PASN" };
+//args = new[] { "gps", "-d", "PACD", "-a", "PASN" };
+//args = new[] { "event", "-d", "PACD", "-a", "PASN" };
 
 try
 {
@@ -61,6 +64,9 @@ void Run() {
         .WithParsed<NextOptions>(options => { new NextCommand(config).Run(); })
         .WithParsed<GeoTagOptions>(options => { new GeoTagCommand(config).Run(options); })
         .WithParsed<CompressOptions>(options => { new CompressCommand(config).Run(options); })
+        .WithParsed<OptimizeOptions>(options => { new OptimizeCommand(config).Run(options); })
+        .WithParsed<GpsOptions>(options => { new GpsCommand(config).Run(options); })
+        .WithParsed<EventOptions>(options => { new EventCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 
