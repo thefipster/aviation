@@ -24,5 +24,15 @@
         public int TasPlanned { get; set; }
         public int Passengers { get; set; }
         public string? Remarks { get; set; }
+        public int MaxWindspeedDirection { get; set; }
+        public double MaxWindspeedMps { get; set; }
+        public int MaxDescentMps { get; set; }
+        public int MaxClimbMps { get; set; }
+        public int MaxGroundspeedMps { get; set; }
+        public int MaxAltitudeM { get; set; }
+        public bool HasLogbook { get; set; }
+        public bool HasSimbrief { get; set; }
+        public bool HasLanding { get; set; }
+        public bool HasBlackbox { get; set; }
     }
 }

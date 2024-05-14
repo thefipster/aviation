@@ -67,6 +67,10 @@ void Run() {
         .WithParsed<OptimizeOptions>(options => { new OptimizeCommand(config).Run(options); })
         .WithParsed<GpsOptions>(options => { new GpsCommand(config).Run(options); })
         .WithParsed<EventOptions>(options => { new EventCommand(config).Run(options); })
+        .WithParsed<DirOptions>(options => { new DirCommand(config).Run(options); })
+        .WithParsed<DispatchOptions>(options => { new DispatchCommand(config).Run(options); })
+        .WithParsed<NaviOptions>(options => { new NaviCommand(config).Run(options); })
+        .WithParsed<PhotoOptions>(options => { new PhotoCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

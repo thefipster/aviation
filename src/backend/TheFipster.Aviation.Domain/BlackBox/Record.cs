@@ -145,6 +145,9 @@ namespace TheFipster.Aviation.Domain.BlackBox
                 && coordinate.LongitudeDecimals == this.LongitudeDecimals;
         }
 
+        public override int GetHashCode()
+            => LatitudeDecimals.GetHashCode() ^ LongitudeDecimals.GetHashCode();
+
         public override string ToString()
             => $"{LatitudeDecimals:0.00000} | {LongitudeDecimals:0.00000}";
     }

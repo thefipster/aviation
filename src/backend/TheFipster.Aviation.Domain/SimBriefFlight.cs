@@ -27,9 +27,9 @@ namespace TheFipster.Aviation.Domain
         public int WindDirection { get; set; }
         public int WindSpeed { get; set; }
 
-        public Airport? Departure { get; set; }
-        public Airport? Arrival { get; set; }
-        public Airport? Alternate { get; set; }
+        public Airport Departure { get; set; }
+        public Airport Arrival { get; set; }
+        public Airport Alternate { get; set; }
 
         public ICollection<Waypoint> Waypoints { get; set; }
     }

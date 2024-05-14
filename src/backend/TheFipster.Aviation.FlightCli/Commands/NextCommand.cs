@@ -22,15 +22,15 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 new JsonReader<Stats>());
         }
 
-        internal void Run()
+        internal PlannedFlight Run()
         {
-            var nextFlight = GetNext();
+            var nextFlight = plan.GetNextFlight();
 
+            Console.WriteLine("You're next flight will be:");
             Console.WriteLine($"{nextFlight.Leg}: {nextFlight.Departure.Ident} - {nextFlight.Arrival.Ident}");
             Console.WriteLine($"{nextFlight.Departure.Name} to {nextFlight.Arrival.Name}.");
-        }
 
-        internal PlannedFlight GetNext()
-            => plan.GetNextFlight();
+            return nextFlight;
+        }
     }
 }

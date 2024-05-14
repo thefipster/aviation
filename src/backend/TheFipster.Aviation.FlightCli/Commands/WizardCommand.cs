@@ -1,8 +1,5 @@
-﻿using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Enums;
+﻿using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.Simbrief.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -27,15 +24,12 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (string.IsNullOrWhiteSpace(departure) || string.IsNullOrWhiteSpace(arrival))
                 throw new ApplicationException("Can't determine next flight.");
 
+            createFlightFolder(departure, arrival);
             dispatchSimbrief(departure, arrival);
-            var flightPath = createFlightFolder(departure, arrival);
-            moveSimbriefFiles(flightPath, departure, arrival);
-
             createAirportFiles(departure, arrival);
             recordBlackBox(departure, arrival);
-
-            moveNavigraphCharts(flightPath);
-            moveScreenshots(flightPath);
+            moveNavigraphCharts(departure, arrival);
+            moveScreenshots(departure, arrival);
             geocodeScreenshots(departure, arrival);
             extractFromSimToolkitPro(departure, arrival);
             extractFromSimbrief(departure, arrival);
@@ -49,10 +43,44 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private PlannedFlight getNextFlight()
         {
-            Console.WriteLine("You're next flight will be:");
             var next = new NextCommand(config);
-            next.Run();
-            return next.GetNext();
+            return next.Run();
+        }
+
+        private void moveScreenshots(string departure, string arrival)
+        {
+            var photo = new PhotoCommand(config);
+            var options = new PhotoOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            photo.Run(options);
+        }
+
+        private void moveNavigraphCharts(string departure, string arrival)
+        {
+            var navi = new NaviCommand(config);
+            var options = new NaviOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            navi.Run(options);
+        }
+
+        private void dispatchSimbrief(string departure, string arrival)
+        {
+            var dispatcher = new DispatchCommand(config);
+            var options = new DispatchOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            dispatcher.Run(options);
         }
 
         private void compressBlackbox(string departure, string arrival)
@@ -140,14 +168,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
             renamer.Run(options);
         }
 
-        private void moveScreenshots(string flightPath)
-        {
-            Console.WriteLine($"Moving screenshots from {config.ScreenshotFolder} --> {flightPath}");
-            var files = new FileOperations().MoveFiles(config.ScreenshotFolder, flightPath, "Microsoft Flight Simulator*.png");
-            foreach (var file in files)
-                Console.WriteLine($"\t {Path.GetFileName(file)}");
-        }
-
         private void extractFromSimbrief(string departure, string arrival)
         {
             var simbrief = new SimbriefCommand(config);
@@ -158,18 +178,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
             };
 
             simbrief.Run(options);
-        }
-
-        private void moveNavigraphCharts(string flightPath)
-        {
-            Console.WriteLine($"Print the used charts from Navigraph as pdf into the folder {config.NavigraphFolder}");
-            Console.WriteLine("When you're ready press ENTER.");
-            Console.ReadLine();
-            Console.WriteLine($"Moving charts: {config.NavigraphFolder} --> {flightPath}");
-            var files = new FileOperations().MoveFiles(config.NavigraphFolder, flightPath);
-
-            foreach(var file in files )
-                Console.WriteLine($"\t {Path.GetFileName(file)}");
         }
 
         private void recordBlackBox(string departure, string arrival)
@@ -199,52 +207,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
             toolkitSql.Run(options);
         }
 
-        private IEnumerable<string> dispatchSimbrief(string departure, string arrival)
+        private void createFlightFolder(string departure, string arrival)
         {
-            Console.WriteLine("Dispatch your flight with SimBrief. When the files are synced this continues...");
-            List<string> simbriefFiles = new List<string>();
-            do
+            var mkdir = new DirCommand(config);
+            var options = new DirOptions()
             {
-                Thread.Sleep(1000);
-                simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure, arrival).ToList();
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
 
-                if (simbriefFiles.Count > 0)
-                {
-                    Console.WriteLine("Simbrief export detected. Waiting until download finished.");
-                    Thread.Sleep(5000);
-                    simbriefFiles = new SimbriefFinder().FindExportFiles(config.SimbriefFolder, departure, arrival).ToList();
-                }
-            }
-            while (simbriefFiles.Count == 0);
-            return simbriefFiles;
-        }
-
-        private string createFlightFolder(string departure, string arrival)
-        {
-            var flightPath = new FileOperations()
-                .CreateFlightFolder(
-                config.FlightPlanFile, 
-                config.FlightsFolder, 
-                departure, 
-                arrival);
-
-            Console.WriteLine($"Creating flight folder at {flightPath}.");
-            return flightPath;
-        }
-
-        private SimBriefFlight moveSimbriefFiles(string flightPath, string departure, string arrival)
-        {
-            Console.WriteLine($"Copying simbrief files to {flightPath}:");
-            var searchPattern = $"{departure}{arrival}*";
-            new FileOperations().MoveFiles(config.SimbriefFolder, flightPath, searchPattern);
-
-            var files = new FlightFileScanner().GetFiles(flightPath, FileTypes.SimbriefXml);
-            if (!files.Any())
-                throw new FileNotFoundException("Couldn't find SimBrief XML file.");
-
-            Console.WriteLine($"Found data file: {files.First()}.");
-            var simbriefData = new SimbriefXmlLoader().Read(files.First());
-            return simbriefData;
+            mkdir.Run(options);
         }
 
         private void createAirportFiles(string departure, string arrival)

@@ -16,6 +16,6 @@ namespace TheFipster.Aviation.Modules.Airports.Components
         public AirportFinder(IJsonReader<IEnumerable<Airport>> reader, IConfiguration config)
             : this(reader, config[ConfigKeys.AirportsFilepath]) { }
 
-        public Airport? SearchWithIcao(string icao) => airports.FirstOrDefault(x => x.Ident == icao);
+        public Airport SearchWithIcao(string icao) => airports.First(x => x.Ident == icao);
     }
 }
