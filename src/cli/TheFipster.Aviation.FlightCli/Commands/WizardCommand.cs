@@ -24,10 +24,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (string.IsNullOrWhiteSpace(departure) || string.IsNullOrWhiteSpace(arrival))
                 throw new ApplicationException("Can't determine next flight.");
 
-            runRequiredFlightCommand<DirCommand, DirOptions>(departure, arrival);
+            runRequiredFlightCommand<FlightDirCreateCommand, FlightDirCreateOptions>(departure, arrival);
             //createFlightFolder(departure, arrival);
 
-            runRequiredFlightCommand<DispatchCommand, DispatchOptions>(departure, arrival);
+            runRequiredFlightCommand<SimbriefDispatchMoveCommand, SimbriefDispatchMoveOptions>(departure, arrival);
             //dispatchSimbrief(departure, arrival);
 
             runGenericFlightCommand<AirportFileGeneratorCommand, AirportFileGeneratorOptions>(departure, arrival);

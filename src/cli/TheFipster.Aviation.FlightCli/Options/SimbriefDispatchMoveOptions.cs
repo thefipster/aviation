@@ -3,5 +3,5 @@
 namespace TheFipster.Aviation.FlightCli.Options
 {
     [Verb("dispatch", HelpText = "Import a dispatched Simbrief flight.")]
-    public class DispatchOptions : DepArrRequiredOptions { }
+    public class SimbriefDispatchMoveOptions : DepArrRequiredOptions { }
 }

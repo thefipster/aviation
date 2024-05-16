@@ -9,18 +9,18 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Moves the simbrief dispatch files downloaded by the Simbrief Downloader into the flight folder.
     /// </summary>
-    public class DispatchCommand : ICommandRequired<DispatchOptions>
+    public class SimbriefDispatchMoveCommand : ICommandRequired<SimbriefDispatchMoveOptions>
     {
         private HardcodedConfig config;
 
-        public DispatchCommand() { }
+        public SimbriefDispatchMoveCommand() { }
 
-        public DispatchCommand(HardcodedConfig config)
+        public SimbriefDispatchMoveCommand(HardcodedConfig config)
         {
             this.config = config;
         }
 
-        public void Run(DispatchOptions options, HardcodedConfig anotherConfig = null)
+        public void Run(SimbriefDispatchMoveOptions options, HardcodedConfig anotherConfig = null)
         {
             Console.WriteLine("Dispatch your flight with SimBrief. When the files are synced this continues.");
 
