@@ -26,3 +26,18 @@ Jekyll static page generator using the cli output to generate the flog (flight l
 
 ### Airports
 ![Airports](https://raw.githubusercontent.com/thefipster/aviation/master/docs/airports.png)
+
+## Contributions
+
+Thanks to
+
+* Jekyll
+* Forty Theme
+* OurAirports
+* Simbrief
+* SimToolkitPro
+* Navigraph
+* Asobo
+* Microsoft
+* FSUIPC
+* and probably more stuff I'm using
