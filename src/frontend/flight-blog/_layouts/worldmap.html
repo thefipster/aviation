@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 {% include head.html %}
 {% assign flight = site.data.flights[page.flightNo].stats %}
@@ -22,16 +17,20 @@
 
 	<script defer>
 		var map = L.map('map').setView([20, 0], 3);
+
+		// Tiles
 		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 			attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 		}).addTo(map);
 
+		// Track
 		$.getJSON("/assets/api/track-flown.json", function (data) {
 			$.each(data, function (key, val) {
 				var polyline = L.polyline(val.gps, { color: 'Aquamarine' }).addTo(map).bindPopup('<a href="' + val.uri + '">' + val.flt + '</a>');
 			});
 		});
 
+		// Airports
 		$.getJSON("/assets/api/airports-planned.json", function (data) {
 			$.each(data, function (key, val) {
 				L.circleMarker(val.latlon, {

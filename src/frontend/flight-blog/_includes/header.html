@@ -2,10 +2,12 @@
 <div id="wrapper">
 
 	<!-- Header -->
-	<header id="header" {% if page.layout=="landing" %} class="alt style2" {% endif %}{% if page.layout=="home" %}
+	<header id="header" {% if page.layout=="landing" or page.layout=="aircraft" %} class="alt style2" {% endif %} {% if page.layout=="index" %}
 		class="alt" {% endif %}>
-		<a href="{{ "" | absolute_url }}/" class="logo"><strong>{{ site.title }}</strong> <span>{{ site.subtitle
-				}}</span></a>
+		<a href="/" class="logo">
+			<strong>{{ site.title }}</strong>
+			<span>{{ site.subtitle }}</span>
+		</a>
 		<nav>
 			<a href="#menu">Menu</a>
 		</nav>
@@ -14,22 +16,11 @@
 	<!-- Menu -->
 	<nav id="menu">
 		<ul class="links">
-			{% for page in site.pages %}
-				<li><a href="{{ page.url | absolute_url }}">{{ page.navtitle }}</a></li>
+			{% assign pages = site.html_pages | where: "navmenu","true" | sort: "navorder" %}
+			{% for page in pages %}
+			<li>
+				<a href="{{ page.url }}">{{ page.navtitle }}</a>
+			</li>
 			{% endfor %}
-			<!-- {% for page in site.pages %}
-		    {% if page.layout == "index" %}
-		        <li><a href="{{ "" | absolute_url }}/">{{ page.navtitle }}</a></li>
-	    	{% endif %}
-		{% endfor %} -->
-			<!-- {% for page in site.html_pages %}
-		    {% if page.layout != "index" and page.navmenu == true %}
-		        <li><a href="{{ page.url | absolute_url }}">{{ page.navtitle }}</a></li>
-		    {% endif %}
-		{% endfor %} -->
 		</ul>
-		<!-- <ul class="actions vertical">
-		<li><a href="#" class="button special fit">Get Started</a></li>
-		<li><a href="#" class="button fit">Log In</a></li>
-	</ul> -->
 	</nav>

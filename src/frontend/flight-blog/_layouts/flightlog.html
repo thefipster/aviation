@@ -12,45 +12,46 @@
 
     <!-- Main -->
     <div id="main" class="alt">
+
       <!-- One -->
       <section id="one">
           <table class="flightlog">
             <thead>
               <tr>
-                <th>Flight</th>
-                <th>Date</th>
+                <th>#</th>
+                <th class="shrink">Date</th>
                 <th>Icao</th>
-                <th>Distance</th>
+                <th class="shrink">Distance</th>
                 <th>Airport</th>
                 <th>Region</th>
                 <th>Country</th>
-                <th>Continent</th>
+                <th class="shrink">Continent</th>
               </tr>
             </thead>
             <tbody>
               {% for post in site.posts %}
               <tr>
-                <td><a href="{{ post.url }}">{{ post.flightNumber }}</a></td>
-                <td><a href="{{ post.url }}">{{ post.dispatchDate | date: "%Y-%m-%d" }}</a></td>
+                <td><a href="{{ post.url }}">{{ post.legNo }}</a></td>
+                <td class="shrink"><a href="{{ post.url }}">{{ post.dispatchDate | date: "%Y-%m-%d" }}</a></td>
                 <td><a href="{{ post.url }}">{{ post.arrivalIcao }}</a></td>
-                <td><a href="{{ post.url }}">{{ post.distance | round: 0 }} km</a></td>
+                <td class="shrink"><a href="{{ post.url }}">{{ post.distance | round: 0 }} km</a></td>
                 <td><a href="{{ post.url }}">{{ post.arrivalName }} </a></td>
                 <td><a href="{{ post.url }}">{{ post.arrivalRegion }}</a></td>
                 <td><a href="{{ post.url }}"><span class="fi fi-{{ post.arrivalCountryCode | downcase }}"></span></a></td>
-                <td><a href="{{ post.url }}">{{ post.arrivalContinentCode }}</a></td>
+                <td class="shrink"><a href="{{ post.url }}">{{ post.arrivalContinentCode }}</a></td>
               </tr>
               {% endfor %}
             </tbody>
             <tfoot>
               <tr>
                 <td></td>
-                <td></td>
+                <td class="shrink"></td>
                 <td>EDDL</a></td>
-                <td></td>
+                <td class="shrink"></td>
                 <td>Düsseldorf</td>
                 <td><a href="{{ post.url }}">North Rhine-Westphalia</a></td>
                 <td><a href="{{ post.url }}"><span class="fi fi-de"></span></a></td>
-                <td><a href="{{ post.url }}">EU</a></td>
+                <td class="shrink"><a href="{{ post.url }}">EU</a></td>
               </tr>
             </tfoot>
           </table>

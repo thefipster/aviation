@@ -28,7 +28,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
 
         public Location(GeoTag item)
         {
-            Name = item.Screenshot;
+            Name = item.Screenshot.Replace(" ", string.Empty);
             LatLon = [
                 item.Latitude.RoundToSignificantDigits(4),
                 item.Longitude.RoundToSignificantDigits(4)

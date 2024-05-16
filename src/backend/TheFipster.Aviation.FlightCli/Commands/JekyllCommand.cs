@@ -28,7 +28,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             jekyllExporter.ExportCombined(config.FlightsFolder);
 
             Console.WriteLine("Generating per flight output.");
-            foreach (var folder in folders)
+            Parallel.ForEach(folders, folder =>
             {
                 Console.Write($"\t {folder}");
 
@@ -40,9 +40,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 catch (FileNotFoundException)
                 {
                     Console.WriteLine($" - skipping, files missing");
-                    continue;
                 }
-            }
+            });
         }
     }
 }

@@ -33,7 +33,8 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                     .Replace(" 6.jpg", " 06.jpg")
                     .Replace(" 7.jpg", " 07.jpg")
                     .Replace(" 8.jpg", " 08.jpg")
-                    .Replace(" 9.jpg", " 09.jpg");
+                    .Replace(" 9.jpg", " 09.jpg")
+                    .Replace(" ", string.Empty);
                 var newPath = Path.Combine(screenshotFolder, filename);
 
                 if (File.Exists(newPath) && !overwrite)
@@ -62,7 +63,8 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                     .Replace(" 6.jpg", " 06.jpg")
                     .Replace(" 7.jpg", " 07.jpg")
                     .Replace(" 8.jpg", " 08.jpg")
-                    .Replace(" 9.jpg", " 09.jpg");
+                    .Replace(" 9.jpg", " 09.jpg")
+                    .Replace(" ", string.Empty);
                 var newPath = Path.Combine(thumbnailFolder, filename);
 
                 if (File.Exists(newPath) && !overwrite)

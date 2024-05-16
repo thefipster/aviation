@@ -11,6 +11,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
         public string Image => "assets/images/aircraft.jpg";
         public bool Navmenu => true;
         public string Navtitle => "Aircraft";
+        public int Navorder => 4;
         public string Icao { get; internal set; }
         public string Airport { get; internal set; }
         public string Country { get; internal set; }

@@ -1,5 +1,5 @@
 # site settings
-title: FLOG
+title: FFLOG
 subtitle: fipster's flight log
 description: Bloglike Microsoft Flight Simulator Tracking System
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -23,4 +23,4 @@ exclude:
 - README.md 
 #- assets/images/screenshots
 
-destination: ~/flight-blog
+#destination: ~/flight-blog

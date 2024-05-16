@@ -21,7 +21,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
             // EKVG - BIEG - Screenshot - 1.png
             // /assets/images/screenshots/38/PAHO%20-%20PAKN%20-%20Screenshot%20-%201.png
 
-            return $"/assets/images/screenshots/{flightNumber}/{screenshot.Replace(" ", "%20")}.png";
+            return $"/assets/images/screenshots/{flightNumber}/{screenshot.Replace(" ", string.Empty)}.jpg";
         }
     }
 }
