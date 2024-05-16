@@ -1,0 +1,26 @@
+# site settings
+title: FFLOG
+subtitle: fipster's flight log
+description: Bloglike Microsoft Flight Simulator Tracking System
+baseurl: "" # the subpath of your site, e.g. /blog
+url: # the base hostname & protocol for your site
+github: https://github.com/thefipster
+
+# homepage tiles
+tiles-source: pages #pages # accepts "posts" or "pages"
+tiles-count: 6
+
+# build settings
+markdown: kramdown
+
+sass:
+  style: compressed
+
+exclude:
+- "*.gemspec"
+- LICENSE.md
+- CONTRIBUTING.md
+- README.md 
+#- assets/images/screenshots
+
+#destination: ~/flight-blog

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>flightcli</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.Airports\TheFipster.Aviation.Modules.Airports.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.BlackBox\TheFipster.Aviation.Modules.BlackBox.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.FlightPlan\TheFipster.Aviation.Modules.FlightPlan.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.Jekyll\TheFipster.Aviation.Modules.Jekyll.csproj" />
+    <ProjectReference Include="..\Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.Simbrief\TheFipster.Aviation.Modules.Simbrief.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj" />
+  </ItemGroup>
+
+</Project>

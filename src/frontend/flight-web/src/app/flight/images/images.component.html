@@ -1,0 +1,12 @@
+<a
+  *ngFor="let image of images"
+  href="https://localhost:7142/api/image/{{ departure }}/{{ arrival }}/{{
+    image
+  }}"
+>
+  <img
+    src="https://localhost:7142/api/image/thumbnail/{{ departure }}/{{
+      arrival
+    }}/{{ image }}"
+  />
+</a>

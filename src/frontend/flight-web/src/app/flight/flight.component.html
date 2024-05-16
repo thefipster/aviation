@@ -1,0 +1,27 @@
+<div class="wrapper">
+  <div class="header">
+    <h2>{{ departure }} - {{ arrival }}</h2>
+    <a routerLink="/overview">back</a>
+    |
+    <a routerLink="/">dashboard</a>
+</div>
+  <div class="map">
+    <app-flight-map
+      [departure]="departure"
+      [arrival]="arrival"
+      class="map-canvas"
+    >
+    </app-flight-map>
+  </div>
+  <div class="main">
+    <div class="charts">
+      <h3>Charts</h3>
+      <app-charts [departure]="departure" [arrival]="arrival"></app-charts>
+    </div>
+    <div class="screenshots">
+      <h3>Screenshots</h3>
+      <app-images [departure]="departure" [arrival]="arrival"></app-images>
+    </div>
+  </div>
+  <div class="footer">footer</div>
+</div>

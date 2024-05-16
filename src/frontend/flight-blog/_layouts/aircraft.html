@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body>
+	{% include header.html %}
+
+	<div id="main" class="alt">
+		<!-- Registration -->
+		<section id="two" class="spotlights">
+			<section>
+				<span class="image">
+					<img src="{% link assets/images/aircraft.jpg %}" alt="" data-position="top center" />
+				</span>
+				<div class="content">
+					<div class="inner">
+						<header class="major">
+							<h2>{{ page.registration }}</h2>
+						</header>
+						<ul class="alt">
+							<li>{{ page.description }}</li>
+							<li>{{ page.flights }} flights</li>
+							<li>{{ page.distanceFlownKm | floor }} km travelled</li>
+							<li>{{ page.secondsFlown | divided_by: 3600 | floor }} hours flown</li>
+						</ul>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<!-- Parking position -->
+			<section>
+				<div class="map-box">
+					<div id="map">
+
+					</div>
+				</div>
+				<div class="content">
+					<div class="inner">
+						<header class="major">
+							<h3>Parking Position</h3>
+						</header>
+						<ul class="alt">
+							<li>{{ page.airport }} ({{ page.icao }})</li>
+							<li>{{ page.region }}</li>
+							<li>{{ page.country }}</li>
+							<li>{{ page.continent }}</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<!-- Landing overview -->
+			<section>
+				<span class="image">
+					<img src="{% link assets/images/landing3.jpg %}" alt="" data-position="top center" />
+				</span>
+				<div class="content">
+					<div class="inner">
+						<header class="major">
+							<h3>Landing overview</h3>
+						</header>
+						<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus
+							condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna
+							pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et
+							sagittis tempus.</p>
+					</div>
+				</div>
+			</section>
+			<!-- Flight record -->
+			<section>
+				<span class="image">
+					<img src="{% link assets/images/dfips-flight.jpg %}" alt="" data-position="top center" />
+				</span>
+				<div class="content">
+					<div class="inner">
+						<header class="major">
+							<h3>Flight record</h3>
+						</header>
+						<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus
+							condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna
+							pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et
+							sagittis tempus.</p>
+					</div>
+				</div>
+			</section>
+	</div>
+
+	{% include footer.html %}
+	{% assign position = "[" | append: page.latitude | append: "," | append: page.longitude | append: "]" %}
+
+	<script defer>
+		var pos = {{ position }};
+
+		var map = L.map('map').setView(pos, 15);
+
+		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+		}).addTo(map);
+
+		L.circleMarker(pos, {
+			radius: 10,
+			color: "SlateBlue",
+		}).addTo(map);
+
+	</script>
+</body>
+
+</html>

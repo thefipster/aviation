@@ -1,0 +1,18 @@
+<h2>Landing</h2>
+<h5>Softest</h5>
+<ul>
+    <li>{{ softest.departureAt * 1000 | date }}</li>
+    <li>{{ softest.departure }} - {{ softest.arrival }}</li>
+    <li>{{ softest.landing.verticalSpeed }} feet/min</li>
+</ul>
+<h5>Firmest</h5>
+<ul>
+    <li>{{ hardest.departureAt * 1000 | date }}</li>
+    <li>{{ hardest.departure }} - {{ hardest.arrival }}</li>
+    <li>{{ hardest.landing.verticalSpeed }} feet/min</li>
+</ul>
+<h5>Average</h5>
+<ul>
+    <li>{{ landings }} landings</li>
+    <li>{{ average | number: '1.0-0' }} feet/min</li>
+</ul>
