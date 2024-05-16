@@ -16,13 +16,23 @@ using TheFipster.Aviation.FlightCli.Options;
 //args = new[] { "airports" };
 //args = new[] { "simbrief" };
 //args = new[] { "toolkit" };
+args = new[] { "jekyll" };
+//args = new[] { "jekyll", "-d", "PADK", "-a", "PASY" };
 //args = new[] { "trim" };
+//args = new[] { "gps" };
+//args = new[] { "rename", "-d", "PASY", "-a", "UHPP" };
+//args = new[] { "preview", "-h", "300", "-d", "PASY", "-a", "UHPP" };
 //args = new[] { "stats" };
-//args = new[] { "geotag" };
+//args = new[] { "crop" };
+//args = new[] { "preview", "-w", "400", "-h", "300" };
+//args = new[] { "geotag", "-d", "PADK", "-a", "PASY" };
+//args = new[] { "event", "-d", "PASY", "-a", "UHPP" };
+//args = new[] { "gps", "-d", "PADK", "-a", "PASY" };
 //args = new[] { "compress", "-d", "PACD", "-a", "PASN" };
 //args = new[] { "optimize", "-d", "PACD", "-a", "PASN" };
 //args = new[] { "gps", "-d", "PACD", "-a", "PASN" };
 //args = new[] { "event", "-d", "PACD", "-a", "PASN" };
+//args = new[] { "crop", "-d", "PAPG", "-a", "PAYA" };
 
 try
 {
@@ -71,6 +81,8 @@ void Run() {
         .WithParsed<DispatchOptions>(options => { new DispatchCommand(config).Run(options); })
         .WithParsed<NaviOptions>(options => { new NaviCommand(config).Run(options); })
         .WithParsed<PhotoOptions>(options => { new PhotoCommand(config).Run(options); })
+        .WithParsed<JekyllOptions>(options => { new JekyllCommand(config).Run(options); })
+        .WithParsed<CropOptions>(options => { new CropCommand(config).Run(options); })
         .WithNotParsed(_ => Console.Write(string.Empty));
 }
 

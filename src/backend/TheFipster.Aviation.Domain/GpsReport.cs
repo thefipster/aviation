@@ -29,11 +29,11 @@ namespace TheFipster.Aviation.Domain
             BlackBoxEvents = blackBoxEvents ?? new List<Waypoint>();
         }
 
-        public string? Departure { get; }
-        public string? Arrival { get; }
-        public List<Coordinate> Coordinates { get; }
-        public List<Waypoint> Waypoints { get; }
-        public List<GeoTag>? GeoTags { get; }
-        public List<Waypoint>? BlackBoxEvents { get; }
+        public string? Departure { get; set; }
+        public string? Arrival { get; set; }
+        public ICollection<Coordinate> Coordinates { get; set; }
+        public ICollection<Waypoint> Waypoints { get; set; }
+        public ICollection<GeoTag>? GeoTags { get; set; }
+        public ICollection<Waypoint>? BlackBoxEvents { get; set; }
     }
 }

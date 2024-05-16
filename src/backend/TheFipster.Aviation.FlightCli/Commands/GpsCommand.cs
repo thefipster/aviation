@@ -4,6 +4,7 @@ using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Options;
+using TheFipster.Aviation.Modules.Airports.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -78,11 +79,11 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 }
 
                 var gpsReport = new GpsReport(departure, arrival, coordinates, waypoints, geoTags, blackBoxEvents);
-                new JsonWriter<GpsReport>().Write(folder, gpsReport, FileTypes.GpsJson, gpsReport.Departure, gpsReport.Arrival);
+                new JsonWriter<GpsReport>().Write(folder, gpsReport, FileTypes.GpsJson, gpsReport.Departure, gpsReport.Arrival, true);
                 Console.WriteLine($" - {coordinates.Count} coordinates & {waypoints.Count} waypoints.");
             }
         }
-        
+
         private List<Waypoint> getBlackboxEvents(string folder)
         {
             var blackboxStatsFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxStatsJson);
@@ -99,9 +100,27 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private List<Waypoint> getWaypoints(string folder)
         {
+            var simbriefFile = new FlightFileScanner().GetFile(folder, FileTypes.SimbriefJson);
+            var simbrief = new JsonReader<SimBriefFlight>().FromFile(simbriefFile);
+
+            var reader = new JsonReader<IEnumerable<Domain.Datahub.Airport>>();
+            var airports = new AirportFinder(reader, config.AirportFile);
+            var departure = airports.SearchWithIcao(simbrief.Departure.Icao);
+            var alternate = airports.SearchWithIcao(simbrief.Alternate.Icao);
+
+            var departureWaypoint = new Waypoint(0, "DEP", departure);
+            var result = new List<Waypoint>();
+            result.Add(departureWaypoint);
+
             var waypointFile = new FlightFileScanner().GetFile(folder, FileTypes.WaypointsJson);
             var waypoints = new JsonReader<SimbriefWaypoints>().FromFile(waypointFile);
-            return waypoints.Waypoints.ToList();
+
+            result.AddRange(waypoints.Waypoints);
+
+            var alternateWaypoint = new Waypoint(result.Count, "ALT", alternate);
+            result.Add(alternateWaypoint);
+
+            return result;
         }
 
         private List<Coordinate> getCoordinates(string folder)

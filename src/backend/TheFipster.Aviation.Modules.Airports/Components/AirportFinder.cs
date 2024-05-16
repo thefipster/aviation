@@ -2,6 +2,7 @@
 using TheFipster.Aviation.CoreCli.Abstractions;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Datahub;
+using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Modules.Airports.Abstractions;
 
 namespace TheFipster.Aviation.Modules.Airports.Components

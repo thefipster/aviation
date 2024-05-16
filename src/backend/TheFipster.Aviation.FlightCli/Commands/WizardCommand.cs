@@ -38,6 +38,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
             generatePreviews(departure, arrival);
             trimBlackbox(departure, arrival);
             compressBlackbox(departure, arrival);
+            extractEvents(departure, arrival);
+            combineGps(departure, arrival);
             generateStats(departure, arrival);
         }
 
@@ -45,6 +47,30 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             var next = new NextCommand(config);
             return next.Run();
+        }
+
+        private void combineGps(string departure, string arrival)
+        {
+            var gpsCombiner = new GpsCommand(config);
+            var options = new GpsOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            gpsCombiner.Run(options);
+        }
+
+        private void extractEvents(string departure, string arrival)
+        {
+            var eventExtractor = new EventCommand(config);
+            var options = new EventOptions()
+            {
+                ArrivalAirport = arrival,
+                DepartureAirport = departure
+            };
+
+            eventExtractor.Run(options);
         }
 
         private void moveScreenshots(string departure, string arrival)

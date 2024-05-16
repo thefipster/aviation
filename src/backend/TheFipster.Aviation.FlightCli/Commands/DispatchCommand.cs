@@ -1,4 +1,5 @@
-﻿using TheFipster.Aviation.CoreCli;
+﻿using System.Diagnostics;
+using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Simbrief.Components;
 
@@ -16,6 +17,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         internal void Run(DispatchOptions options)
         {
             Console.WriteLine("Dispatch your flight with SimBrief. When the files are synced this continues.");
+            Process.Start("chrome.exe", "https://dispatch.simbrief.com/options/new");
 
             var simbriefFiles = new List<string>();
             while (simbriefFiles.Count == 0)

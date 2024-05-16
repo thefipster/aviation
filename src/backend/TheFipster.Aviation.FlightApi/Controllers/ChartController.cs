@@ -45,7 +45,7 @@ namespace TheFipster.Aviation.FlightApi.Controllers
         {
             var flightsFolder = _config["FlightsFolder"];
             var flightFolder = _finder.GetFlightFolder(flightsFolder, departure, arrival);
-            var files = _scanner.GetFiles(flightFolder, FileTypes.Thumbnail);
+            var files = _scanner.GetFiles(flightFolder, FileTypes.Preview);
             var filename = WebUtility.UrlDecode(screenshot) + ".jpg";
             var file = files.FirstOrDefault(x => Path.GetFileName(x) == filename);
             var bin = System.IO.File.ReadAllBytes(file);

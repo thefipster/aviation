@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+	Forty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+{% include head.html %}
+
+<body>
+	{% include header.html %}
+
+	<!-- Main -->
+	<div id="main" class="alt">
+		<!-- One -->
+		<section id="one">
+			<div class="inner">
+				<header class="major">
+					<h1>{{ page.title }}</h1>
+				</header>
+				<div class="map-container">
+					<div id="map">
+
+					</div>
+				</div>
+				<div class="flightgallery">
+					<div class="box alt">
+						<div class="row 50% uniform">
+							{% capture image_folder %}/assets/images/screenshots/{{ page.legNo }}{% endcapture %}
+							{% for file in site.static_files %}
+							{% if file.path contains image_folder %}
+							{% if file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.JPG' or file.extname == '.JPEG' %}
+							{% assign filenameparts = file.path | split: "/" %}
+							{% assign filename = filenameparts | last | replace: file.extname,"" %}
+							{% assign filebits = filename | split: " - " %}
+							{% assign departure = filebits[0] %}
+							{% assign arrival = filebits[1] %}
+							{% assign type = filebits[2] %}
+							{% assign number = filebits[3] %}
+							{% assign preview = image_folder | append: "/tn/" | append: departure | append: " - " | append: arrival | append: " - Preview - " | append: number | append: ".jpg" %}
+							{% assign image = image_folder | append: "/" | append: departure | append: " - " | append: arrival | append: " - Screenshot - " | append: number | append: ".jpg" %}
+
+							<div class="3u 4u$(medium) 6u$(small)">
+								<a data-src="{{ image }}" data-fancybox="gallery" data-caption="{{ filename }}">
+									<img src="{{ preview }}" />
+								</a>
+							</div>
+							{% endif %}
+							{% endif%}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	{% include footer.html %}
+
+	<script defer>
+		var map = L.map('map').setView([20, 0], 3);
+		var flight = "{{page.departureIcao}}{{page.arrivalIcao}}";
+
+		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+		}).addTo(map);
+
+		$.getJSON("/assets/api/flights/" + flight + "-gps.json", function (data) {
+			$.each(data.e, function (key, val) {
+				L.circleMarker(val.latlon, {
+					radius: 5,
+					color: "Orange",
+				}).addTo(map).bindPopup(val.name);
+			});
+
+			$.each(data.img, function (key, val) {
+				L.marker(val.latlon).addTo(map).bindPopup('<a data-src="' + val.uri + '" data-fancybox="gallery" data-caption="' + val.name + '">' + val.name + '</a>');
+
+				// L.circleMarker(val.latlon, {
+				// 	radius: 5,
+				// 	color: "Violet",
+				// }).addTo(map).bindPopup('<a href="' + val.uri + '">' + val.name + '</a>');
+			});
+
+			$.each(data.wp, function (key, val) {
+				L.circleMarker(val.latlon, {
+					radius: 5,
+					color: "MediumSeaGreen",
+				}).addTo(map).bindPopup(val.name);
+			});
+
+			var polyline = L.polyline(data.trk, { color: 'DodgerBlue' }).addTo(map);
+			map.fitBounds(polyline.getBounds());
+		});
+	</script>
+
+</body>
+
+</html>

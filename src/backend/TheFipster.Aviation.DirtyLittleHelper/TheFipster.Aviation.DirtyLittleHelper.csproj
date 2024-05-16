@@ -7,4 +7,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.7.0" />
+		<PackageReference Include="Magick.NET.Core" Version="13.7.0" />
+	</ItemGroup>
+
 </Project>

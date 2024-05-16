@@ -89,7 +89,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                             break;
                         case FileTypes.Screenshot:
-                        case FileTypes.Thumbnail:
+                        case FileTypes.Preview:
                             Console.ForegroundColor = ConsoleColor.Cyan;
                             break;
                         case FileTypes.AirportJson:

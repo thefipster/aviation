@@ -38,7 +38,12 @@ namespace TheFipster.Aviation.CoreCli
             if (File.Exists(filepath) && !overwrite)
                 return;
 
-            var json = JsonSerializer.Serialize(data);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var json = JsonSerializer.Serialize(data, options);
             File.WriteAllText(filepath, json);
         }
 

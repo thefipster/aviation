@@ -32,5 +32,13 @@ namespace TheFipster.Aviation.CoreCli
 
             File.WriteAllText(path, text);
         }
+
+        public void Write(string filepath, string text, bool overwrite = false)
+        {
+            if (File.Exists(filepath) && !overwrite)
+                return;
+
+            File.WriteAllText(filepath, text);
+        }
     }
 }

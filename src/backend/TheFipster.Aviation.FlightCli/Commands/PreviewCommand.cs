@@ -31,18 +31,18 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 Console.WriteLine($"\t {folder}");
 
                 var screenshots = new FlightFileScanner().GetFiles(folder, FileTypes.Screenshot);
-                foreach (var screenshot in screenshots)
+                Parallel.ForEach(screenshots, screenshot =>
                 {
                     Console.WriteLine($"\t\t {Path.GetFileName(screenshot)}");
-                    resizer.Resize(screenshot, options.Height);
-                }
+                    resizer.Resize(screenshot, options.Width, options.Height, true);
+                });
 
-                var charts = new FlightFileScanner().GetFiles(folder, FileTypes.ChartImage);
-                foreach (var chart in charts)
+                var charts = new FlightFileScanner().GetFiles(folder, FileTypes.ChartPrint);
+                Parallel.ForEach(charts, chart =>
                 {
                     Console.WriteLine($"\t\t {Path.GetFileName(chart)}");
-                    resizer.Resize(chart, options.Height);
-                }
+                    resizer.Resize(chart, options.Width, options.Height, true);
+                });
             }
         }
     }

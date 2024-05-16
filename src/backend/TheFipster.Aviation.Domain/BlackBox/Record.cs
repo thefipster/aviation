@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using TheFipster.Aviation.Domain.Simbrief;
 
 namespace TheFipster.Aviation.Domain.BlackBox
 {

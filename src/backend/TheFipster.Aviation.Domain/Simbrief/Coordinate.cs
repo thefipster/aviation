@@ -42,12 +42,12 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public double Longitude { get; set; }
         public int? Altitude { get; set; }
 
-        public static Coordinate FromToolkitCoordinateString(string stkpCoordinate)
+        public static Coordinate FromAirportCoordinateString(string stkpCoordinate)
         {
             var split = stkpCoordinate.Split(',');
             int? altitude = null;
             var latitude = double.Parse(split[1].Trim(), CultureInfo.InvariantCulture);
-            var longitude = double.Parse(split[1].Trim(), CultureInfo.InvariantCulture);
+            var longitude = double.Parse(split[0].Trim(), CultureInfo.InvariantCulture);
             if (split.Length > 2)
                 altitude = int.Parse(split[2]);
 

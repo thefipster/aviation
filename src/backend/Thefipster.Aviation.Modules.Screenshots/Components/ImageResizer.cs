@@ -1,38 +1,29 @@
-﻿using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+﻿using ImageMagick;
 
 namespace Thefipster.Aviation.Modules.Screenshots.Components
 {
     public class ImageResizer
     {
-        public void Resize(string filepath, int height, bool overwrite = false)
+        public void Resize(string filepath, int width, int height, bool overwrite = false)
         {
-            if (!File.Exists(filepath))
-                throw new FileNotFoundException($"{filepath} doesn't exist.");
+            var imageOut = filepath.Replace(".png", ".jpg");
+            var imagePre = imageOut.Replace("Screenshot", "Preview").Replace("Chart", "ChartPreview");
 
-            var newFile = filepath.Replace(".png", ".jpg");
-            if (File.Exists(newFile) && !overwrite)
-                return;
+            using (MagickImage image = new MagickImage(filepath))
+            {
+                if (!(File.Exists(imageOut) && !overwrite))
+                    image.Write(imageOut, MagickFormat.Jpg);
 
-            Image image = Image.FromFile(filepath);
-            int sourceWidth = image.Width;
-            int sourceHeight = image.Height;
+                if (image.Height > image.Width)
+                    image.Resize(width, 0);
+                else
+                    image.Resize(0, height);
 
-            var scale = (float)height / sourceHeight;
-            int destWidth = (int)(sourceWidth * scale);
-            int destHeight = (int)(sourceHeight * scale);
+                image.Crop(width, height, Gravity.Center);
 
-            Bitmap b = new Bitmap(destWidth, destHeight);
-            Graphics g = Graphics.FromImage(b);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(image, 0, 0, destWidth, destHeight);
-
-            if (File.Exists(newFile))
-                File.Delete(newFile);
-            b.Save(newFile, ImageFormat.Jpeg);
-
-            g.Dispose();
+                if (!(File.Exists(imagePre) && !overwrite))
+                    image.Write(imagePre, MagickFormat.Jpg);
+            }
         }
     }
 }

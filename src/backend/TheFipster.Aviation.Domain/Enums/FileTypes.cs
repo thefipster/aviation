@@ -36,13 +36,18 @@ namespace TheFipster.Aviation.Domain.Enums
         WaypointsJson,
         BlackBoxTrimmedJson,
         StatsJson,
-        Thumbnail,
+        Preview,
         ChartImage,
         ChartThumbnail,
         GeoTagsJson,
         BlackBoxCompressedJson,
         TrackCompressedJson,
         GpsJson,
-        BlackBoxStatsJson
+        BlackBoxStatsJson,
+        ChartPreview,
+        Image,
+        ChartPrint,
+        CropFileLock,
+        CropFolderLock
     }
 }

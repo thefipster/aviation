@@ -21,6 +21,7 @@
     <ProjectReference Include="..\TheFipster.Aviation.Modules.Airports\TheFipster.Aviation.Modules.Airports.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Modules.BlackBox\TheFipster.Aviation.Modules.BlackBox.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Modules.FlightPlan\TheFipster.Aviation.Modules.FlightPlan.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.Jekyll\TheFipster.Aviation.Modules.Jekyll.csproj" />
     <ProjectReference Include="..\Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Modules.Simbrief\TheFipster.Aviation.Modules.Simbrief.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj" />

@@ -76,6 +76,14 @@ namespace TheFipster.Aviation.CoreCli
                     {
                         return scanJson(file);
                     }
+                case ".cropped":
+                    {
+                        return FileTypes.CropFileLock;
+                    }
+                case ".cropnot":
+                    {
+                        return FileTypes.CropFolderLock;
+                    }
             }
 
             return FileTypes.Unknown;
@@ -84,17 +92,25 @@ namespace TheFipster.Aviation.CoreCli
         private FileTypes scanPng(string file)
         {
             if (file.Contains("Chart"))
-                return FileTypes.ChartImage;
+                return FileTypes.ChartPrint;
+            if (file.Contains("Screenshot"))
+                return FileTypes.Screenshot;
 
-            return FileTypes.Screenshot;
+            return FileTypes.Unknown;
         }
 
         private FileTypes scanJpg(string file)
         {
+            if (file.Contains("ChartPreview"))
+                return FileTypes.ChartPreview;
             if (file.Contains("Chart"))
-                return FileTypes.ChartThumbnail;
+                return FileTypes.ChartImage;
+            if (file.Contains("Screenshot"))
+                return FileTypes.Image;
+            if (file.Contains("Preview"))
+                return FileTypes.Preview;
 
-            return FileTypes.Thumbnail;
+            return FileTypes.Unknown;
         }
 
         private FileTypes scanJson(string file)
