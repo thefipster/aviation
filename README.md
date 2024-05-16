@@ -15,14 +15,14 @@ Jekyll static page generator using the cli output to generate the flog (flight l
 ![Landing Page](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/landing.png)
 Landing page
 
-![Landing Page](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/flightlog.png)
+![Flight Log](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/flightlog.png)
 Flight Log
 
-![Landing Page](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/worldmap.png)
+![Worldmap](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/worldmap.png)
 Worldmap
 
-![Landing Page](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/aircraft.png)
+![Aircraft](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/aircraft.png)
 Aircraft
 
-![Landing Page](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/airports.png)
+![Airports](https://raw.githubusercontent.com/thefipster/aviation/feature/init/docs/airports.png)
 Airports
