@@ -1,0 +1,109 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.FlightCli", "TheFipster.Aviation.FlightCli\TheFipster.Aviation.FlightCli.csproj", "{E8337EB7-7138-48DA-8B1B-D026DE1235CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Domain", "TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj", "{72DA9F21-DD21-4767-B706-AF01A67A107C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.BlackBox", "TheFipster.Aviation.Modules.BlackBox\TheFipster.Aviation.Modules.BlackBox.csproj", "{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.SimToolkitPro", "TheFipster.Aviation.Modules.SimToolkitPro\TheFipster.Aviation.Modules.SimToolkitPro.csproj", "{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.Airports", "TheFipster.Aviation.Modules.Airports\TheFipster.Aviation.Modules.Airports.csproj", "{67D0852C-56FE-469E-8F67-16278227BD29}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.CoreCli", "TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj", "{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.Simbrief", "TheFipster.Aviation.Modules.Simbrief\TheFipster.Aviation.Modules.Simbrief.csproj", "{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6679851C-774A-4D38-ACD4-823B849B41E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.DirtyLittleHelper", "TheFipster.Aviation.DirtyLittleHelper\TheFipster.Aviation.DirtyLittleHelper.csproj", "{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thefipster.Aviation.Modules.Screenshots", "Thefipster.Aviation.Modules.Screenshots\Thefipster.Aviation.Modules.Screenshots.csproj", "{7F0978F5-F058-4B46-8E24-0E775F413402}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.FlightPlan", "TheFipster.Aviation.Modules.FlightPlan\TheFipster.Aviation.Modules.FlightPlan.csproj", "{D91472F1-6DC3-48A4-A6C4-039620A030F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.Jekyll", "TheFipster.Aviation.Modules.Jekyll\TheFipster.Aviation.Modules.Jekyll.csproj", "{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0137FFC2-C78D-483F-8BAD-960F09B75897}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Tests.Common.CoreCli", "TheFipster.Aviation.Tests.Common.CoreCli\TheFipster.Aviation.Tests.Common.CoreCli.csproj", "{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8337EB7-7138-48DA-8B1B-D026DE1235CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8337EB7-7138-48DA-8B1B-D026DE1235CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8337EB7-7138-48DA-8B1B-D026DE1235CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8337EB7-7138-48DA-8B1B-D026DE1235CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72DA9F21-DD21-4767-B706-AF01A67A107C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72DA9F21-DD21-4767-B706-AF01A67A107C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72DA9F21-DD21-4767-B706-AF01A67A107C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72DA9F21-DD21-4767-B706-AF01A67A107C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D0852C-56FE-469E-8F67-16278227BD29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0978F5-F058-4B46-8E24-0E775F413402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91472F1-6DC3-48A4-A6C4-039620A030F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91472F1-6DC3-48A4-A6C4-039620A030F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91472F1-6DC3-48A4-A6C4-039620A030F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91472F1-6DC3-48A4-A6C4-039620A030F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{72DA9F21-DD21-4767-B706-AF01A67A107C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
+		{A6F285C3-B2C1-478C-824A-618D4CAC2DE4} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{4CF022E5-4136-4AB5-BAB8-1B2E0346EA57} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{67D0852C-56FE-469E-8F67-16278227BD29} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
+		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{7F0978F5-F058-4B46-8E24-0E775F413402} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{D91472F1-6DC3-48A4-A6C4-039620A030F4} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F} = {0137FFC2-C78D-483F-8BAD-960F09B75897}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD8F5506-AE4F-4710-856C-F25F1BB25E3F}
+	EndGlobalSection
+EndGlobal

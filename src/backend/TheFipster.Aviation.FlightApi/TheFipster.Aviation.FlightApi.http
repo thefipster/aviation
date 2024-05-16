@@ -1,6 +1,0 @@
-@TheFipster.Aviation.FlightApi_HostAddress = http://localhost:5032
-
-GET {{TheFipster.Aviation.FlightApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
