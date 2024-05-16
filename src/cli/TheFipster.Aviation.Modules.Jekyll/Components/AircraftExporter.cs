@@ -1,15 +1,15 @@
 ﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Modules.Jekyll.Model;
 using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;
-using TheFipster.Aviation.Domain.Extensions;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Components
 {
-    internal class FrontmatterAircraftExporter
+    internal class AircraftExporter
     {
         internal string CreateFrontmatter(string flightsFolder, string airportFile)
         {
@@ -42,7 +42,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
 
             processAirport(airportFile, aircraft);
 
-            var frontmatter = new YamlWriter().ConvertToFrontmatter(aircraft);
+            var frontmatter = new YamlWriter().ToFrontmatter(aircraft);
             return frontmatter;
         }
 

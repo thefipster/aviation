@@ -1,7 +1,5 @@
 ﻿using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Modules.Jekyll.Model;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Modules.Airports.Components;
@@ -30,23 +28,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
         private string generateFrontmatter(SimBriefFlight simbrief, GpsReport gps, OurAirportFinder airports)
         {
             var data = new FrontMatter(simbrief, airports);
-            var frontmatter = convertYaml(data);
-            return frontmatter;
+            return new YamlWriter().ToFrontmatter(data);
         }
-
-        private string convertYaml(FrontMatter data)
-        {
-            var serializer = new SerializerBuilder()
-                            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                            .Build();
-
-            var yaml = serializer.Serialize(data);
-            var frontmatter = Const.FrontmatterDelimiter
-                + Environment.NewLine
-                + yaml
-                + Const.FrontmatterDelimiter
-                + Environment.NewLine;
-            return frontmatter;
-        } 
     }
 }

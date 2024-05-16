@@ -1,5 +1,4 @@
-﻿using BAMCIS.GeoJSON;
-using TheFipster.Aviation.Domain;
+﻿using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Modules.Airports.Components;
 
