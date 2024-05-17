@@ -15,87 +15,47 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
         {
             var folders = Directory.GetDirectories(flightsFolder);
 
-            var aircraft = new Aircraft();
-            aircraft.Flights = folders.Count();
+            var totalStats = new Stats();
+            OurAirport lastAirport = null;
+            var visitedCountries = new List<string>();
+            var airports = new OurAirportFinder(new JsonReader<IEnumerable<OurAirport>>(), airportFile);
 
             foreach (var folder in folders)
             {
-                try
-                {
-                    var blackboxFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxJson);
-                    var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
-                    processBlackBox(aircraft, blackbox);
-                }
-                catch (Exception)
-                {
-                    // no blackbox, lets move on
-                }
+                var departureIcao = new FlightMeta().GetDeparture(folder);
+                var departure = airports.SearchWithIcao(departureIcao);
+                if (!visitedCountries.Contains(departure.IsoCountryCode))
+                    visitedCountries.Add(departure.IsoCountryCode);
 
-                var gpsFile = new FlightFileScanner().GetFile(folder, FileTypes.GpsJson);
-                var gps = new JsonReader<GpsReport>().FromFile(gpsFile);
-                processGpsCoordinates(aircraft, gps.Coordinates);
+                var arrivalIcao = new FlightMeta().GetArrival(folder);
+                var arrival = airports.SearchWithIcao(arrivalIcao);
+                if (!visitedCountries.Contains(arrival.IsoCountryCode))
+                    visitedCountries.Add(arrival.IsoCountryCode);
 
                 var statsFile = new FlightFileScanner().GetFile(folder, FileTypes.StatsJson);
                 var stats = new JsonReader<Stats>().FromFile(statsFile);
-                processStats(aircraft, stats);
+                processStats(totalStats, stats);
+
+                lastAirport = arrival;
             }
 
-            processAirport(airportFile, aircraft);
+            var aircraft = new Aircraft(folders.Count(), totalStats, lastAirport, visitedCountries);
 
-            var frontmatter = new YamlWriter().ToFrontmatter(aircraft);
+            var frontmatter = new YamlWriter().ToYaml(aircraft);
             return frontmatter;
         }
 
-        private static void processAirport(string airportFile, Aircraft aircraft)
+        private void processStats(Stats total, Stats stats)
         {
-            var airport = new OurAirportFinder(new JsonReader<IEnumerable<OurAirport>>(), airportFile).SearchWithIcao(aircraft.Icao);
+            total.FuelUsed += stats.FuelUsed;
+            total.FlightTime += stats.FlightTime;
+            total.Passengers += stats.Passengers;
 
-            aircraft.Parking = new Location("Parking spot", aircraft.Latitude, aircraft.Longitude);
-            aircraft.Airport = airport.Name;
-            aircraft.Country = airport.Country.Name;
-            aircraft.Region = airport.Region.Name;
-            aircraft.Continent = Continents.Dictionary[airport.ContinentCode];
-        }
+            if (stats.MaxGroundspeedMps > total.MaxGroundspeedMps)
+                total.MaxGroundspeedMps = stats.MaxGroundspeedMps;
 
-        private void processStats(Aircraft aircraft, Stats stats)
-        {
-            aircraft.Icao = stats.Arrival;
-            aircraft.FuelConsumedKg += stats.FuelUsed;
-            aircraft.SecondsFlown += stats.FlightTime;
-            aircraft.Passengers += stats.Passengers;
-        }
-
-        private void processGpsCoordinates(Aircraft aircraft, ICollection<Coordinate> coordinates)
-        {
-            var coords = coordinates.ToList();
-            for (int i = 1; i < coordinates.Count; i++)
-            {
-                var last = coords[i - 1];
-                var cur = coords[i];
-                var step = GpsCalculator.GetHaversineDistance(last.Latitude, last.Longitude, cur.Latitude, cur.Longitude);
-
-                aircraft.DistanceFlownKm += step;
-                aircraft.Latitude = cur.Latitude.RoundToSignificantDigits(6);
-                aircraft.Longitude = cur.Longitude.RoundToSignificantDigits(6);
-            }
-        }
-
-        private static void processBlackBox(Aircraft aircraft, BlackBoxFlight blackbox)
-        {
-            bool strike;
-            foreach (var record in blackbox.Records)
-            {
-                if (record.GroundSpeedMps > aircraft.HighestSpeedMps)
-                    aircraft.HighestSpeedMps = record.GroundSpeedMps;
-
-                if (record.GpsAltitudeMeters > aircraft.HighestAltitudeM)
-                    aircraft.HighestAltitudeM = record.GpsAltitudeMeters;
-
-                if (record.AltimeterFeet < 10000 && record.IndicatedAirSpeedKnots > 250)
-                    strike = true;
-            }
-
-            aircraft.OverspeedBelow10000 += 1;
+            if (stats.MaxAltitudeM > total.MaxAltitudeM)
+                total.MaxAltitudeM = stats.MaxAltitudeM;
         }
     }
 }

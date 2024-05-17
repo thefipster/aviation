@@ -9,21 +9,15 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class NextCommand
     {
-        private readonly OperationsPlan plan;
-
-        public NextCommand(HardcodedConfig config)
+        internal PlannedFlight Run(NextOptions options, IConfig config)
         {
-            this.plan = new OperationsPlan(
+            var plan = new OperationsPlan(
                 new FlightPlanReader(new JsonReader<IEnumerable<Leg>>(), config.FlightPlanFile),
                 new FlightFinder(config.FlightsFolder),
                 new FlightMeta(),
                 new AirportFinder(new JsonReader<IEnumerable<Airport>>(), config.AirportFile),
                 new FlightFileScanner(),
                 new JsonReader<Stats>());
-        }
-
-        internal PlannedFlight Run()
-        {
             var nextFlight = plan.GetNextFlight();
 
             Console.WriteLine("You're next flight will be:");

@@ -10,13 +10,13 @@ using TheFipster.Aviation.Modules.BlackBox;
 namespace TheFipster.Aviation.FlightCli.Commands
 {
     /// <summary>
-    /// Takes the blackbox trimmed file and compresses it as much as possible keeping the gps track as accurate as possible and outputting a blackbox compressed file.
+    /// Takes the blackbox file and searches for maximum values and flight events outputting the info into the blackbox stats file.
     /// </summary>
-    public class CompressCommand : IFlightCommand<CompressOptions>
+    public class BlackBoxStatsCommand : IFlightCommand<BlackBoxStatsOptions>
     {
-        public void Run(CompressOptions options, IConfig config)
+        public void Run(BlackBoxStatsOptions options, IConfig config)
         {
-            Console.WriteLine("Compressing track of blackbox.");
+            Console.WriteLine("Scans the blackbox for configuration events and record values.");
 
             if (config == null)
                 throw new MissingConfigException("No config available.");
@@ -28,13 +28,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
                 try
                 {
-                    BlackBoxFlight compressedBlackbox = new BlackBoxCompressor().CompressBlackboxRecords(folder);
-                    new JsonWriter<BlackBoxFlight>().Write(folder, compressedBlackbox, FileTypes.BlackBoxCompressedJson, compressedBlackbox.Origin, compressedBlackbox.Destination, true);
+                    var stats = new BlackBoxScanner().GenerateStatsFromBlackbox(folder);
+                    new JsonWriter<BlackBoxStats>().Write(folder, stats, FileTypes.BlackBoxStatsJson, stats.Departure, stats.Arrival, true);
                     Console.WriteLine();
                 }
                 catch (FileNotFoundException)
                 {
-                    Console.WriteLine($" - skipping, no blackbox file.");
+                    Console.WriteLine(" - skipping, no blackbox file.");
                     continue;
                 }
             }

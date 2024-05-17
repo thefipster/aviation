@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace TheFipster.Aviation.FlightCli.Options
+namespace TheFipster.Aviation.FlightCli.Abstractions
 {
     public class FlightRequiredOptions : IOptions
     {

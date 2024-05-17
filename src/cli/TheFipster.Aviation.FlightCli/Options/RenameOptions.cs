@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {

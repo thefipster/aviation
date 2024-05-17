@@ -1,4 +1,6 @@
-﻿using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Jekyll;
 
@@ -7,28 +9,23 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Takes every file it needs to generate the output files for jekyll.
     /// </summary>
-    internal class JekyllCommand
+    internal class JekyllCommand : IFlightCommand<JekyllOptions>
     {
-        private HardcodedConfig config;
-
-        public JekyllCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(JekyllOptions options)
+        public void Run(JekyllOptions options, IConfig config)
         {
             Console.WriteLine("Generating output for Jekyll.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
+
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             var jekyllExporter = new JekyllExporter(config.JekyllFolder, config.OurAirportFile);
 
-            Console.WriteLine("Generating combined output.");
-            jekyllExporter.ExportCombined(config.FlightsFolder);
+            if (folders.Count() > 1)
+            {
+                Console.WriteLine("Generating combined output.");
+                jekyllExporter.ExportCombined(config.FlightsFolder);
+            }
 
             Console.WriteLine("Generating per flight output.");
             Parallel.ForEach(folders, folder =>

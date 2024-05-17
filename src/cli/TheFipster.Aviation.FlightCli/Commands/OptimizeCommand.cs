@@ -1,50 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
-using TheFipster.Aviation.Domain.Simbrief;
+using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.Domain.SimToolkitPro;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class OptimizeCommand
     {
-        private HardcodedConfig config;
-
-        public OptimizeCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(OptimizeOptions options)
+        internal void Run(OptimizeOptions options, IConfig config)
         {
             Console.WriteLine("Optimizing STKP track file.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
+            Track track;
             foreach (var folder in folders)
             {
                 Console.Write($"\t {folder}");
-                string file = null;
                 try
                 {
-                    file = new FlightFileScanner().GetFile(folder, FileTypes.TrackJson);
+                    var file = new FlightFileScanner().GetFile(folder, FileTypes.TrackJson);
+                    track = new JsonReader<Track>().FromFile(file);
                 }
                 catch (Exception)
                 {
                     Console.WriteLine(" - skipping, no track file");
                     continue;
                 }
-
-                var track = new JsonReader<Track>().FromFile(file);
 
                 var coordinates = track.Features.First().Geometry.Coordinates.ToList();
                 for (int i = coordinates.Count - 2; i >= 1; i--)

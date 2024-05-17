@@ -1,5 +1,6 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
@@ -9,19 +10,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// </summary>
     public class FlightDirCreateCommand : IFlightRequiredCommand<FlightDirCreateOptions>
     {
-        private HardcodedConfig config;
-
-        public FlightDirCreateCommand() { }
-
-        public FlightDirCreateCommand(HardcodedConfig config)
+        public void Run(FlightDirCreateOptions options, IConfig config)
         {
-            this.config = config;
-        }
-
-        public void Run(FlightDirCreateOptions options, HardcodedConfig anotherConfig = null)
-        {
-            config = anotherConfig;
-
             if (config == null)
                 throw new MissingConfigException("No config available.");
 

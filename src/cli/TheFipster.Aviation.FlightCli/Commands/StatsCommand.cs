@@ -1,30 +1,23 @@
 ﻿using System.Globalization;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.Domain.SimToolkitPro;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class StatsCommand
     {
-        private HardcodedConfig config;
-
-        public StatsCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(StatsOptions options)
+        internal void Run(StatsOptions options, IConfig config)
         {
             Console.WriteLine("Scanning flight and outputing some stats.");
-            IEnumerable<string> folders = Enumerable.Empty<string>();
 
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.WriteLine($"\t {folder}");

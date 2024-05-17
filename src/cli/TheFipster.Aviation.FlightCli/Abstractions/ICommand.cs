@@ -1,6 +1,4 @@
-﻿using TheFipster.Aviation.FlightCli.Options;
-
-namespace TheFipster.Aviation.FlightCli.Commands
+﻿namespace TheFipster.Aviation.FlightCli.Abstractions
 {
     public interface ICommand<T> where T : IOptions
     {
