@@ -2,14 +2,14 @@
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
-    public class DepArrOptions
+    public class FlightOptions : IOptions
     {
-        public DepArrOptions()
+        public FlightOptions()
         {
             
         }
 
-        public DepArrOptions(string departure, string arrival)
+        public FlightOptions(string departure, string arrival)
         {
             DepartureAirport = departure; 
             ArrivalAirport = arrival;

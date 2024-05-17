@@ -2,8 +2,8 @@
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    public interface ICommand<T> where T : IOptions
+    public interface IFlightCommand<T> where T: FlightOptions
     {
-        void Run(T options, IConfig config);
+         void Run(T options, IConfig config);
     }
 }

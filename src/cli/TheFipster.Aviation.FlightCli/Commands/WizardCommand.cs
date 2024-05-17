@@ -50,20 +50,20 @@ namespace TheFipster.Aviation.FlightCli.Commands
         }
 
         private void runGenericFlightCommand<Tc, To>(string departure, string arrival)
-            where Tc : ICommand<To>, new()
-            where To : DepArrOptions, new()
+            where Tc : IFlightCommand<To>, new()
+            where To : FlightOptions, new()
         {
             var command = new Tc();
-            var options = new DepArrOptions(departure, arrival);
+            var options = new FlightOptions(departure, arrival);
             command.Run((To)options, new HardcodedConfig());
         }
 
         private void runRequiredFlightCommand<Tc, To>(string departure, string arrival)
-            where Tc : ICommandRequired<To>, new()
-            where To : DepArrRequiredOptions, new()
+            where Tc : IFlightRequiredCommand<To>, new()
+            where To : FlightRequiredOptions, new()
         {
             var command = new Tc();
-            var options = new DepArrRequiredOptions(departure, arrival);
+            var options = new FlightRequiredOptions(departure, arrival);
             command.Run((To)options, new HardcodedConfig());
         }
 

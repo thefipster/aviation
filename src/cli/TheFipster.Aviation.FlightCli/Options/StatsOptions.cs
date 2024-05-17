@@ -3,5 +3,5 @@
 namespace TheFipster.Aviation.FlightCli.Options
 {
     [Verb("stats", HelpText = "Scans flight and outputing some stats.")]
-    internal class StatsOptions : DepArrOptions { }
+    internal class StatsOptions : FlightOptions { }
 }

@@ -1,48 +1,21 @@
-﻿using CommandLine;
-using System.Reflection;
+﻿using System.Reflection;
+using CommandLine;
 using TheFipster.Aviation.FlightCli;
 using TheFipster.Aviation.FlightCli.Commands;
 using TheFipster.Aviation.FlightCli.Options;
 
-//args = new [] { "simbrief", "-f", @"C:\Users\felix\Aviation\flight\KDENKTEX_XML_1652208542.xml" };
-//args = new [] { "rec", "-d", "EDDL", "-a", "EDDK" };
-//args = new [] { "--help" };
-//args = new[] { "wizard" };
-//args = new[] { "scan" };
-//args = new[] { "next" };
-//args = new[] { "chart" };
-//args = new[] { "preview", "-h", "300" };
-//args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
-//args = new[] { "airports" };
-//args = new[] { "simbrief" };
-//args = new[] { "toolkit" };
-args = new[] { "jekyll" };
-//args = new[] { "jekyll", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "trim" };
-//args = new[] { "gps" };
-//args = new[] { "rename", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "preview", "-h", "300", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "stats" };
-//args = new[] { "crop" };
-//args = new[] { "preview", "-w", "400", "-h", "300" };
-//args = new[] { "geotag", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "event", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "gps", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "compress", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "optimize", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "gps", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "event", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "crop", "-d", "PAPG", "-a", "PAYA" };
+//args = new[] { "cmd" };
+//   , "-d", "EDDL", "-a", "EDDL"
+//   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
+//   , "-w", "400", "-h", "300"
+
+args = new[] { "ourairports", "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export" };
 
 try
 {
     Run();
-    Console.WriteLine($"Finished");
-}
-catch (ApplicationException ex)
-{
     Console.WriteLine();
-    Console.WriteLine($"Whoopsie. {ex.Message}");
+    Console.WriteLine("Finished");
 }
 catch (Exception ex)
 {
@@ -55,10 +28,22 @@ catch (Exception ex)
     Console.WriteLine();
 }
 
-void Run() {
+void Run()
+{
     var config = new HardcodedConfig();
-    var optionTypes = GetTypesWithVerbAttribute().ToArray();
+    var optionTypes = findOptionTypes().ToArray();
+    executeCommand(args, config, optionTypes);
+}
 
+static IEnumerable<Type> findOptionTypes()
+{
+    foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+        if (type.GetCustomAttributes(typeof(VerbAttribute), true).Length > 0)
+            yield return type;
+}
+
+static void executeCommand(string[] args, HardcodedConfig config, Type[] optionTypes)
+{
     Parser.Default.ParseArguments(args, optionTypes)
         .WithParsed<AirportFileGeneratorOptions>(options => { new AirportFileGeneratorCommand(config).Run(options); })
         .WithParsed<RecorderOptions>(options => { new RecorderCommand(config).Run(options); })
@@ -83,12 +68,6 @@ void Run() {
         .WithParsed<PhotoOptions>(options => { new PhotoCommand(config).Run(options); })
         .WithParsed<JekyllOptions>(options => { new JekyllCommand(config).Run(options); })
         .WithParsed<CropOptions>(options => { new CropCommand(config).Run(options); })
+        .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
         .WithNotParsed(_ => Console.Write(string.Empty));
-}
-
-static IEnumerable<Type> GetTypesWithVerbAttribute()
-{
-    foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
-        if (type.GetCustomAttributes(typeof(VerbAttribute), true).Length > 0)
-            yield return type;
 }

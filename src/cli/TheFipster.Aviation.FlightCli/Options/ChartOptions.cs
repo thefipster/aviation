@@ -3,5 +3,5 @@
 namespace TheFipster.Aviation.FlightCli.Options
 {
     [Verb("chart", HelpText = "Converts pdf charts into image files.")]
-    internal class ChartOptions : DepArrOptions { }
+    internal class ChartOptions : FlightOptions { }
 }

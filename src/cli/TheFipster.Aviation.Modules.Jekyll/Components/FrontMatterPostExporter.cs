@@ -11,21 +11,18 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
     {
         public Post GenerateFlightPost(string flightFolder, string airportFile)
         {
-            var gpsFile = new FlightFileScanner().GetFile(flightFolder, FileTypes.GpsJson);
-            var gps = new JsonReader<GpsReport>().FromFile(gpsFile);
-
             var simbriefFile = new FlightFileScanner().GetFile(flightFolder, FileTypes.SimbriefJson);
             var simbrief = new JsonReader<SimBriefFlight>().FromFile(simbriefFile);
 
             var airports = new OurAirportFinder(new JsonReader<IEnumerable<OurAirport>>(), airportFile);
 
-            string frontmatter = generateFrontmatter(simbrief, gps, airports);
+            string frontmatter = generateFrontmatter(simbrief, airports);
             string name = MetaInformation.GeneratePostName(simbrief);
 
             return new Post(name, frontmatter);
         }
 
-        private string generateFrontmatter(SimBriefFlight simbrief, GpsReport gps, OurAirportFinder airports)
+        private string generateFrontmatter(SimBriefFlight simbrief, OurAirportFinder airports)
         {
             var data = new FrontMatter(simbrief, airports);
             return new YamlWriter().ToFrontmatter(data);

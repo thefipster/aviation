@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    public interface ICommandRequired<T> where T: DepArrRequiredOptions
+    public interface IFlightRequiredCommand<T> where T: FlightRequiredOptions
     {
          void Run(T options, HardcodedConfig config);
     }

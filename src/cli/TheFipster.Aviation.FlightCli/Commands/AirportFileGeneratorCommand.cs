@@ -11,9 +11,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Creates airport files from DataHub source for a flight
     /// </summary>
-    public class AirportFileGeneratorCommand : ICommand<AirportFileGeneratorOptions>
+    public class AirportFileGeneratorCommand : IFlightCommand<AirportFileGeneratorOptions>
     {
-        private HardcodedConfig config;
+        private IConfig config;
 
         public AirportFileGeneratorCommand() { }
 
@@ -22,7 +22,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             this.config = config;
         }
 
-        public void Run(AirportFileGeneratorOptions options, HardcodedConfig? anotherConfig = null)
+        public void Run(AirportFileGeneratorOptions options, IConfig anotherConfig = null)
         {
             Console.WriteLine("Creating airport files for departure, arrival and alternate.");
 

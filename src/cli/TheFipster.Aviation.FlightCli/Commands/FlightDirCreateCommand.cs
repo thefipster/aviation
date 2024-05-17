@@ -7,7 +7,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Creates the flight folder.
     /// </summary>
-    public class FlightDirCreateCommand : ICommandRequired<FlightDirCreateOptions>
+    public class FlightDirCreateCommand : IFlightRequiredCommand<FlightDirCreateOptions>
     {
         private HardcodedConfig config;
 
