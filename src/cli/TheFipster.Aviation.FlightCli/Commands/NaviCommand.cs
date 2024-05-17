@@ -1,19 +1,17 @@
 ﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    internal class NaviCommand
+    internal class NaviCommand : IFlightRequiredCommand<NaviOptions>
     {
-        private HardcodedConfig config;
-
-        public NaviCommand(HardcodedConfig config)
+        public void Run(NaviOptions options, IConfig config)
         {
-            this.config = config;
-        }
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
-        internal void Run(NaviOptions options)
-        {
             var flightPath = new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
             Console.WriteLine($"Print the used charts from Navigraph as pdf into the folder {config.NavigraphFolder}");
             Console.WriteLine("When you're ready press ENTER.");

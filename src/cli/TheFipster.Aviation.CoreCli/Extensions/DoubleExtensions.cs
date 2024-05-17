@@ -1,4 +1,4 @@
-﻿namespace TheFipster.Aviation.Domain.Extensions
+﻿namespace TheFipster.Aviation.CoreCli.Extensions
 {
     public static class DoubleExtensions
     {

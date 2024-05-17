@@ -1,17 +1,17 @@
 ﻿using CommandLine;
 
-namespace TheFipster.Aviation.FlightCli.Options
+namespace TheFipster.Aviation.FlightCli.Abstractions
 {
-    public class DepArrOptions
+    public class FlightOptions : IOptions
     {
-        public DepArrOptions()
+        public FlightOptions()
         {
-            
+
         }
 
-        public DepArrOptions(string departure, string arrival)
+        public FlightOptions(string departure, string arrival)
         {
-            DepartureAirport = departure; 
+            DepartureAirport = departure;
             ArrivalAirport = arrival;
         }
 

@@ -1,7 +1,10 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.Domain.SimToolkitPro;
+using TheFipster.Aviation.FlightCli.Abstractions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
@@ -9,25 +12,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Takes the screenshots and blackbox or track file to geotag the screenshots based on the timestamp.
     /// </summary>
-    internal class GeoTagCommand
+    internal class GeoTagCommand : IFlightCommand<GeoTagOptions>
     {
-        private HardcodedConfig config;
-
-        public GeoTagCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(GeoTagOptions options)
+        public void Run(GeoTagOptions options, IConfig config)
         {
             Console.WriteLine("GeoTagging Screenshots.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.Write($"\t {folder}");

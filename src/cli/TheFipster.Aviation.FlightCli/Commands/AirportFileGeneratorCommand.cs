@@ -2,6 +2,8 @@
 using TheFipster.Aviation.Domain.Datahub;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.Simbrief.Components;
@@ -11,40 +13,23 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Creates airport files from DataHub source for a flight
     /// </summary>
-    public class AirportFileGeneratorCommand : ICommand<AirportFileGeneratorOptions>
+    public class AirportFileGeneratorCommand : IFlightCommand<AirportFileGeneratorOptions>
     {
-        private HardcodedConfig config;
+        private IConfig config;
 
-        public AirportFileGeneratorCommand() { }
-
-        public AirportFileGeneratorCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        public void Run(AirportFileGeneratorOptions options, HardcodedConfig? anotherConfig = null)
+        public void Run(AirportFileGeneratorOptions options, IConfig config)
         {
             Console.WriteLine("Creating airport files for departure, arrival and alternate.");
 
-            config = anotherConfig;
+            this.config = config;
             if (config == null)
                 throw new MissingConfigException("No config available.");
 
-            var folders = getFolders(options);
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             var airports = getAirports();
 
             foreach (var folder in folders)
                 writeAirportsForFolder(airports, folder);
-        }
-
-        private IEnumerable<string> getFolders(AirportFileGeneratorOptions options)
-        {
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
-            return folders;
         }
 
         private AirportFinder getAirports()

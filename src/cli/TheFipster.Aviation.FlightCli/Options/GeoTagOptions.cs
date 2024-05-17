@@ -1,7 +1,8 @@
 ﻿using CommandLine;
+using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
     [Verb("geotag", HelpText = "Geo tags the screenshots.")]
-    internal class GeoTagOptions : DepArrOptions { }
+    public class GeoTagOptions : FlightOptions { }
 }

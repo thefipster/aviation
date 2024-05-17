@@ -1,6 +1,8 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
 
@@ -8,23 +10,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class TrimCommand
     {
-        private HardcodedConfig config;
-
-        public TrimCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(TrimOptions options)
+        internal void Run(TrimOptions options, IConfig config)
         {
             Console.WriteLine("Trimming the black box files to contain only engine on section.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.Write($"\t {folder}");

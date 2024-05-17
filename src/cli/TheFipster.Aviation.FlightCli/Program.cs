@@ -1,48 +1,23 @@
-﻿using CommandLine;
+﻿using System.CodeDom;
 using System.Reflection;
+using CommandLine;
 using TheFipster.Aviation.FlightCli;
+using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Commands;
 using TheFipster.Aviation.FlightCli.Options;
 
-//args = new [] { "simbrief", "-f", @"C:\Users\felix\Aviation\flight\KDENKTEX_XML_1652208542.xml" };
-//args = new [] { "rec", "-d", "EDDL", "-a", "EDDK" };
-//args = new [] { "--help" };
-//args = new[] { "wizard" };
-//args = new[] { "scan" };
-//args = new[] { "next" };
-//args = new[] { "chart" };
-//args = new[] { "preview", "-h", "300" };
-//args = new[] { "rename", "-d", "CYXT", "-a", "PAPG" };
-//args = new[] { "airports" };
-//args = new[] { "simbrief" };
-//args = new[] { "toolkit" };
-args = new[] { "jekyll" };
-//args = new[] { "jekyll", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "trim" };
-//args = new[] { "gps" };
-//args = new[] { "rename", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "preview", "-h", "300", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "stats" };
-//args = new[] { "crop" };
-//args = new[] { "preview", "-w", "400", "-h", "300" };
-//args = new[] { "geotag", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "event", "-d", "PASY", "-a", "UHPP" };
-//args = new[] { "gps", "-d", "PADK", "-a", "PASY" };
-//args = new[] { "compress", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "optimize", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "gps", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "event", "-d", "PACD", "-a", "PASN" };
-//args = new[] { "crop", "-d", "PAPG", "-a", "PAYA" };
+//args = new[] { "cmd" };
+//   , "-d", "EDDL", "-a", "EDDL"
+//   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
+//   , "-w", "400", "-h", "300"
+
+args = new[] { "wizard" };
 
 try
 {
     Run();
-    Console.WriteLine($"Finished");
-}
-catch (ApplicationException ex)
-{
     Console.WriteLine();
-    Console.WriteLine($"Whoopsie. {ex.Message}");
+    Console.WriteLine("Finished");
 }
 catch (Exception ex)
 {
@@ -55,40 +30,53 @@ catch (Exception ex)
     Console.WriteLine();
 }
 
-void Run() {
+void Run()
+{
     var config = new HardcodedConfig();
-    var optionTypes = GetTypesWithVerbAttribute().ToArray();
-
-    Parser.Default.ParseArguments(args, optionTypes)
-        .WithParsed<AirportFileGeneratorOptions>(options => { new AirportFileGeneratorCommand(config).Run(options); })
-        .WithParsed<RecorderOptions>(options => { new RecorderCommand(config).Run(options); })
-        .WithParsed<SimbriefOptions>(options => { new SimbriefCommand(config).Run(options); })
-        .WithParsed<WizardOptions>(options => { new WizardCommand(config).Run(options); })
-        .WithParsed<ScanOptions>(options => { new ScanCommand(config).Run(options); })
-        .WithParsed<ToolkitOptions>(options => { new ToolkitCommand(config).Run(options); })
-        .WithParsed<TrimOptions>(options => { new TrimCommand(config).Run(options); })
-        .WithParsed<RenameOptions>(options => { new RenameCommand(config).Run(options); })
-        .WithParsed<StatsOptions>(options => { new StatsCommand(config).Run(options); })
-        .WithParsed<PreviewOptions>(options => { new PreviewCommand(config).Run(options); })
-        .WithParsed<ChartOptions>(options => { new ChartCommand(config).Run(options); })
-        .WithParsed<NextOptions>(options => { new NextCommand(config).Run(); })
-        .WithParsed<GeoTagOptions>(options => { new GeoTagCommand(config).Run(options); })
-        .WithParsed<CompressOptions>(options => { new CompressCommand(config).Run(options); })
-        .WithParsed<OptimizeOptions>(options => { new OptimizeCommand(config).Run(options); })
-        .WithParsed<GpsOptions>(options => { new GpsCommand(config).Run(options); })
-        .WithParsed<EventOptions>(options => { new EventCommand(config).Run(options); })
-        .WithParsed<FlightDirCreateOptions>(options => { new FlightDirCreateCommand(config).Run(options); })
-        .WithParsed<SimbriefDispatchMoveOptions>(options => { new SimbriefDispatchMoveCommand(config).Run(options); })
-        .WithParsed<NaviOptions>(options => { new NaviCommand(config).Run(options); })
-        .WithParsed<PhotoOptions>(options => { new PhotoCommand(config).Run(options); })
-        .WithParsed<JekyllOptions>(options => { new JekyllCommand(config).Run(options); })
-        .WithParsed<CropOptions>(options => { new CropCommand(config).Run(options); })
-        .WithNotParsed(_ => Console.Write(string.Empty));
+    executeCommand(args, config);
 }
 
-static IEnumerable<Type> GetTypesWithVerbAttribute()
+static IEnumerable<Type> findTypesByAttribute<T>() where T : Attribute
 {
     foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
-        if (type.GetCustomAttributes(typeof(VerbAttribute), true).Length > 0)
+        if (type.GetCustomAttribute<T>(true) != null)
             yield return type;
+}
+
+static IEnumerable<Type> findTypesByInheritance<T>() where T : class
+{
+    foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
+        if (typeof(T).IsAssignableFrom(type))
+            yield return type;
+}
+
+static void executeCommand(string[] args, HardcodedConfig config)
+{
+    var optionTypes = findTypesByAttribute<VerbAttribute>().ToArray();
+    Parser.Default.ParseArguments(args, optionTypes)
+        .WithParsed<AirportFileGeneratorOptions>(options => { new AirportFileGeneratorCommand().Run(options, config); })
+        .WithParsed<RecorderOptions>(options => { new RecorderCommand().Run(options, config); })
+        .WithParsed<SimbriefOptions>(options => { new SimbriefCommand().Run(options, config); })
+        .WithParsed<WizardOptions>(options => { new WizardCommand().Run(options, config); })
+        .WithParsed<ScanOptions>(options => { new ScanCommand().Run(options, config); })
+        .WithParsed<ToolkitOptions>(options => { new ToolkitCommand().Run(options, config); })
+        .WithParsed<TrimOptions>(options => { new TrimCommand().Run(options, config); })
+        .WithParsed<RenameOptions>(options => { new RenameCommand().Run(options, config); })
+        .WithParsed<StatsOptions>(options => { new StatsCommand().Run(options, config); })
+        .WithParsed<PreviewOptions>(options => { new PreviewCommand().Run(options, config); })
+        .WithParsed<ChartOptions>(options => { new ChartCommand().Run(options, config); })
+        .WithParsed<NextOptions>(options => { new NextCommand().Run(options, config); })
+        .WithParsed<GeoTagOptions>(options => { new GeoTagCommand().Run(options, config); })
+        .WithParsed<CompressOptions>(options => { new CompressCommand().Run(options, config); })
+        .WithParsed<OptimizeOptions>(options => { new OptimizeCommand().Run(options, config); })
+        .WithParsed<GpsOptions>(options => { new GpsCommand().Run(options, config); })
+        .WithParsed<BlackBoxStatsOptions>(options => { new BlackBoxStatsCommand().Run(options, config); })
+        .WithParsed<FlightDirCreateOptions>(options => { new FlightDirCreateCommand().Run(options, config); })
+        .WithParsed<SimbriefDispatchMoveOptions>(options => { new SimbriefDispatchMoveCommand().Run(options, config); })
+        .WithParsed<NaviOptions>(options => { new NaviCommand().Run(options, config); })
+        .WithParsed<PhotoOptions>(options => { new PhotoCommand().Run(options, config); })
+        .WithParsed<JekyllOptions>(options => { new JekyllCommand().Run(options, config); })
+        .WithParsed<CropOptions>(options => { new CropCommand().Run(options, config); })
+        .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
+        .WithNotParsed(_ => Console.Write(string.Empty));
 }

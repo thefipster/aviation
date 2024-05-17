@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Extensions;
+using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;
 

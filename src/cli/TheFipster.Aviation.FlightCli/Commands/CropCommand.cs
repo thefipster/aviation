@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Thefipster.Aviation.Modules.Screenshots.Components;
+﻿using Thefipster.Aviation.Modules.Screenshots.Components;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
@@ -15,25 +13,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// For every crop operation a .cropped file is created to the file doesn't get cropped again should the command run again.
     /// A .cropnot file can also be created in a folder to exclude the it completely.
     /// </summary>
-    internal class CropCommand
+    public class CropCommand : IFlightCommand<CropOptions>
     {
-        private HardcodedConfig config;
-
-        public CropCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(CropOptions options)
+        public void Run(CropOptions options, IConfig config)
         {
             Console.WriteLine("Cropping title bar.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.WriteLine($"\t {folder}");

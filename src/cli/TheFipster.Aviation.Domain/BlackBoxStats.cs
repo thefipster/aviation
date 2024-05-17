@@ -30,5 +30,8 @@ namespace TheFipster.Aviation.Domain
         public double MaxWindspeed { get; set; }
         public int WindDirectionRad { get; set; }
         public ICollection<Waypoint> Waypoints { get; set; }
+        public bool Below10000SpeedWarning { get; set; }
+        public double DistanceGround { get; set; }
+        public double DistanceAir { get; set; }
     }
 }

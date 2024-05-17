@@ -1,11 +1,12 @@
 ﻿namespace TheFipster.Aviation.FlightCli
 {
-    public class HardcodedConfig
+    public class HardcodedConfig : IConfig
     {
         public string FlightsFolder => "E:\\aviation\\Worldtour\\Flights";
 
         public string AirportFile => "E:\\aviation\\Data\\airport-codes.json";
-        public string OurAirportFile => "E:\\aviation\\Data\\OurAirports\\process\\airports.json";
+        public string OurAirportFile => "E:\\aviation\\Data\\OurAirports\\export\\ourairports.json";
+        public string OurAirportMetaFile => "E:\\aviation\\Data\\OurAirports\\export\\airport-meta.json";
         public string FlightPlanFile => "E:\\aviation\\Worldtour\\FlightPlan.json";
 
         public string ScreenshotFolder => "C:\\Users\\felix\\Videos\\Captures";

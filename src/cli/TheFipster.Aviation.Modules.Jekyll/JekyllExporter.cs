@@ -63,7 +63,7 @@ namespace TheFipster.Aviation.Modules.Jekyll
             var plannedAirportsFile = Path.Combine(apiFolder, "airports-planned.json");
             new JsonWriter<List<Location>>().Write(plannedAirportsFile, plannedAirports, true);
 
-            var aircraft = new FrontmatterAircraftExporter().CreateFrontmatter(flightsFolder, airportFile);
+            var aircraft = new AircraftExporter().CreateFrontmatter(flightsFolder, airportFile);
             var aircraftFile = Path.Combine(jekyllRoot, "aircraft.html");
             new PlainWriter().Write(aircraftFile, aircraft, true);
         }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Simbrief.Components;
 
@@ -9,22 +10,12 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Moves the simbrief dispatch files downloaded by the Simbrief Downloader into the flight folder.
     /// </summary>
-    public class SimbriefDispatchMoveCommand : ICommandRequired<SimbriefDispatchMoveOptions>
+    public class SimbriefDispatchMoveCommand : IFlightRequiredCommand<SimbriefDispatchMoveOptions>
     {
-        private HardcodedConfig config;
-
-        public SimbriefDispatchMoveCommand() { }
-
-        public SimbriefDispatchMoveCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        public void Run(SimbriefDispatchMoveOptions options, HardcodedConfig anotherConfig = null)
+        public void Run(SimbriefDispatchMoveOptions options, IConfig config)
         {
             Console.WriteLine("Dispatch your flight with SimBrief. When the files are synced this continues.");
 
-            config = anotherConfig;
             if (config == null)
                 throw new MissingConfigException("No config available.");
 

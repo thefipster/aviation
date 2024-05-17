@@ -1,4 +1,6 @@
 ﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.Domain.Exceptions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.SimToolkitPro;
 
@@ -6,22 +8,14 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class ToolkitCommand
     {
-        private HardcodedConfig config;
-
-        public ToolkitCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(ToolkitOptions options)
+        internal void Run(ToolkitOptions options, IConfig config)
         {
             Console.WriteLine("Reading STKP database file and exporting track, logbook and landing.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            if (config == null)
+                throw new MissingConfigException("No config available.");
+
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.WriteLine($"\t {folder}");

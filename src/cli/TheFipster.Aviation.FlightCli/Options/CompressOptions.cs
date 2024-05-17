@@ -1,9 +1,10 @@
 ﻿using CommandLine;
+using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
     [Verb("compress", HelpText = "Compresses the blackbox file.")]
-    internal class CompressOptions : DepArrOptions
+    public class CompressOptions : FlightOptions
     {
     }
 }

@@ -1,22 +1,18 @@
-﻿using System.Security.Cryptography;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class ScanCommand
     {
-        private HardcodedConfig config;
+        private IConfig config;
         private ScanOptions options;
 
-        public ScanCommand(HardcodedConfig config)
+        internal void Run(ScanOptions options, IConfig config)
         {
             this.config = config;
-        }
-
-        internal void Run(ScanOptions options)
-        {
             this.options = options;
             var flights = Scan();
             print(flights);
@@ -24,13 +20,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         public Dictionary<string, Dictionary<string, FileTypes>> Scan()
         {
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
-
-
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             var flights = new Dictionary<string, Dictionary<string, FileTypes>>();
             foreach (var folder in folders)
             {

@@ -1,7 +1,7 @@
 ﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Extensions;
 using TheFipster.Aviation.Modules.Jekyll.Model;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Components

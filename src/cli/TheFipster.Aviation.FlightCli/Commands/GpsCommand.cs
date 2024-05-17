@@ -1,8 +1,11 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.SimToolkitPro;
+using TheFipster.Aviation.FlightCli.Abstractions;
+using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Airports.Components;
 
@@ -11,25 +14,19 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Takes the blackbox or track file, geotag file, simbrief file and combines all geo information outputting the gps file.
     /// </summary>
-    internal class GpsCommand
+    internal class GpsCommand : IFlightCommand<GpsOptions>
     {
-        private HardcodedConfig config;
+        private IConfig config;
 
-        public GpsCommand(HardcodedConfig config)
-        {
-            this.config = config;
-        }
-
-        internal void Run(GpsOptions options)
+        public void Run(GpsOptions options, IConfig config)
         {
             Console.WriteLine("Generate gps file from blackbox or track (blackbox wins) and waypoints.");
-            IEnumerable<string> folders;
-            if (string.IsNullOrEmpty(options.DepartureAirport) || string.IsNullOrEmpty(options.ArrivalAirport))
-                folders = new FlightFinder().GetFlightFolders(config.FlightsFolder);
-            else
-                folders = [new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport)];
 
+            this.config = config;
+            if (config == null)
+                throw new MissingConfigException("No config available.");
 
+            var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
                 Console.Write($"\t {folder}");
