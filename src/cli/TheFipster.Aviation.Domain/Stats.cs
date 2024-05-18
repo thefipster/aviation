@@ -1,4 +1,6 @@
-﻿namespace TheFipster.Aviation.Domain
+﻿using TheFipster.Aviation.Domain.SimToolkitPro;
+
+namespace TheFipster.Aviation.Domain
 {
     public class Stats : JsonBase
     {

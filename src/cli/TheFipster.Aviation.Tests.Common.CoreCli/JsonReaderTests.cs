@@ -1,5 +1,5 @@
 using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Geo;
 
 namespace TheFipster.Aviation.Tests.Common.CoreCli
 {

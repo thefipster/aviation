@@ -7,7 +7,7 @@
 *.sln.docstates
 .vscode
 .vagrant
-
+HardcodedConfig.cs
 # Build results
 
 [Dd]ebug/

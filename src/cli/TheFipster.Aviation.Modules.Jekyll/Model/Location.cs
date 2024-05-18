@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;
+using TheFipster.Aviation.Domain.Geo;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Model
 {

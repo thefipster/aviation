@@ -48,6 +48,7 @@ namespace TheFipster.Aviation.Domain.Enums
         Image,
         ChartPrint,
         CropFileLock,
-        CropFolderLock
+        CropFolderLock,
+        ImportJson
     }
 }
