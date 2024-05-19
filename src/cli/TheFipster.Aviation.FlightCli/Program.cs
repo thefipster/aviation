@@ -9,7 +9,7 @@ using TheFipster.Aviation.FlightCli.Options;
 //   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
 //   , "-w", "400", "-h", "300"
 
-//args = new[] { "import" };
+args = new[] { "download", "-d", "UHPP", "-a", "UHSI" };
 
 try
 {
@@ -63,6 +63,7 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<CropScreenshotTitleOptions>(options => { new CropScreenshotTitleCommand().Run(options, config); })
         .WithParsed<CreatePreviewForImagesOptions>(options => { new CreatePreviewForImagesCommand().Run(options, config); })
         .WithParsed<ConvertChartsToImageOptions>(options => { new ConvertChartsToImageCommand().Run(options, config); })
+        .WithParsed<SimbriefDownloadOptions>(options => { new SimbriefDownloadCommand().Run(options, config); })
 
         .WithParsed<CombineImportsOptions>(options => { new CombineImportsCommand().Run(options, config); })
 
@@ -80,5 +81,5 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<NextOptions>(options => { new NextCommand().Run(options, config); })
         .WithParsed<JekyllOptions>(options => { new JekyllCommand().Run(options, config); })
         .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
-        .WithNotParsed(_ => Console.Write(string.Empty));
+        .WithNotParsed(_ => Console.Write("Dein command kanste dir in die Haare schmieren"));
 }

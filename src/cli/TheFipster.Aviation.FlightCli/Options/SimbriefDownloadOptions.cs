@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommandLine;
+using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
-    internal class SimbriefDownloadOptions
+    [Verb(Verb, HelpText = Help)]
+    public class SimbriefDownloadOptions : FlightRequiredOptions
     {
+        public const string Verb = "download";
+        public const string Help = "Downloads the maps from Simbrief.";
+        public const string Welcome = Help;
     }
 }
