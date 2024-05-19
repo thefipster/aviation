@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Geo;
 using TheFipster.Aviation.Modules.Jekyll.Components;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Model

@@ -7,7 +7,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     internal class WizardCommand : ICommand<WizardOptions>
     {
-        private IConfig config;
+        private IConfig? config;
 
         public void Run(WizardOptions options, IConfig config)
         {
@@ -25,29 +25,46 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (string.IsNullOrWhiteSpace(departure) || string.IsNullOrWhiteSpace(arrival))
                 throw new ApplicationException("Can't determine next flight.");
 
+            // create flight folder
             runRequiredFlightCommand<FlightDirCreateCommand, FlightDirCreateOptions>(departure, arrival);
-            //createFlightFolder(departure, arrival);
-
+            // move simbrief import into flight folder -> use simbrief api to download instead of relying on simbrief downloader
             runRequiredFlightCommand<SimbriefDispatchMoveCommand, SimbriefDispatchMoveOptions>(departure, arrival);
-            //dispatchSimbrief(departure, arrival);
-
+            // create airport files into flight folder -> not realy useful, just use OurAirports source directly
             runGenericFlightCommand<AirportFileGeneratorCommand, AirportFileGeneratorOptions>(departure, arrival);
-            //createAirportFiles(departure, arrival);
+            // record black box
+            runRequiredFlightCommand<BlackboxRecorderCommand, BlackboxRecorderOptions>(departure, arrival);
+            // move navigraph charts -> since this seens to become an online blog this is useless due to copyright
+            runRequiredFlightCommand<MoveNavigraphChartsCommand, MoveNavigraphChartsOptions>(departure, arrival);
+            // move screenshots
+            runRequiredFlightCommand<MoveScreenshotsCommand, MoveScreenshotsOptions>(departure, arrival);
+            // import data from STKP sqlite database
+            runGenericFlightCommand<ImportToolkitCommand, ImportToolkitOptions>(departure, arrival);
 
-            recordBlackBox(departure, arrival);
-            moveNavigraphCharts(departure, arrival);
-            moveScreenshots(departure, arrival);
-            geocodeScreenshots(departure, arrival);
-            extractFromSimToolkitPro(departure, arrival);
-            extractFromSimbrief(departure, arrival);
-            renameImports(departure, arrival);
-            convertCharts(departure, arrival);
-            generatePreviews(departure, arrival);
-            trimBlackbox(departure, arrival);
-            compressBlackbox(departure, arrival);
-            extractEvents(departure, arrival);
-            combineGps(departure, arrival);
-            generateStats(departure, arrival);
+            // renames screnshots and simbrief import -> this should be done directly on simbrief and screenshot import
+            runGenericFlightCommand<RenameImportFilesCommand, RenameImportFilesOptions>(departure, arrival);
+
+            // use blackbox or simtoolkit to geocode screenshots
+            runGenericFlightCommand<GeoTagScreenshotsCommand, GeoTagScreenshotsOptions>(departure, arrival);
+            // processes simbrief import
+            runGenericFlightCommand<ProcessSimbriefCommand, ProcessSimbriefOptions>(departure, arrival);
+            // converts the chart pdfs into pngs
+            runGenericFlightCommand<ConvertChartsToImageCommand, ConvertChartsToImageOptions>(departure, arrival);
+            // converts all pngs into jpgs and preview jpgs
+            runGenericFlightCommand<CreatePreviewForImagesCommand, CreatePreviewForImagesOptions>(departure, arrival);
+            // trims the blackbox file into the black box trimmer file -> this is useless since the compress command can also do it but better.
+            runGenericFlightCommand<TrimBlackboxCommand, TrimBlackboxOptions>(departure, arrival);
+            // compresses the blackbox file to have as little coordinates as possible while preserving the track
+            runGenericFlightCommand<CompressBlackboxCommand, CompressBlackboxOptions>(departure, arrival);
+            // processes the blackbox and exports flight events and statistics
+            runGenericFlightCommand<ProcessBlackboxCommand, ProcessBlackboxOptions>(departure, arrival);
+            // combines all gps information of all sources into gps file
+            runGenericFlightCommand<CombineGpsInformationCommand, CombineGpsInformationOptions>(departure, arrival);
+            // combines all stats of all sources into stats file.
+            runGenericFlightCommand<CombineStatsCommand, CombineStatsOptions>(departure, arrival);
+            // compresses the track file to have as little coordinates as possible while preserving the track
+            runGenericFlightCommand<CompressTrackCommand, CompressTrackOptions>(departure, arrival);
+            // crops the screenshots to remove the title bar of the msfs2020 window 
+            runGenericFlightCommand<CropScreenshotTitleCommand, CropScreenshotTitleOptions>(departure, arrival);
         }
 
         private void runGenericFlightCommand<Tc, To>(string departure, string arrival)
@@ -55,8 +72,12 @@ namespace TheFipster.Aviation.FlightCli.Commands
             where To : FlightOptions, new()
         {
             var command = new Tc();
-            var options = new FlightOptions(departure, arrival);
-            command.Run((To)options, new HardcodedConfig());
+            var options = new To();
+
+            options.DepartureAirport = departure;
+            options.ArrivalAirport = arrival;
+
+            command.Run(options, new HardcodedConfig());
         }
 
         private void runRequiredFlightCommand<Tc, To>(string departure, string arrival)
@@ -81,8 +102,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void combineGps(string departure, string arrival)
         {
-            var gpsCombiner = new GpsCommand();
-            var options = new GpsOptions()
+            var gpsCombiner = new CombineGpsInformationCommand();
+            var options = new CombineGpsInformationOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -93,8 +114,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void extractEvents(string departure, string arrival)
         {
-            var eventExtractor = new BlackBoxStatsCommand();
-            var options = new BlackBoxStatsOptions()
+            var eventExtractor = new ProcessBlackboxCommand();
+            var options = new ProcessBlackboxOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -105,8 +126,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void moveScreenshots(string departure, string arrival)
         {
-            var photo = new PhotoCommand();
-            var options = new PhotoOptions()
+            var photo = new MoveScreenshotsCommand();
+            var options = new MoveScreenshotsOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -117,8 +138,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void moveNavigraphCharts(string departure, string arrival)
         {
-            var navi = new NaviCommand();
-            var options = new NaviOptions()
+            var navi = new MoveNavigraphChartsCommand();
+            var options = new MoveNavigraphChartsOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -129,8 +150,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void compressBlackbox(string departure, string arrival)
         {
-            var compresser = new CompressCommand();
-            var options = new CompressOptions()
+            var compresser = new CompressBlackboxCommand();
+            var options = new CompressBlackboxOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -141,8 +162,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void geocodeScreenshots(string departure, string arrival)
         {
-            var geocoder = new GeoTagCommand();
-            var options = new GeoTagOptions()
+            var geocoder = new GeoTagScreenshotsCommand();
+            var options = new GeoTagScreenshotsOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -153,8 +174,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void generateStats(string departure, string arrival)
         {
-            var trimmer = new StatsCommand();
-            var options = new StatsOptions()
+            var trimmer = new CombineStatsCommand();
+            var options = new CombineStatsOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -165,8 +186,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void trimBlackbox(string departure, string arrival)
         {
-            var trimmer = new TrimCommand();
-            var options = new TrimOptions()
+            var trimmer = new TrimBlackboxCommand();
+            var options = new TrimBlackboxOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -177,8 +198,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void generatePreviews(string departure, string arrival)
         {
-            var previewer = new PreviewCommand();
-            var options = new PreviewOptions()
+            var previewer = new CreatePreviewForImagesCommand();
+            var options = new CreatePreviewForImagesOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure,
@@ -190,8 +211,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void convertCharts(string departure, string arrival)
         {
-            var converter = new ChartCommand();
-            var options = new ChartOptions()
+            var converter = new ConvertChartsToImageCommand();
+            var options = new ConvertChartsToImageOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -202,8 +223,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void renameImports(string departure, string arrival)
         {
-            var renamer = new RenameCommand();
-            var options = new RenameOptions()
+            var renamer = new RenameImportFilesCommand();
+            var options = new RenameImportFilesOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -212,10 +233,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             renamer.Run(options, config);
         }
 
-        private void extractFromSimbrief(string departure, string arrival)
+        private void processSimbrief(string departure, string arrival)
         {
-            var simbrief = new SimbriefCommand();
-            var options = new SimbriefOptions()
+            var simbrief = new ProcessSimbriefCommand();
+            var options = new ProcessSimbriefOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -226,8 +247,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
         private void recordBlackBox(string departure, string arrival)
         {
-            var recorder = new RecorderCommand();
-            var options = new RecorderOptions()
+            var recorder = new BlackboxRecorderCommand();
+            var options = new BlackboxRecorderOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure
@@ -236,13 +257,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
             recorder.Run(options, config);
         }
 
-        private void extractFromSimToolkitPro(string departure, string arrival)
+        private void importFromSimToolkitPro(string departure, string arrival)
         {
             Console.WriteLine($"Press ENTER when you have completed the SimToolkitPro Flight.");
             Console.ReadLine();
 
-            var toolkitSql = new ToolkitCommand();
-            var options = new ToolkitOptions()
+            var toolkitSql = new ImportToolkitCommand();
+            var options = new ImportToolkitOptions()
             {
                 ArrivalAirport = arrival,
                 DepartureAirport = departure

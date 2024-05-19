@@ -9,18 +9,25 @@ namespace TheFipster.Aviation.DirtyLittleHelper.Stuff
 {
     internal class ScreenshotResizer
     {
-        public void Do()
+        public static void Resize(string filepath, int size, bool overwrite = false)
         {
-            var imageIn = "E:\\aviation\\Data\\Temp\\PASY - UHPP - Screenshot - 15.png";
-            var imageOut = imageIn.Replace(".png", ".jpg");
+            var imageOut = filepath.Replace(".png", ".jpg");
             var imagePre = imageOut.Replace("Screenshot", "Preview");
 
-            using (MagickImage image = new MagickImage(imageIn))
+            using (MagickImage image = new MagickImage(filepath))
             {
-                image.Write(imageOut, MagickFormat.Jpg);
-                image.Resize(0, 300);
-                image.Crop(300, 300, Gravity.Center);
-                image.Write(imagePre, MagickFormat.Jpg);
+                if (!(File.Exists(imageOut) && !overwrite))
+                    image.Write(imageOut, MagickFormat.Jpg);
+
+                if (image.Height > image.Width)
+                    image.Resize(size, 0);
+                else
+                    image.Resize(0, size);
+
+                image.Crop(size, size, Gravity.Center);
+
+                if (!(File.Exists(imagePre) && !overwrite))
+                    image.Write(imagePre, MagickFormat.Jpg);
             }
         }
     }

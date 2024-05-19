@@ -115,7 +115,10 @@ namespace TheFipster.Aviation.CoreCli
 
         private FileTypes scanJson(string file)
         {
-            var generic = new JsonReader<JsonBase>().FromFile(file);
+            if (file.Contains("SimbriefImport"))
+                return FileTypes.SimbriefImportJson;
+
+                var generic = new JsonReader<JsonBase>().FromFile(file);
             if (generic != null && generic.FileType != FileTypes.Empty)
                 return generic.FileType;
 

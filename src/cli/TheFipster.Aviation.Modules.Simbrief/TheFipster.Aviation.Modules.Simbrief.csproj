@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj" />
   </ItemGroup>

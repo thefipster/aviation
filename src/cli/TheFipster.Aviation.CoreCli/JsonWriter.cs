@@ -7,6 +7,10 @@ namespace TheFipster.Aviation.CoreCli
 {
     public class JsonWriter<T> : IJsonWriter<T>
     {
+        public void Write<T>(T flight, string folder, bool overwrite = false) 
+            where T : FlightBase
+            => Write(folder, flight, flight.FileType, flight.Departure, flight.Arrival, overwrite);
+
         public void Write<T>(
             string flightFolder, 
             T data, 
@@ -80,6 +84,7 @@ namespace TheFipster.Aviation.CoreCli
                 FileTypes.StatsJson => "Stats",
                 FileTypes.GeoTagsJson => "GeoTags",
                 FileTypes.GpsJson => "Gps",
+                FileTypes.ImportJson => "Import",
                 _ => throw new ApplicationException($"Unknown json file type {filetype}.")
             };
         }

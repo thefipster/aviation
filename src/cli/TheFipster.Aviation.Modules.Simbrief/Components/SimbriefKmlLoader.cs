@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Newtonsoft.Json;
+using System.Globalization;
+using System.Xml;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Simbrief;

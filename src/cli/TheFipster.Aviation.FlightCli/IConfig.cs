@@ -3,16 +3,18 @@
     public interface IConfig
     {
         string FlightsFolder { get; }
+        string JekyllFolder { get; }
 
         string AirportFile { get; }
         string OurAirportFile { get; }
         string FlightPlanFile { get; }
 
-        string ScreenshotFolder { get; }
+        string SimbriefPilotId { get; }
         string SimbriefFolder { get; }
+
+        string ScreenshotFolder { get; }
         string NavigraphFolder { get; }
         string SimToolkitProDatabaseFile { get; }
 
-        string JekyllFolder { get; }
     }
 }

@@ -1,0 +1,60 @@
+﻿//namespace TheFipster.Aviation.FlightCli
+//{
+//    public class HardcodedConfig : IConfig
+//    {
+//        /// <summary>
+//        /// This is where all the flight data is stored. Each flight will get it's own little directory for privacy.
+//        /// </summary>
+//        public string FlightsFolder => "";
+
+//        /// <summary>
+//        /// Airport data file from DataHub
+//        /// </summary>
+//        public string AirportFile => "";
+
+//        /// <summary>
+//        /// Processed output of the OurAirports data set
+//        /// </summary>
+//        public string OurAirportFile => "";
+
+//        /// <summary>
+//        /// Processed meta output of the OurAirports data set 
+//        /// </summary>
+//        public string OurAirportMetaFile => "";
+
+//        /// <summary>
+//        /// Filepath to the active fligth plan
+//        /// </summary>
+//        public string FlightPlanFile => "";
+
+//        /// <summary>
+//        /// Directory where screenshots are imported from. E.g. where the screenshots get placed when you take them.
+//        /// </summary>
+//        public string ScreenshotFolder => "";
+
+//        /// <summary>
+//        /// Directory where the Simbrief Downloader saves the flight files.
+//        /// </summary>
+//        public string SimbriefFolder => "";
+
+//        /// <summary>
+//        /// Directory where you print the navigraph charts
+//        /// </summary>
+//        public string NavigraphFolder => "";
+
+//        /// <summary>
+//        /// SimToolkitpro Database file. Usually in the main directory called userdata.db
+//        /// </summary>
+//        public string SimToolkitProDatabaseFile => "";
+
+//        /// <summary>
+//        /// Root folder of the jekyll project.
+//        /// </summary>
+//        public string JekyllFolder => "";
+
+//		  /// <summary>
+//		  /// Simbrief pilot id.
+//		  /// </summary>
+//		  public string PilotId => "";
+//    }
+//}

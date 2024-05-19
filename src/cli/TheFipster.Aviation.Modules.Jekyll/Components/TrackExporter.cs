@@ -3,6 +3,7 @@ using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Modules.Jekyll.Model;
+using TheFipster.Aviation.Domain.Geo;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Components
 {
