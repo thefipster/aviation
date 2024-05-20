@@ -5,13 +5,13 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
     internal class MetaInformation
     {
         public static string GeneratePostUrl(string flightNumber, string departure, string arrival)
-            => $"{flightNumber}-{departure}-{arrival}.html";
+            => $"/flights/{flightNumber}-{departure}-{arrival}.html";
 
         public static string GeneratePostUrl(SimBriefFlight simbrief)
             => GeneratePostName(simbrief.FlightNumber, simbrief.Departure.Icao, simbrief.Arrival.Icao);
         
         public static string GeneratePostName(string flightNumber, string departureIcao, string arrivalIcao)
-            => $"{flightNumber}-{departureIcao}-{arrivalIcao}.html";
+            => $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Day}-{flightNumber}-{departureIcao}-{arrivalIcao}.html";
 
         public static string GeneratePostName(SimBriefFlight simbrief)
             => GeneratePostName(simbrief.FlightNumber, simbrief.Departure.Icao, simbrief.Arrival.Icao);

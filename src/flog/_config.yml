@@ -5,7 +5,7 @@ description: Bloglike Microsoft Flight Simulator Tracking System
 baseurl: "" # the subpath of your site, e.g. /blog
 url: # the base hostname & protocol for your site
 github: https://github.com/thefipster
-permalink: /:title
+permalink: flights/:title:output_ext
 
 # homepage tiles
 tiles-source: pages #pages # accepts "posts" or "pages"

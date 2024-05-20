@@ -54,7 +54,7 @@
 
 	<script defer>
 		var map = L.map('map').setView([20, 0], 3);
-		var flight = "{{page.departureIcao}}{{page.arrivalIcao}}";
+		var flight = "{{page.departure.ident}}{{page.arrival.ident}}";
 
 		// Tiles
 		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
