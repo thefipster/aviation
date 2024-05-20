@@ -1,8 +1,10 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.CoreCli.Extensions;
+using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Geo;
 using TheFipster.Aviation.Domain.Simbrief;
+using TheFipster.Aviation.Domain.Simbrief.Kml;
 using TheFipster.Aviation.Modules.Jekyll.Model;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Components
@@ -11,6 +13,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
     {
         private int flightNumber;
 
+        [Obsolete]
         public FlightGeo GenerateGpsApiData(string flightFolder)
         {
             flightNumber = new FlightMeta().GetLeg(flightFolder);
@@ -25,6 +28,26 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
             geo.Track = generateTrack(gps.Coordinates);
 
             return geo;
+        }
+
+        public FlightGeo GenerateGpsApiData(FlightImport flight)
+        {
+            var geo = new FlightGeo();
+            geo.Events = generateLocation(flight.Events);
+            geo.Waypoints = generateLocation(flight.SimbriefKml.Kml.Document.Placemark);
+            geo.Images = generateLocation(flight.Geotags);
+            geo.Track = generateTrack(flight.Track);
+
+            return geo;
+        }
+
+        private IEnumerable<Location> generateLocation(List<Placemark> placemark)
+        {
+            foreach (var place in placemark)
+            {
+                if (place.Point != null)
+                    yield return new Location(place);
+            }
         }
 
         private IEnumerable<Location> generateLocation(IEnumerable<Waypoint> collection)

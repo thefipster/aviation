@@ -1,0 +1,33 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "flightcli scan": {
+      "commandName": "Project",
+      "commandLineArgs": "scan",
+      "hotReloadEnabled": false
+    },
+    "flightcli import": {
+      "commandName": "Project",
+      "commandLineArgs": "import",
+      "hotReloadEnabled": false
+    },
+    "flightcli process": {
+      "commandName": "Project",
+      "commandLineArgs": "process",
+      "hotReloadEnabled": false
+    },
+    "flightcli jekyll": {
+      "commandName": "Project",
+      "commandLineArgs": "jekyll",
+      "hotReloadEnabled": false
+    },
+    "flightcli wizard": {
+      "commandName": "Project",
+      "commandLineArgs": "wizard",
+      "hotReloadEnabled": false
+    }
+  }
+}

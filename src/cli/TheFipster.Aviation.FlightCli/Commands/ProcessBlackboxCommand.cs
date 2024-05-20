@@ -6,6 +6,7 @@ using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
+using TheFipster.Aviation.Modules.BlackBox.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {

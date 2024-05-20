@@ -84,7 +84,7 @@ namespace TheFipster.Aviation.CoreCli
                 FileTypes.StatsJson => "Stats",
                 FileTypes.GeoTagsJson => "GeoTags",
                 FileTypes.GpsJson => "Gps",
-                FileTypes.ImportJson => "Import",
+                FileTypes.FlightJson => "Flight",
                 _ => throw new ApplicationException($"Unknown json file type {filetype}.")
             };
         }

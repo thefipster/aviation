@@ -289,76 +289,7 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public List<object> Atis { get; set; }
 
         [JsonPropertyName("notam")]
-        public List<AlternateNotam> Notam { get; set; }
-    }
-
-    public partial class AlternateNotam
-    {
-        [JsonPropertyName("source_id")]
-        public string SourceId { get; set; }
-
-        [JsonPropertyName("account_id")]
-        public string AccountId { get; set; }
-
-        [JsonPropertyName("notam_id")]
-        public string NotamId { get; set; }
-
-        [JsonPropertyName("location_id")]
-        public string LocationId { get; set; }
-
-        [JsonPropertyName("location_icao")]
-        public string LocationIcao { get; set; }
-
-        [JsonPropertyName("location_name")]
-        public string LocationName { get; set; }
-
-        [JsonPropertyName("location_type")]
-        public string LocationType { get; set; }
-
-        [JsonPropertyName("date_created")]
-        public string DateCreated { get; set; }
-
-        [JsonPropertyName("date_effective")]
-        public string DateEffective { get; set; }
-
-        [JsonPropertyName("date_expire")]
-        public string DateExpire { get; set; }
-
-        [JsonPropertyName("date_expire_is_estimated")]
-        public bool DateExpireIsEstimated { get; set; }
-
-        [JsonPropertyName("date_modified")]
-        public string DateModified { get; set; }
-
-        [JsonPropertyName("notam_schedule")]
-        public string NotamSchedule { get; set; }
-
-        [JsonPropertyName("notam_html")]
-        public string NotamHtml { get; set; }
-
-        [JsonPropertyName("notam_text")]
-        public string NotamText { get; set; }
-
-        [JsonPropertyName("notam_raw")]
-        public string NotamRaw { get; set; }
-
-        [JsonPropertyName("notam_nrc")]
-        public string NotamNrc { get; set; }
-
-        [JsonPropertyName("notam_qcode")]
-        public string NotamQcode { get; set; }
-
-        [JsonPropertyName("notam_qcode_category")]
-        public string NotamQcodeCategory { get; set; }
-
-        [JsonPropertyName("notam_qcode_subject")]
-        public string NotamQcodeSubject { get; set; }
-
-        [JsonPropertyName("notam_qcode_status")]
-        public string NotamQcodeStatus { get; set; }
-
-        [JsonPropertyName("notam_is_obstacle")]
-        public bool NotamIsObstacle { get; set; }
+        public List<AirportNotam> Notam { get; set; }
     }
 
     public partial class Atc
@@ -511,7 +442,7 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public List<object> Atis { get; set; }
 
         [JsonPropertyName("notam")]
-        public List<AlternateNotam> Notam { get; set; }
+        public List<AirportNotam> Notam { get; set; }
     }
 
     public partial class Fetch
@@ -1146,7 +1077,6 @@ namespace TheFipster.Aviation.Domain.Simbrief
         [JsonPropertyName("notam_effective_dtg")]
         public string NotamEffectiveDtg { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("notam_expire_dtg")]
         public string NotamExpireDtg { get; set; }
 
@@ -1168,7 +1098,6 @@ namespace TheFipster.Aviation.Domain.Simbrief
         [JsonPropertyName("notam_qcode")]
         public string NotamQcode { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         [JsonPropertyName("notam_expire_dtg_estimated")]
         public string NotamExpireDtgEstimated { get; set; }
     }
@@ -1236,10 +1165,10 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public List<object> Atis { get; set; }
 
         [JsonPropertyName("notam")]
-        public List<OriginNotam> Notam { get; set; }
+        public List<AirportNotam> Notam { get; set; }
     }
 
-    public partial class OriginNotam
+    public partial class AirportNotam
     {
         [JsonPropertyName("source_id")]
         public string SourceId { get; set; }
@@ -1268,8 +1197,11 @@ namespace TheFipster.Aviation.Domain.Simbrief
         [JsonPropertyName("date_effective")]
         public string DateEffective { get; set; }
 
+        /// <summary>
+        /// WARNING: This can be either an ISO formatted date or a boolean, I guess indicating there is no expiry date.
+        /// </summary>
         [JsonPropertyName("date_expire")]
-        public DateExpire DateExpire { get; set; }
+        public object DateExpire { get; set; }
 
         [JsonPropertyName("date_expire_is_estimated")]
         public bool DateExpireIsEstimated { get; set; }

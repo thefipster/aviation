@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.OurAirports;
+using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.Jekyll.Components;
 using TheFipster.Aviation.Modules.Jekyll.Model;
 
@@ -15,22 +12,33 @@ namespace TheFipster.Aviation.Modules.Jekyll
     {
         private string jekyllRoot;
 
-        private string assetFolder;
-        private string imageFolder;
-        private string screenshotFolder;
-        private string apiFolder;
-        private string postFolder;
+        private readonly string assetFolder;
+        private readonly string dataFolder;
+        private readonly string imageFolder;
+        private readonly string screenshotFolder;
+        private readonly string apiFolder;
+        private readonly string postFolder;
 
         private string airportFile;
+        private readonly FlightFileScanner scanner;
+        private readonly FlightMeta meta;
+        private readonly JsonReader<FlightImport> flightReader;
+        private readonly OurAirportFinder airports;
 
         public JekyllExporter(string jekyllFolder, string airportFile)
         {
             this.airportFile = airportFile;
 
+            scanner = new FlightFileScanner();
+            meta = new FlightMeta();
+            flightReader = new JsonReader<FlightImport>();
+            airports = new OurAirportFinder(new JsonReader<IEnumerable<OurAirport>>(), airportFile);
+
             jekyllRoot = jekyllFolder;
             postFolder = Path.Combine(jekyllRoot, "_posts");
 
             assetFolder = Path.Combine(jekyllRoot, "assets");
+            dataFolder = Path.Combine(jekyllRoot, "_data");
             apiFolder = Path.Combine(assetFolder, "api");
             imageFolder = Path.Combine(assetFolder, "images");
             screenshotFolder = Path.Combine(imageFolder, "screenshots");
@@ -38,19 +46,21 @@ namespace TheFipster.Aviation.Modules.Jekyll
 
         public void ExportFlight(string folder)
         {
-            var departure = new FlightMeta().GetDeparture(folder);
-            var arrival = new FlightMeta().GetArrival(folder);
+            var flightFile = scanner.GetFile(folder, FileTypes.FlightJson);
+            var flight = flightReader.FromFile(flightFile);
 
-            var post = new FrontMatterPostExporter().GenerateFlightPost(folder, airportFile);
+            var departure = meta.GetDeparture(folder);
+            var arrival = meta.GetArrival(folder);
+
+            var post = new FrontMatterPostExporter().GenerateFlightPost(flight, airports);
             var postPath = Path.Combine(postFolder, post.Name);
             new PlainWriter().Write(postPath, post.Frontmatter, true);
 
-            var gpsData = new FlightGpsExporter().GenerateGpsApiData(folder);
+            var gpsData = new FlightGpsExporter().GenerateGpsApiData(flight);
             var gpsDataPath = Path.Combine(apiFolder, "flights", departure + arrival + "-gps.json");
             new JsonWriter<FlightGeo>().Write(gpsDataPath, gpsData, true);
 
             new ScreenshotExporter().Export(folder, screenshotFolder);
-
         }
 
         public void ExportCombined(string flightsFolder)
@@ -59,13 +69,14 @@ namespace TheFipster.Aviation.Modules.Jekyll
             var trackFile = Path.Combine(apiFolder, "track-flown.json");
             new JsonWriter<List<Track>>().Write(trackFile, track, true);
 
-            var plannedAirports = new AirportExporter().GetPlannedAirports(flightsFolder);
+            var plannedAirports = new AirportExporter().GetPlannedAirports(flightsFolder, airports);
             var plannedAirportsFile = Path.Combine(apiFolder, "airports-planned.json");
             new JsonWriter<List<Location>>().Write(plannedAirportsFile, plannedAirports, true);
 
-            var aircraft = new AircraftExporter().CreateFrontmatter(flightsFolder, airportFile);
-            var aircraftFile = Path.Combine(jekyllRoot, "aircraft.html");
-            new PlainWriter().Write(aircraftFile, aircraft, true);
+            var aircraft = new AircraftExporter().FromCombinedFlights(flightsFolder, airportFile);
+            var yaml = new YamlWriter().ToYaml(aircraft);
+            var aircraftFile = Path.Combine(dataFolder, "aircraft.yml");
+            new PlainWriter().Write(aircraftFile, yaml, true);
         }
     }
 }

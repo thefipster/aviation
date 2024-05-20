@@ -58,7 +58,7 @@ namespace TheFipster.Aviation.CoreCli
                     }
                 case ".html":
                     {
-                        return FileTypes.OfpHtml;
+                        return scanHtml(file);
                     }
                 case ".png":
                     {
@@ -84,7 +84,27 @@ namespace TheFipster.Aviation.CoreCli
                     {
                         return FileTypes.CropFolderLock;
                     }
+                case ".gif":
+                    {
+                        return scanGif(file);
+                    }
             }
+
+            return FileTypes.Unknown;
+        }
+
+        private FileTypes scanHtml(string file)
+        {
+            if (file.Contains("OFP"))
+                return FileTypes.OfpHtml;
+
+            return FileTypes.Unknown;
+        }
+
+        private FileTypes scanGif(string file)
+        {
+            if (file.Contains("Map"))
+                return FileTypes.SimbriefMap;
 
             return FileTypes.Unknown;
         }
@@ -118,7 +138,7 @@ namespace TheFipster.Aviation.CoreCli
             if (file.Contains("SimbriefImport"))
                 return FileTypes.SimbriefImportJson;
 
-                var generic = new JsonReader<JsonBase>().FromFile(file);
+            var generic = new JsonReader<JsonBase>().FromFile(file);
             if (generic != null && generic.FileType != FileTypes.Empty)
                 return generic.FileType;
 
