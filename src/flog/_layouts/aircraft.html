@@ -20,10 +20,9 @@
 						</header>
 						<ul class="alt">
 							<li>{{ page.description }}</li>
-							<li>{{ page.flights }} flights</li>
-							<li>{{ page.distanceFlownKm | floor }} km travelled</li>
-							<li>{{ page.secondsFlown | divided_by: 3600 | floor }} hours flown</li>
-						</ul>
+							<li>{{ site.data.aircraft.flights }} flights</li>
+							<li>{{ site.data.aircraft.stats.trackDistance | floor }} km travelled</li>
+							<li>{{ site.data.aircraft.stats.flightTime | divided_by: 3600 | floor }} hours flown</li>
 						</ul>
 					</div>
 				</div>
@@ -41,10 +40,10 @@
 							<h3>Parking Position</h3>
 						</header>
 						<ul class="alt">
-							<li>{{ page.airport }} ({{ page.icao }})</li>
-							<li>{{ page.region }}</li>
-							<li>{{ page.country }}</li>
-							<li>{{ page.continent }}</li>
+							<li>{{ site.data.aircraft.airport.name }} ({{ site.data.aircraft.airport.ident }})</li>
+							<li>{{ site.data.aircraft.airport.region.name }}</li>
+							<li>{{ site.data.aircraft.airport.country.name }}</li>
+							<li>{{ site.data.aircraft.airport.continentCode }}</li>
 						</ul>
 					</div>
 				</div>
@@ -86,7 +85,7 @@
 	</div>
 
 	{% include footer.html %}
-	{% assign position = "[" | append: page.latitude | append: "," | append: page.longitude | append: "]" %}
+	{% assign position = "[" | append: site.data.aircraft.position.latitude | append: "," | append: site.data.aircraft.position.longitude | append: "]" %}
 
 	<script defer>
 		var pos = {{ position }};

@@ -1,7 +1,7 @@
 ﻿using FSUIPC;
 using TheFipster.Aviation.Domain.BlackBox;
 
-namespace TheFipster.Aviation.Modules.BlackBox
+namespace TheFipster.Aviation.Modules.BlackBox.Models
 {
     public class Telemetry
     {
@@ -88,8 +88,8 @@ namespace TheFipster.Aviation.Modules.BlackBox
             record.WindSpeedKnots = windspeed.Value;
             record.WindDirectionRadians = (int)Math.Round(winddirection.Value * 360d / 65536d);
 
-            record.OutsideAirTemperatureCelsius = (int)oat.Value / 256;
-            record.TotalAirTemperatureCelsius = (int)tat.Value / 256;
+            record.OutsideAirTemperatureCelsius = oat.Value / 256;
+            record.TotalAirTemperatureCelsius = tat.Value / 256;
 
             record.BankAngle = Math.Round(bank.Value, 1);
             record.PitchAngle = Math.Round(pitch.Value, 1);

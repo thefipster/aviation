@@ -1,6 +1,7 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.Simbrief.Kml;
 using TheFipster.Aviation.Domain.Simbrief.Xml;
 using TheFipster.Aviation.FlightCli.Abstractions;
@@ -17,6 +18,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly JsonReader<BlackBoxFlight> blackboxReader;
         private readonly JsonWriter<FlightImport> flightWriter;
         private readonly XmlReader xmlReader;
+        private readonly JsonReader<SimbriefImport> simbriefImportReader;
         private readonly JsonReader<SimbriefXmlRaw> simbriefXmlRawReader;
         private readonly JsonReader<SimbriefKmlRaw> simbriefKmlRawReader;
 
@@ -28,6 +30,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             blackboxReader = new JsonReader<BlackBoxFlight>();
             flightWriter = new JsonWriter<FlightImport>();
             xmlReader = new XmlReader();
+            simbriefImportReader = new JsonReader<SimbriefImport>();
             simbriefXmlRawReader = new JsonReader<SimbriefXmlRaw>();
             simbriefKmlRawReader = new JsonReader<SimbriefKmlRaw>();
         }
@@ -41,15 +44,35 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 Console.WriteLine("\t" + folder);
                 var departure = meta.GetDeparture(folder);
                 var arrival = meta.GetArrival(folder);
-                var flight = new FlightImport(departure, arrival);
+                var leg = meta.GetLeg(folder).ToString();
+                var flight = new FlightImport(leg, departure, arrival);
 
                 LoadSimbriefXml(folder, flight);
                 LoadSimbriefKml(folder, flight);
+                LoadSimbriefJson(folder, flight);
                 LoadSimToolkitPro(folder, flight);
                 LoadBlackbox(folder, flight);
 
                 flightWriter.Write(flight, folder, true);
             }
+        }
+
+        public FlightImport LoadSimbriefJson(string folder, FlightImport flight)
+        {
+            try
+            {
+                var simbriefFile = scanner.GetFile(folder, FileTypes.SimbriefImportJson);
+                var simbrief = simbriefImportReader.FromFile(simbriefFile);
+
+                flight.Simbrief = simbrief;
+                Console.WriteLine($"\t\t {Emoji.GreenCircle} Simbrief JSON imported.");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"\t\t {Emoji.YellowCircle} Simbrief JSON is not available.");
+            }
+
+            return flight;
         }
 
         public FlightImport LoadBlackbox(string folder, FlightImport flight)

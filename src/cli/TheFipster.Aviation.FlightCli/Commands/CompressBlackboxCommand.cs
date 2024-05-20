@@ -6,6 +6,7 @@ using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
+using TheFipster.Aviation.Modules.BlackBox.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -28,7 +29,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
                 try
                 {
-                    BlackBoxFlight compressedBlackbox = new BlackBoxCompressor().CompressBlackboxRecords(folder);
+                    BlackBoxFlight compressedBlackbox = new BlackBoxCompressor().CompressRecords(folder);
                     new JsonWriter<BlackBoxFlight>().Write(folder, compressedBlackbox, FileTypes.BlackBoxCompressedJson, compressedBlackbox.Origin, compressedBlackbox.Destination, true);
                     Console.WriteLine();
                 }

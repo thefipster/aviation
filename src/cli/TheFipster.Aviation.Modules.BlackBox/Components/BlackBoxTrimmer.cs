@@ -1,6 +1,6 @@
 ﻿using TheFipster.Aviation.Domain;
 
-namespace TheFipster.Aviation.Modules.BlackBox
+namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxTrimmer
     {

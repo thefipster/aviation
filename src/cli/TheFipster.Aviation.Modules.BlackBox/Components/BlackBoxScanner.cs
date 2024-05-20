@@ -2,8 +2,10 @@
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.Domain.BlackBox;
+using TheFipster.Aviation.Domain.Simbrief.Xml;
 
-namespace TheFipster.Aviation.Modules.BlackBox
+namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxScanner
     {
@@ -11,10 +13,81 @@ namespace TheFipster.Aviation.Modules.BlackBox
         {
             var blackboxFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxJson);
             var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
-
-            var records = blackbox.Records.ToList();
+            var items = blackbox.Records.ToList();
             var stats = new BlackBoxStats(blackbox.Origin, blackbox.Destination);
 
+            extractRecords(items, stats);
+            // must run after extractRecords since it uses the record values to determine where they happened
+            // on the first pass we don't know when we encounter a maximum
+            extractWaypoints(items, stats);
+
+            return stats;
+        }
+
+        public BlackBoxStats GenerateStatsFromBlackbox(ICollection<Record> records)
+        {
+            var items = records.ToList();
+            var stats = new BlackBoxStats();
+
+            extractRecords(items, stats);
+            // must run after extractRecords since it uses the record values to determine where they happened
+            // on the first pass we don't know when we encounter a maximum
+            extractWaypoints(items, stats);
+
+            return stats;
+        }
+
+        private static void extractWaypoints(List<Record> records, BlackBoxStats stats)
+        {
+            bool tocTrigger = true;
+            bool gsTrigger = true;
+            bool climbTrigger = true;
+            bool descentTrigger = true;
+            bool windTrigger = true;
+
+            for (int i = 0; i < records.Count; i++)
+            {
+                var rec = records[i];
+                if (tocTrigger && stats.MaxAltitudeM * 0.999 < rec.GpsAltitudeMeters)
+                {
+                    var waypoint = new Waypoint($"Real TOC", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    stats.Waypoints.Add(waypoint);
+                    tocTrigger = false;
+                }
+
+                if (gsTrigger && rec.GroundSpeedMps == stats.MaxGroundSpeedMps)
+                {
+                    var waypoint = new Waypoint($"Max GS", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    stats.Waypoints.Add(waypoint);
+                    gsTrigger = false;
+                }
+
+                if (climbTrigger && rec.VerticalSpeedMps == stats.MaxClimbMps)
+                {
+                    var waypoint = new Waypoint($"Max Climb", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    stats.Waypoints.Add(waypoint);
+                    climbTrigger = false;
+                }
+
+                if (descentTrigger && rec.VerticalSpeedMps == stats.MaxDescentMps)
+                {
+                    var waypoint = new Waypoint($"Max Descent", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    stats.Waypoints.Add(waypoint);
+                    descentTrigger = false;
+                }
+
+                var windspeed = UnitConverter.KnotsToMetersPerSecond(rec.WindSpeedKnots);
+                if (windTrigger && windspeed == stats.MaxWindspeedMps)
+                {
+                    var waypoint = new Waypoint($"Max Wind", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    stats.Waypoints.Add(waypoint);
+                    windTrigger = false;
+                }
+            }
+        }
+
+        private static void extractRecords(List<Record> records, BlackBoxStats stats)
+        {
             bool above = true;
             bool below = true;
 
@@ -77,60 +150,12 @@ namespace TheFipster.Aviation.Modules.BlackBox
                     stats.MaxDescentMps = cur.VerticalSpeedMps;
 
                 var windspeed = UnitConverter.KnotsToMetersPerSecond(cur.WindSpeedKnots);
-                if (windspeed > stats.MaxWindspeed)
+                if (windspeed > stats.MaxWindspeedMps)
                 {
-                    stats.MaxWindspeed = windspeed;
+                    stats.MaxWindspeedMps = windspeed;
                     stats.WindDirectionRad = cur.WindDirectionRadians;
                 }
             }
-
-            bool tocTrigger = true;
-            bool gsTrigger = true;
-            bool climbTrigger = true;
-            bool descentTrigger = true;
-            bool windTrigger = true;
-
-            for (int i = 0; i < records.Count; i++)
-            {
-                var rec = records[i];
-                if (tocTrigger && stats.MaxAltitudeM * 0.999 < rec.GpsAltitudeMeters)
-                {
-                    var waypoint = new Waypoint($"Real TOC", rec.LatitudeDecimals, rec.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
-                    tocTrigger = false;
-                }
-
-                if (gsTrigger && rec.GroundSpeedMps == stats.MaxGroundSpeedMps)
-                {
-                    var waypoint = new Waypoint($"Max GS", rec.LatitudeDecimals, rec.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
-                    gsTrigger = false;
-                }
-
-                if (climbTrigger && rec.VerticalSpeedMps == stats.MaxClimbMps)
-                {
-                    var waypoint = new Waypoint($"Max Climb", rec.LatitudeDecimals, rec.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
-                    climbTrigger = false;
-                }
-
-                if (descentTrigger && rec.VerticalSpeedMps == stats.MaxDescentMps)
-                {
-                    var waypoint = new Waypoint($"Max Descent", rec.LatitudeDecimals, rec.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
-                    descentTrigger = false;
-                }
-
-                var windspeed = UnitConverter.KnotsToMetersPerSecond(rec.WindSpeedKnots);
-                if (windTrigger && windspeed == stats.MaxWindspeed)
-                {
-                    var waypoint = new Waypoint($"Max Wind", rec.LatitudeDecimals, rec.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
-                    windTrigger = false;
-                }
-            }
-
-            return stats;
         }
     }
 }

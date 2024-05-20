@@ -1,5 +1,4 @@
 ﻿using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Modules.Jekyll.Model;
@@ -11,12 +10,13 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
 {
     internal class AircraftExporter
     {
-        internal string CreateFrontmatter(string flightsFolder, string airportFile)
+        internal Model.Aircraft FromCombinedFlights(string flightsFolder, string airportFile)
         {
             var folders = Directory.GetDirectories(flightsFolder);
 
             var totalStats = new Stats();
             OurAirport lastAirport = null;
+            Coordinate lastPosition = null;
             var visitedCountries = new List<string>();
             var airports = new OurAirportFinder(new JsonReader<IEnumerable<OurAirport>>(), airportFile);
 
@@ -32,17 +32,21 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                 if (!visitedCountries.Contains(arrival.IsoCountryCode))
                     visitedCountries.Add(arrival.IsoCountryCode);
 
-                var statsFile = new FlightFileScanner().GetFile(folder, FileTypes.StatsJson);
-                var stats = new JsonReader<Stats>().FromFile(statsFile);
-                processStats(totalStats, stats);
+                var flightFile = new FlightFileScanner().GetFile(folder, FileTypes.FlightJson);
+                var flight = new JsonReader<FlightImport>().FromFile(flightFile);
+
+                if (flight.HasStats)
+                    processStats(totalStats, flight.Stats);
+
+                if (flight.HasTrack)
+                    lastPosition = flight.Track.Last();
+
 
                 lastAirport = arrival;
             }
 
-            var aircraft = new Aircraft(folders.Count(), totalStats, lastAirport, visitedCountries);
-
-            var frontmatter = new YamlWriter().ToYaml(aircraft);
-            return frontmatter;
+            var aircraft = new Model.Aircraft(folders.Count(), totalStats, lastAirport, lastPosition, visitedCountries);
+            return aircraft;
         }
 
         private void processStats(Stats total, Stats stats)
@@ -50,6 +54,11 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
             total.FuelUsed += stats.FuelUsed;
             total.FlightTime += stats.FlightTime;
             total.Passengers += stats.Passengers;
+            total.TrackDistance += stats.TrackDistance;
+            total.TaxiDistance += stats.TaxiDistance;
+            total.FlownDistance += stats.FlownDistance;
+            total.RouteDistance += stats.RouteDistance;
+            total.GreatCircleDistance += stats.GreatCircleDistance;
 
             if (stats.MaxGroundspeedMps > total.MaxGroundspeedMps)
                 total.MaxGroundspeedMps = stats.MaxGroundspeedMps;

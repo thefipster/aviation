@@ -30,16 +30,15 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Console.WriteLine("Generating per flight output.");
             Parallel.ForEach(folders, folder =>
             {
-                Console.Write($"\t {folder}");
+                Console.WriteLine($"\t {folder}");
 
                 try
                 {
                     jekyllExporter.ExportFlight(folder);
-                    Console.WriteLine();
                 }
                 catch (FileNotFoundException)
                 {
-                    Console.WriteLine($" - skipping, files missing");
+                    Console.WriteLine($"\t\t skipping, files missing");
                 }
             });
         }

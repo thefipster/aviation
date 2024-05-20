@@ -20,7 +20,6 @@ namespace TheFipster.Aviation.CoreCli
             {
                 throw new ApplicationException($"File {filepath} doesn't contain valid json.", ex);
             }
-            
         }
 
         public T FromText(string json)

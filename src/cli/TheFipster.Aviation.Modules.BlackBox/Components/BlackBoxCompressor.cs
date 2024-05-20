@@ -3,21 +3,24 @@ using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
 
-namespace TheFipster.Aviation.Modules.BlackBox
+namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxCompressor
     {
-        public BlackBoxFlight CompressBlackboxRecords(string folder)
+        public BlackBoxFlight CompressRecords(string folder)
         {
             var blackboxFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxTrimmedJson);
             var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
-            var coordinates = blackbox.Records.ToList();
+            var compressed = CompressRecords(blackbox.Records);
+            return new BlackBoxFlight(blackbox.Origin, blackbox.Destination, compressed);
+        }
 
+        public List<Record> CompressRecords(ICollection<Record> records)
+        {
+            var coordinates = records.ToList();
             removeDuplicates(coordinates);
             compressByAngleAndDistance(coordinates);
-
-            var compressedBlackbox = new BlackBoxFlight(blackbox.Origin, blackbox.Destination, coordinates);
-            return compressedBlackbox;
+            return coordinates;
         }
 
         private static void compressByAngleAndDistance(List<Record> coordinates)

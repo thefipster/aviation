@@ -103,7 +103,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 stats.MaxGroundspeedMps = blackbox.MaxGroundSpeedMps;
                 stats.MaxClimbMps = blackbox.MaxClimbMps;
                 stats.MaxDescentMps = blackbox.MaxDescentMps;
-                stats.MaxWindspeedMps = blackbox.MaxWindspeed;
+                stats.MaxWindspeedMps = blackbox.MaxWindspeedMps;
                 stats.MaxWindspeedDirection = blackbox.WindDirectionRad;
 
             }

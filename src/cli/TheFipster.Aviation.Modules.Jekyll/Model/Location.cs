@@ -3,6 +3,7 @@ using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.Geo;
+using TheFipster.Aviation.Domain.Simbrief.Kml;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Model
 {
@@ -41,6 +42,16 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
             LatLon = [
                 airport.Latitude.RoundToSignificantDigits(4),
                 airport.Longitude.RoundToSignificantDigits(4)
+            ];
+        }
+
+        public Location(Placemark place)
+        {
+            Name = place.Name;
+            var coord = Coordinate.FromAirportCoordinateString(place.Point.Coordinates);
+            LatLon = [
+                coord.Latitude.RoundToSignificantDigits(4), 
+                coord.Longitude.RoundToSignificantDigits(4)
             ];
         }
 

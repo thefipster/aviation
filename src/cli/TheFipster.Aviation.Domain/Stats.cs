@@ -36,5 +36,27 @@ namespace TheFipster.Aviation.Domain
         public bool HasSimbrief { get; set; }
         public bool HasLanding { get; set; }
         public bool HasBlackbox { get; set; }
+        public double TrackDistance { get; set; }
+        public bool Below10000SpeedWarning { get; set; }
+        public double FlownDistance { get; set; }
+        public double TaxiDistance { get; set; }
+
+        public void Merge(BlackBoxStats extrems)
+        {
+            Below10000SpeedWarning = extrems.Below10000SpeedWarning;
+            FlownDistance = extrems.DistanceAir;
+            TaxiDistance = extrems.DistanceGround;
+            MaxAltitudeM = extrems.MaxAltitudeM;
+            MaxClimbMps = extrems.MaxClimbMps;
+            MaxDescentMps = extrems.MaxDescentMps;
+            MaxGroundspeedMps = extrems.MaxGroundSpeedMps;
+            MaxWindspeedMps = extrems.MaxWindspeedMps;
+            MaxWindspeedDirection = extrems.WindDirectionRad;
+        }
+
+        public void Merge(LogbookStats stats)
+        {
+            FlightTime = stats.FlightTime;
+        }
     }
 }

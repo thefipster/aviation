@@ -1,33 +1,37 @@
-﻿using TheFipster.Aviation.CoreCli;
+﻿using System.Collections.Concurrent;
+using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.Jekyll.Model;
 
 namespace TheFipster.Aviation.Modules.Jekyll.Components
 {
     internal class AirportExporter
     {
-        public List<Location> GetPlannedAirports(string flightsFolder)
+        public List<Location> GetPlannedAirports(string flightsFolder, OurAirportFinder airports)
         {
-            var airports = new List<Location>();
+            var result = new List<Location>();
             var folders = Directory.GetDirectories(flightsFolder);
-            foreach (var folder in folders)
+            Parallel.ForEach(folders, folder =>
             {
-                var simbriefFile = new FlightFileScanner().GetFile(folder, FileTypes.SimbriefJson);
-                var simbrief = new JsonReader<SimBriefFlight>().FromFile(simbriefFile);
+                var flightFile = new FlightFileScanner().GetFile(folder, FileTypes.FlightJson);
+                var flight = new JsonReader<FlightImport>().FromFile(flightFile);
 
-                if (!airports.Any(x => x.Name == simbrief.Departure.Icao))
-                    airports.Add(new Location(simbrief.Departure));
+                var departure = airports.SearchWithIcao(flight.Departure);
+                result.Add(new Location(departure));
 
-                if (!airports.Any(x => x.Name == simbrief.Arrival.Icao))
-                    airports.Add(new Location(simbrief.Arrival));
+                var arrival = airports.SearchWithIcao(flight.Arrival);
+                result.Add(new Location(arrival));
 
-                if (!airports.Any(x => x.Name == simbrief.Alternate.Icao))
-                    airports.Add(new Location(simbrief.Alternate));
-            }
+                if (flight.HasSimbriefXml && flight.SimbriefXml.Ofp.Alternate != null)
+                {
+                    var alternate = airports.SearchWithIcao(flight.SimbriefXml.Ofp.Alternate.IcaoCode);
+                    result.Add(new Location(alternate));
+                }
+            });
 
-            return airports;
+            return result;
         }
-
     }
 }

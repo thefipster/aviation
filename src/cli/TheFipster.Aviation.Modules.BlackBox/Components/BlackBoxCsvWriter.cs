@@ -5,7 +5,7 @@ using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
 
-namespace TheFipster.Aviation.Modules.BlackBox
+namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxCsvWriter
     {

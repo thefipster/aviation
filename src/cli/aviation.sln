@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0137FFC2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Tests.Common.CoreCli", "TheFipster.Aviation.Tests.Common.CoreCli\TheFipster.Aviation.Tests.Common.CoreCli.csproj", "{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.OurAirports", "TheFipster.Aviation.Modules.OurAirports\TheFipster.Aviation.Modules.OurAirports.csproj", "{D15433CF-9B2E-4370-8335-D4E8F681AAF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.OurAirports", "TheFipster.Aviation.Modules.OurAirports\TheFipster.Aviation.Modules.OurAirports.csproj", "{D15433CF-9B2E-4370-8335-D4E8F681AAF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

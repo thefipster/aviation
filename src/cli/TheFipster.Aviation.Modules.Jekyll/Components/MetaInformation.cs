@@ -4,24 +4,24 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
 {
     internal class MetaInformation
     {
+        public static string GeneratePostUrl(string flightNumber, string departure, string arrival)
+            => $"/flights/{flightNumber}-{departure}-{arrival}.html";
+
         public static string GeneratePostUrl(SimBriefFlight simbrief)
-        {
-            var flightDate = DateTime.UnixEpoch.AddSeconds(simbrief.DispatchDate);
-            return $"{flightDate.Year}/{flightDate.Month:00}/{flightDate.Day:00}/{simbrief.FlightNumber}-{simbrief.Departure.Icao}-{simbrief.Arrival.Icao}.html";
-        }
+            => GeneratePostName(simbrief.FlightNumber, simbrief.Departure.Icao, simbrief.Arrival.Icao);
+        
+        public static string GeneratePostName(string flightNumber, string departureIcao, string arrivalIcao)
+            => $"{DateTime.UtcNow.Year}-{DateTime.UtcNow.Month}-{DateTime.UtcNow.Day}-{flightNumber}-{departureIcao}-{arrivalIcao}.html";
 
         public static string GeneratePostName(SimBriefFlight simbrief)
-        {
-            var flightDate = DateTime.UnixEpoch.AddSeconds(simbrief.DispatchDate);
-            return $"{flightDate.Year}-{flightDate.Month}-{flightDate.Day}-{simbrief.FlightNumber}-{simbrief.Departure.Icao}-{simbrief.Arrival.Icao}.html";
-        }
+            => GeneratePostName(simbrief.FlightNumber, simbrief.Departure.Icao, simbrief.Arrival.Icao);
+
+        public static string GeneratePostName(int flightNumber, string departureIcao, string arrivalIcao)
+            => GeneratePostName(flightNumber.ToString(), departureIcao, arrivalIcao);
 
         internal static string? GenerateScreenshotUrl(string screenshot, int flightNumber)
-        {
             // EKVG - BIEG - Screenshot - 1.png
             // /assets/images/screenshots/38/PAHO%20-%20PAKN%20-%20Screenshot%20-%201.png
-
-            return $"/assets/images/screenshots/{flightNumber}/{screenshot.Replace(" ", string.Empty)}.jpg";
-        }
+            => $"/assets/images/screenshots/{flightNumber}/{screenshot.Replace(" ", string.Empty)}.jpg";
     }
 }
