@@ -28,7 +28,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                     return;
 
                 var flightFile = scanner.GetFile(folder, FileTypes.FlightJson);
-                var flight = new JsonReader<FlightImport>().FromFile(flightFile);
+                var flight = flightReader.FromFile(flightFile);
 
                 var track = flight.Track.Select(x => new List<decimal>() { x.Latitude.RoundToSignificantDigits(5), x.Longitude.RoundToSignificantDigits(5) }).ToList();
                 var name = flight.Departure + " - " + flight.Arrival;

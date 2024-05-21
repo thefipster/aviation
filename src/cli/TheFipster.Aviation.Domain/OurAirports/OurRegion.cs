@@ -1,6 +1,6 @@
 ﻿namespace TheFipster.Aviation.Domain.OurAirports
 {
-    public class OurRegion
+    public class OurRegion : IOurAirportData
     {
         public int Id { get; set; }
         public string Code { get; set; }

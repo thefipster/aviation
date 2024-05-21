@@ -29,5 +29,7 @@ namespace TheFipster.Aviation.Domain
         public double DistanceGround { get; set; }
         public double DistanceAir { get; set; }
         public double DistanceTrack { get; set; }
+        public long TouchdownTime { get; set; }
+        public long TakeoffTime { get; set; }
     }
 }

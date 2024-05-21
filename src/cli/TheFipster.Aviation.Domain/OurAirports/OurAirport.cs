@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.Domain.OurAirports
 {
-    public class OurAirport
+    public class OurAirport : IOurAirportData
     {
         public OurAirport()
         {

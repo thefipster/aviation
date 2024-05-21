@@ -10,6 +10,8 @@
   <ItemGroup>
     <ProjectReference Include="..\TheFipster.Aviation.CoreCli\TheFipster.Aviation.CoreCli.csproj" />
     <ProjectReference Include="..\TheFipster.Aviation.Domain\TheFipster.Aviation.Domain.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.Airports\TheFipster.Aviation.Modules.Airports.csproj" />
+    <ProjectReference Include="..\TheFipster.Aviation.Modules.OurAirports\TheFipster.Aviation.Modules.OurAirports.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

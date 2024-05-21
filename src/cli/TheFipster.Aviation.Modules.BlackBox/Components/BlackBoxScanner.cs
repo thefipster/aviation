@@ -4,6 +4,7 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.Domain.Simbrief.Xml;
+using System.Transactions;
 
 namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
@@ -110,8 +111,20 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 
                 if (last.OnGroundFlag != cur.OnGroundFlag)
                 {
-                    var waypoint = new Waypoint(cur.OnGroundFlag ? "Landing" : "Takeoff", cur.LatitudeDecimals, cur.LongitudeDecimals);
-                    stats.Waypoints.Add(waypoint);
+                    if (cur.OnGroundFlag)
+                    {
+                        // Landing
+                        var waypoint = new Waypoint("Landing", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                        stats.Waypoints.Add(waypoint);
+                        stats.TouchdownTime = cur.Timestamp;
+                    }
+                    else
+                    {
+                        // Takeoff
+                        var waypoint = new Waypoint("Takeoff", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                        stats.Waypoints.Add(waypoint);
+                        stats.TakeoffTime = cur.Timestamp;
+                    }
                 }
 
                 if (above && last.AltimeterFeet < 10000 && cur.AltimeterFeet >= 10000)

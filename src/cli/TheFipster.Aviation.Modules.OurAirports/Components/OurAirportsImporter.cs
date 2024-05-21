@@ -1,34 +1,51 @@
 ﻿using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain;
-using Microsoft.VisualBasic.FileIO;
+using TheFipster.Aviation.CoreCli;
+using System.Collections.Concurrent;
 
 namespace TheFipster.Aviation.Modules.OurAirports.Components
 {
     public class OurAirportsImporter
     {
+        public const string AirportFile = "airports.csv";
+        public const string RunwayFile = "runways.csv";
+        public const string CountryFile = "countries.csv";
+        public const string RegionFile = "regions.csv";
+
+        private readonly CsvReader csvReader;
+
+        public OurAirportsImporter()
+        {
+            csvReader = new CsvReader();
+        }
+
         public List<OurAirport> Filter(string importPath, int minRunwayLengthMeters, string[] excludedSurfaces, bool excludeClosed)
         {
-            var airportFile = "airports.csv";
-            var airportCsv = Path.Combine(importPath, airportFile);
-            var airports = readAirports(airportCsv);
+            var airports = readFile<OurAirport>(AirportFile, importPath);
+            var runways = readFile<OurRunway>(RunwayFile, importPath);
+            var countries = readFile<OurCountry>(CountryFile, importPath);
+            var regions = readFile<OurRegion>(RegionFile, importPath);
 
-            var runwayFile = "runways.csv";
-            var runwayCsv = Path.Combine(importPath, runwayFile);
-            var runways = readRunway(runwayCsv);
+            var dataset = merge(minRunwayLengthMeters, excludedSurfaces, excludeClosed, airports, runways, countries, regions);
+            return dataset;
+        }
 
-            var countryFile = "countries.csv";
-            var countryCsv = Path.Combine(importPath, countryFile);
-            var countries = readCountries(countryCsv);
+        private List<T> readFile<T>(string filename, string path) where T : IOurAirportData
+        {
+            var csvFile = Path.Combine(path, filename);
+            var lines = csvReader.FromFile(csvFile);
+            var bag = new ConcurrentBag<T>();
+            Parallel.ForEach(lines, line =>
+            {
+                var item = (T)new OurAirportFactory().Produce<T>(line);
+                bag.Add(item);
+            });
+            return bag.ToList();
+        }
 
-            var regionFile = "regions.csv";
-            var regionCsv = Path.Combine(importPath, regionFile);
-            var regions = readRegions(regionCsv);
-
-            var selection = new List<OurAirport>();
-            var continents = new Dictionary<string, List<OurAirport>>();
-
-            var surfaces = new List<string>();
-
+        private static List<OurAirport> merge(int minRunwayLengthMeters, string[] excludedSurfaces, bool excludeClosed, List<OurAirport> airports, List<OurRunway> runways, List<OurCountry> countries, List<OurRegion> regions)
+        {
+            var selection = new ConcurrentBag<OurAirport>();
             Parallel.ForEach(airports, airport =>
             {
                 if (excludeClosed && airport.Type == "closed")
@@ -36,15 +53,11 @@ namespace TheFipster.Aviation.Modules.OurAirports.Components
 
                 var runs = runways.Where(x =>
                     x.AirportRef == airport.Id
-                    && x.LengthFeet.HasValue 
+                    && x.LengthFeet.HasValue
                     && x.LengthFeet > UnitConverter.MetersToFeet(minRunwayLengthMeters));
 
                 foreach (var surface in excludedSurfaces)
                     runs = runs.Where(x => !x.Surface.ToUpper().Contains(surface));
-
-                foreach (var surf in runs.Select(x => x.Surface))
-                    if (!surfaces.Contains(surf.ToUpper()))
-                        surfaces.Add(surf.ToUpper());
 
                 if (!runs.Any())
                     return;
@@ -59,99 +72,7 @@ namespace TheFipster.Aviation.Modules.OurAirports.Components
                 selection.Add(airport);
             });
 
-            return selection;
-        }
-
-        private List<OurRegion> readRegions(string csvFile)
-        {
-            using (TextFieldParser csvParser = new TextFieldParser(csvFile))
-            {
-                csvParser.CommentTokens = ["#"];
-                csvParser.SetDelimiters([","]);
-                csvParser.HasFieldsEnclosedInQuotes = true;
-
-                // Skip header
-                csvParser.ReadLine();
-
-                var list = new List<OurRegion>();
-                while (!csvParser.EndOfData)
-                {
-                    string[] fields = csvParser.ReadFields();
-                    var item = OurRegion.FromOurAirportsCsv(fields);
-                    list.Add(item);
-                }
-
-                return list;
-            }
-        }
-
-        private List<OurCountry> readCountries(string csvFile)
-        {
-            using (TextFieldParser csvParser = new TextFieldParser(csvFile))
-            {
-                csvParser.CommentTokens = ["#"];
-                csvParser.SetDelimiters([","]);
-                csvParser.HasFieldsEnclosedInQuotes = true;
-
-                // Skip header
-                csvParser.ReadLine();
-
-                var countries = new List<OurCountry>();
-                while (!csvParser.EndOfData)
-                {
-                    string[] fields = csvParser.ReadFields();
-                    var country = OurCountry.FromOurAirportsCsv(fields);
-                    countries.Add(country);
-                }
-
-                return countries;
-            }
-        }
-
-        private List<OurAirport> readAirports(string airportCsv)
-        {
-            using (TextFieldParser csvParser = new TextFieldParser(airportCsv))
-            {
-                csvParser.CommentTokens = ["#"];
-                csvParser.SetDelimiters([","]);
-                csvParser.HasFieldsEnclosedInQuotes = true;
-
-                // Skip header
-                csvParser.ReadLine();
-
-                var airports = new List<OurAirport>();
-                while (!csvParser.EndOfData)
-                {
-                    string[] fields = csvParser.ReadFields();
-                    var airport = OurAirport.FromOurAirportsCsv(fields);
-                    airports.Add(airport);
-                }
-
-                return airports;
-            }
-        }
-
-        private List<OurRunway> readRunway(string csvFile)
-        {
-            using (TextFieldParser csvParser = new TextFieldParser(csvFile))
-            {
-                csvParser.CommentTokens = ["#"];
-                csvParser.SetDelimiters([","]);
-                csvParser.HasFieldsEnclosedInQuotes = true;
-
-                // Skip header
-                csvParser.ReadLine();
-
-                var runways = new List<OurRunway>();
-                while (!csvParser.EndOfData)
-                {
-                    string[] fields = csvParser.ReadFields();
-                    var runway = OurRunway.FromOurAirportsCsv(fields);
-                    runways.Add(runway);
-                }
-
-                return runways;
-            }
+            return selection.ToList();
         }
     }
 }
