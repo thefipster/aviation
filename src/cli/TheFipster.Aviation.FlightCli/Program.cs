@@ -9,7 +9,7 @@ using TheFipster.Aviation.FlightCli.Options;
 //   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
 //   , "-w", "400", "-h", "300"
 
-//args = new[] { "download", "-d", "UHPP", "-a", "UHSI" };
+//args = new[] { "process", "-d", "UHSI", "-a", "RJEC" };
 
 try
 {
@@ -55,19 +55,11 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<FlightDirCreateOptions>(options => { new FlightDirCreateCommand().Run(options, config); })
         .WithParsed<SimbriefDispatchMoveOptions>(options => { new SimbriefDispatchMoveCommand().Run(options, config); })
         .WithParsed<AirportFileGeneratorOptions>(options => { new AirportFileGeneratorCommand().Run(options, config); })
-        .WithParsed<BlackboxRecorderOptions>(options => { new BlackboxRecorderCommand().Run(options, config); })
         .WithParsed<MoveNavigraphChartsOptions>(options => { new MoveNavigraphChartsCommand().Run(options, config); })
         .WithParsed<MoveScreenshotsOptions>(options => { new MoveScreenshotsCommand().Run(options, config); })
         .WithParsed<ImportToolkitOptions>(options => { new ImportToolkitCommand().Run(options, config); })
         .WithParsed<RenameImportFilesOptions>(options => { new RenameImportFilesCommand().Run(options, config); })
-        .WithParsed<CropScreenshotTitleOptions>(options => { new CropScreenshotTitleCommand().Run(options, config); })
-        .WithParsed<CreatePreviewForImagesOptions>(options => { new CreatePreviewForImagesCommand().Run(options, config); })
-        .WithParsed<ConvertChartsToImageOptions>(options => { new ConvertChartsToImageCommand().Run(options, config); })
         .WithParsed<SimbriefDownloadOptions>(options => { new SimbriefDownloadCommand().Run(options, config); })
-
-        .WithParsed<CombineImportsOptions>(options => { new CombineImportsCommand().Run(options, config); })
-        .WithParsed<ProcessImportsOptions>(options => { new ProcessImportsCommand().Run(options, config); })
-
         .WithParsed<GeoTagScreenshotsOptions>(options => { new GeoTagScreenshotsCommand().Run(options, config); })
         .WithParsed<ProcessSimbriefOptions>(options => { new ProcessSimbriefCommand().Run(options, config); })
         .WithParsed<TrimBlackboxOptions>(options => { new TrimBlackboxCommand().Run(options, config); })
@@ -76,10 +68,26 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<CombineGpsInformationOptions>(options => { new CombineGpsInformationCommand().Run(options, config); })
         .WithParsed<CombineStatsOptions>(options => { new CombineStatsCommand().Run(options, config); })
         .WithParsed<CompressTrackOptions>(options => { new CompressTrackCommand().Run(options, config); })
-
-        .WithParsed<ScanOptions>(options => { new ScanCommand().Run(options, config); })
         .WithParsed<WizardOptions>(options => { new WizardCommand().Run(options, config); })
         .WithParsed<NextOptions>(options => { new NextCommand().Run(options, config); })
+
+
+        .WithParsed<CreatePreviewForImagesOptions>(options => { new CreatePreviewForImagesCommand().Run(options, config); })
+        .WithParsed<ConvertChartsToImageOptions>(options => { new ConvertChartsToImageCommand().Run(options, config); })
+        .WithParsed<CropScreenshotTitleOptions>(options => { new CropScreenshotTitleCommand().Run(options, config); })
+        .WithParsed<BlackboxRecorderOptions>(options => { new BlackboxRecorderCommand().Run(options, config); })
+
+        .WithParsed<NewManualFlightOptions>(options => { new NewManualFlightCommand().Run(options, config); })
+        .WithParsed<NewDispatchFlightOptions>(options => { new NewDispatchFlightCommand().Run(options, config); })
+
+        .WithParsed<CreateNavigraphFlightOptions>(options => { new CreateNavigraphFlightCommand().Run(options, config); })
+        .WithParsed<CreateSimbriefFlightOptions>(options => { new CreateSimbriefFlightCommand().Run(options, config); })
+
+        .WithParsed<ImportCollectorOptions>(options => { new ImportCollectorCommand().Run(options, config); })
+        .WithParsed<ImportCombinerOptions>(options => { new ImportCombinerCommand().Run(options, config); })
+        .WithParsed<ImportProcessorOptions>(options => { new ImportProcessorCommand().Run(options, config); })
+
+        .WithParsed<ScanOptions>(options => { new ScanCommand().Run(options, config); })
         .WithParsed<JekyllOptions>(options => { new JekyllCommand().Run(options, config); })
         .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
         .WithNotParsed(_ => Console.WriteLine());

@@ -10,7 +10,7 @@ using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    public class CombineImportsCommand : IFlightCommand<CombineImportsOptions>
+    public class ImportCombinerCommand : IFlightCommand<ImportCombinerOptions>
     {
         private readonly FlightMeta meta;
         private readonly FlightFileScanner scanner;
@@ -22,7 +22,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly JsonReader<SimbriefXmlRaw> simbriefXmlRawReader;
         private readonly JsonReader<SimbriefKmlRaw> simbriefKmlRawReader;
 
-        public CombineImportsCommand()
+        public ImportCombinerCommand()
         {
             meta = new FlightMeta();
             scanner = new FlightFileScanner();
@@ -35,9 +35,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
             simbriefKmlRawReader = new JsonReader<SimbriefKmlRaw>();
         }
 
-        public void Run(CombineImportsOptions options, IConfig config)
+        public void Run(ImportCombinerOptions options, IConfig config)
         {
-            Console.WriteLine(CombineImportsOptions.Welcome);
+            Console.WriteLine(ImportCombinerOptions.Welcome);
             var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
             {
@@ -47,6 +47,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 var leg = meta.GetLeg(folder).ToString();
                 var flight = new FlightImport(leg, departure, arrival);
 
+                LoadCreatedTime(folder, flight);
                 LoadSimbriefXml(folder, flight);
                 LoadSimbriefKml(folder, flight);
                 LoadSimbriefJson(folder, flight);
@@ -55,6 +56,26 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
                 flightWriter.Write(flight, folder, true);
             }
+        }
+
+        public FlightImport LoadCreatedTime(string folder, FlightImport flight)
+        {
+            try
+            {
+                var createdFile = scanner.GetFile(folder, FileTypes.CreatedTxt);
+                var createdValue = File.ReadAllLines(createdFile).LastOrDefault();
+
+                if (DateTime.TryParse(createdValue, out var startedDate))
+                    flight.Started = startedDate;
+
+                Console.WriteLine($"\t\t {Emoji.GreenCircle} Flight initiation date set.");
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"\t\t {Emoji.GreenCircle} Flight initiation date not available.");
+            }
+
+            return flight;
         }
 
         public FlightImport LoadSimbriefJson(string folder, FlightImport flight)

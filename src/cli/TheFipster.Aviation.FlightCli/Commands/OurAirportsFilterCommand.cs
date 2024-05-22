@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.FlightCli.Abstractions;

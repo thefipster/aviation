@@ -88,7 +88,19 @@ namespace TheFipster.Aviation.CoreCli
                     {
                         return scanGif(file);
                     }
+                case ".txt":
+                    {
+                        return scanTxt(file);
+                    }    
             }
+
+            return FileTypes.Unknown;
+        }
+
+        private FileTypes scanTxt(string file)
+        {
+            if (file.Contains("Created"))
+                return FileTypes.CreatedTxt;
 
             return FileTypes.Unknown;
         }

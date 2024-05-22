@@ -13,7 +13,7 @@ using TheFipster.Aviation.Modules.SimToolkitPro.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    public class ProcessImportsCommand : IFlightCommand<ProcessImportsOptions>
+    public class ImportProcessorCommand : IFlightCommand<ImportProcessorOptions>
     {
         private readonly FlightFileScanner scanner;
         private readonly JsonReader<FlightImport> flightReader;
@@ -27,7 +27,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly SimToolkitProGeotagger stkpGeotagger;
         private readonly SimToolkitProScanner stkpScanner;
 
-        public ProcessImportsCommand()
+        public ImportProcessorCommand()
         {
             scanner = new FlightFileScanner();
             flightReader = new JsonReader<FlightImport>();
@@ -42,9 +42,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
             stkpScanner = new SimToolkitProScanner();
         }
 
-        public void Run(ProcessImportsOptions options, IConfig config)
+        public void Run(ImportProcessorOptions options, IConfig config)
         {
-            Console.WriteLine(ProcessImportsOptions.Welcome);
+            Console.WriteLine(ImportProcessorOptions.Welcome);
             Guard.EnsureConfig(config);
 
             var folders = options.GetFlightFolders(config.FlightsFolder);

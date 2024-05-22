@@ -2,7 +2,7 @@
 
 namespace TheFipster.Aviation.Domain.OurAirports
 {
-    public class OurRunway
+    public class OurRunway : IOurAirportData
     {
         public int? HeDisplacedThreshold { get; set; }
         public double? HeHeadingDeg { get; set; }

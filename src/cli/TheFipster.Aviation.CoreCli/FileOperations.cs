@@ -1,6 +1,8 @@
 ﻿using System.Data;
+using System.Globalization;
 using TheFipster.Aviation.CoreCli.Abstractions;
 using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
 
 namespace TheFipster.Aviation.CoreCli
@@ -22,6 +24,29 @@ namespace TheFipster.Aviation.CoreCli
             var orderedFiles = files.OrderByDescending(file => file.LastWriteTime);
             var latestFile = orderedFiles.FirstOrDefault();
             return latestFile.FullName;
+        }
+
+        public void MoveScreenshots(IEnumerable<string> files, string path, string departure, string arrival, bool overwrite = false)
+        {
+            var fileInfos = files.Select(x => new FileInfo(x));
+            int i = 0;
+            foreach (var file in fileInfos.OrderBy(x => x.LastWriteTimeUtc))
+            {
+                i++;
+                var filename = $"{departure} - {arrival} - Screenshot - {i}.png";
+                var newFile = Path.Combine(path, filename);
+                File.Move(file.FullName, newFile, overwrite);
+            }
+        }
+
+        public void MoveFiles(IEnumerable<string> files, string path, bool overwrite = false)
+        {
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                var newFile = Path.Combine(path, filename);
+                File.Move(file, newFile, overwrite);
+            }
         }
 
         public ICollection<string> MoveFiles(string oldFolder, string newFolder, string searchPattern = null)
@@ -65,6 +90,73 @@ namespace TheFipster.Aviation.CoreCli
 
             Directory.CreateDirectory(flightPath);
             return flightPath;
+        }
+
+        public IEnumerable<string> ScanForFiles(string path, string search = null, int intervalMs = 1000)
+        {
+            while (true)
+            {
+                var files = Directory.GetFiles(path, search);
+                if (files.Any())
+                    return files;
+
+                Thread.Sleep(1000);
+            }
+        }
+
+        public string CreateFlightFolder(string path, Leg leg)
+        {
+            var flightFolder = $"{leg.No:d4} - {leg.From} - {leg.To}";
+            var flightPath = Path.Combine(path, flightFolder);
+            if (!Directory.Exists(flightPath))
+                Directory.CreateDirectory(flightPath);
+
+            CreateInitFile(flightPath, leg);
+
+            return flightPath;
+        }
+
+        public string CreateInitFile(string flightPath, Leg leg, DateTime? utcDate = null)
+        {
+            var createdFilename = $"{leg.From} - {leg.To} - Created.txt";
+            var createdFile = Path.Combine(flightPath, createdFilename);
+
+            if (!File.Exists(createdFile))
+                File.Create(createdFile).Dispose();
+
+            if (utcDate == null)
+                utcDate = DateTime.UtcNow;
+
+            var timeCreated = utcDate.Value.ToString(
+                "yyyy-MM-ddTHH:mm:ssZ",
+                CultureInfo.InvariantCulture);
+
+            File.AppendAllText(
+                createdFile,
+                timeCreated + Environment.NewLine);
+
+            return createdFile;
+        }
+
+        public IEnumerable<string> CollectFiles(string path, string search)
+        {
+            Console.WriteLine($"Collecting files from {path}");
+            Console.WriteLine();
+
+            while (true)
+            {
+                var files = Directory.GetFiles(path, search);
+                foreach(var file in files)
+                {
+                    Console.WriteLine($"\t {file}");
+                }
+
+                Console.WriteLine();
+                var confirmation = StdOut.YesNoDecision("Does this seem ok? ", true);
+                Console.WriteLine();
+                if (confirmation)
+                    return files;
+            }
         }
     }
 }

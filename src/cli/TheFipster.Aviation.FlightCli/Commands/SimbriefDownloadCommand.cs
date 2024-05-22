@@ -20,7 +20,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Guard.EnsureConfig(config);
 
             var folder = options.GetFlightFolder(config.FlightsFolder);
-            downloader.DownloadOfp(folder, config.SimbriefPilotId);
+            downloader.DownloadXml(folder, config.SimbriefPilotId);
 
             Thread.Sleep(1000);
 

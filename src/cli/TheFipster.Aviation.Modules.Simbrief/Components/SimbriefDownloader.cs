@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.Simbrief.Xml;
-using YamlDotNet.Core;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TheFipster.Aviation.Modules.Simbrief.Components
 {
@@ -21,6 +14,7 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
         private readonly FlightFileScanner scanner;
         private readonly XmlReader xmlReader;
         private readonly JsonReader<SimbriefXmlRaw> simbriefRawReader;
+        private readonly JsonReader<SimbriefImport> simbriefReader;
         private readonly FileDownloader downloader;
 
         public SimbriefDownloader()
@@ -29,10 +23,11 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
             scanner = new FlightFileScanner();
             xmlReader = new XmlReader();
             simbriefRawReader = new JsonReader<SimbriefXmlRaw>();
+            simbriefReader = new JsonReader<SimbriefImport>();
             downloader = new FileDownloader();
         }
 
-        public void DownloadOfp(string flightFolder, string pilotId)
+        public void DownloadXml(string flightFolder, string pilotId)
         {
             var departure = meta.GetDeparture(flightFolder);
             var arrival = meta.GetArrival(flightFolder);
@@ -41,11 +36,25 @@ namespace TheFipster.Aviation.Modules.Simbrief.Components
             var xmlFilename = departure + " - " + arrival + " - " + "Simbrief.xml";
             var xmlFile = Path.Combine(flightFolder, xmlFilename);
             downloader.Download(xmlUrl, xmlFile);
+        }
+
+        public void DownloadJson(string flightFolder, string pilotId)
+        {
+            var departure = meta.GetDeparture(flightFolder);
+            var arrival = meta.GetArrival(flightFolder);
 
             var jsonUrl = string.Format(UrlFormatJson, pilotId);
             var jsonFilename = departure + " - " + arrival + " - " + "SimbriefImport.json";
             var jsonFile = Path.Combine(flightFolder, jsonFilename);
             downloader.Download(jsonUrl, jsonFile);
+        }
+
+        public SimbriefImport DownloadJson(string pilotId)
+        {
+            var jsonUrl = string.Format(UrlFormatJson, pilotId);
+            var json = downloader.DownloadAsText(jsonUrl);
+            var simbrief = simbriefReader.FromText(json);
+            return simbrief;
         }
 
         public void DownloadMaps(string flightFolder)
