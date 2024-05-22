@@ -3,8 +3,6 @@ using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.BlackBox;
-using TheFipster.Aviation.Domain.Simbrief.Xml;
-using System.Transactions;
 
 namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
@@ -51,28 +49,28 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 var rec = records[i];
                 if (tocTrigger && stats.MaxAltitudeM * 0.999 < rec.GpsAltitudeMeters)
                 {
-                    var waypoint = new Waypoint($"Real TOC", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.RealToc, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     tocTrigger = false;
                 }
 
                 if (gsTrigger && rec.GroundSpeedMps == stats.MaxGroundSpeedMps)
                 {
-                    var waypoint = new Waypoint($"Max GS", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.MaxSpeed, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     gsTrigger = false;
                 }
 
                 if (climbTrigger && rec.VerticalSpeedMps == stats.MaxClimbMps)
                 {
-                    var waypoint = new Waypoint($"Max Climb", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.MaxClimb, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     climbTrigger = false;
                 }
 
                 if (descentTrigger && rec.VerticalSpeedMps == stats.MaxDescentMps)
                 {
-                    var waypoint = new Waypoint($"Max Descent", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.MaxDescent, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     descentTrigger = false;
                 }
@@ -80,7 +78,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 var windspeed = UnitConverter.KnotsToMetersPerSecond(rec.WindSpeedKnots);
                 if (windTrigger && windspeed == stats.MaxWindspeedMps)
                 {
-                    var waypoint = new Waypoint($"Max Wind", rec.LatitudeDecimals, rec.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.MaxWind, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     windTrigger = false;
                 }
@@ -99,13 +97,13 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 
                 if (last.FlapsConfig != cur.FlapsConfig)
                 {
-                    var waypoint = new Waypoint($"Flaps {last.FlapsConfig}->{cur.FlapsConfig}", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                    var waypoint = new Waypoint($"{FlightEvents.Flaps} {last.FlapsConfig}->{cur.FlapsConfig}", cur.LatitudeDecimals, cur.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                 }
 
                 if (last.GearPosition != cur.GearPosition)
                 {
-                    var waypoint = new Waypoint($"Gear {cur.GearPosition}", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                    var waypoint = new Waypoint($"{FlightEvents.Gear} {cur.GearPosition}", cur.LatitudeDecimals, cur.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                 }
 
@@ -114,14 +112,14 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                     if (cur.OnGroundFlag)
                     {
                         // Landing
-                        var waypoint = new Waypoint("Landing", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                        var waypoint = new Waypoint(FlightEvents.Landing, cur.LatitudeDecimals, cur.LongitudeDecimals);
                         stats.Waypoints.Add(waypoint);
                         stats.TouchdownTime = cur.Timestamp;
                     }
                     else
                     {
                         // Takeoff
-                        var waypoint = new Waypoint("Takeoff", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                        var waypoint = new Waypoint(FlightEvents.Takeoff, cur.LatitudeDecimals, cur.LongitudeDecimals);
                         stats.Waypoints.Add(waypoint);
                         stats.TakeoffTime = cur.Timestamp;
                     }
@@ -129,14 +127,14 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 
                 if (above && last.AltimeterFeet < 10000 && cur.AltimeterFeet >= 10000)
                 {
-                    var waypoint = new Waypoint("Above 10.000 feet", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.Above10000, cur.LatitudeDecimals, cur.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     above = false;
                 }
 
                 if (below && last.AltimeterFeet >= 10000 && cur.AltimeterFeet < 10000)
                 {
-                    var waypoint = new Waypoint("Below 10.000 feet", cur.LatitudeDecimals, cur.LongitudeDecimals);
+                    var waypoint = new Waypoint(FlightEvents.Below10000, cur.LatitudeDecimals, cur.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     below = false;
                 }

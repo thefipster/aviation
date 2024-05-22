@@ -16,6 +16,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly FlightFileScanner scanner;
         private readonly JsonReader<SimToolkitProFlight> stkpReader;
         private readonly JsonReader<BlackBoxFlight> blackboxReader;
+        private readonly JsonReader<FlightImport> flightReader;
         private readonly JsonWriter<FlightImport> flightWriter;
         private readonly XmlReader xmlReader;
         private readonly JsonReader<SimbriefImport> simbriefImportReader;
@@ -28,6 +29,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             scanner = new FlightFileScanner();
             stkpReader = new JsonReader<SimToolkitProFlight>();
             blackboxReader = new JsonReader<BlackBoxFlight>();
+            flightReader = new JsonReader<FlightImport>();
             flightWriter = new JsonWriter<FlightImport>();
             xmlReader = new XmlReader();
             simbriefImportReader = new JsonReader<SimbriefImport>();
@@ -45,7 +47,19 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 var departure = meta.GetDeparture(folder);
                 var arrival = meta.GetArrival(folder);
                 var leg = meta.GetLeg(folder).ToString();
-                var flight = new FlightImport(leg, departure, arrival);
+                FlightImport flight;
+
+                try
+                {
+                    // Flight was already imported
+                    var flightFile = scanner.GetFile(folder, FileTypes.FlightJson);
+                    flight = flightReader.FromFile(flightFile);
+                }
+                catch (FileNotFoundException)
+                {
+                    // Nothing exists, let's start fresh
+                    flight = new FlightImport(leg, departure, arrival);
+                }
 
                 LoadCreatedTime(folder, flight);
                 LoadSimbriefXml(folder, flight);

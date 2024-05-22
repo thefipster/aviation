@@ -32,6 +32,8 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
 
         public FlightGeo GenerateGpsApiData(FlightImport flight)
         {
+            flightNumber = int.Parse(flight.FlightNumber);
+
             var geo = new FlightGeo();
             geo.Events = generateLocation(flight.Events);
             geo.Waypoints = generateLocation(flight.SimbriefKml.Kml.Document.Placemark);

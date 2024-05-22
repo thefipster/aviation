@@ -1,12 +1,14 @@
-﻿using System.Threading.Tasks.Sources;
-using TheFipster.Aviation.CoreCli;
+﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
+using TheFipster.Aviation.Domain.Geo;
+using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.SimToolkitPro;
 using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
+using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.BlackBox;
 using TheFipster.Aviation.Modules.BlackBox.Components;
 using TheFipster.Aviation.Modules.SimToolkitPro.Components;
@@ -15,25 +17,24 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     public class ImportProcessorCommand : IFlightCommand<ImportProcessorOptions>
     {
+        private readonly JsonReader<IEnumerable<OurAirport>> airportReader;
         private readonly FlightFileScanner scanner;
         private readonly JsonReader<FlightImport> flightReader;
-        private readonly JsonReader<BlackBoxFlight> blackboxReader;
         private readonly BlackboxOperations blackboxOperations;
-        private readonly JsonReader<SimToolkitProFlight> stkpReader;
         private readonly SimToolkitProCompressor stkpCompressor;
         private readonly JsonReader<Track> stkpTrackReader;
         private readonly JsonWriter<FlightImport> flightWriter;
         private readonly BlackboxGeotagger blackboxGeotagger;
         private readonly SimToolkitProGeotagger stkpGeotagger;
         private readonly SimToolkitProScanner stkpScanner;
+        private OurAirportFinder airports;
 
         public ImportProcessorCommand()
         {
+            airportReader = new JsonReader<IEnumerable<OurAirport>>();
             scanner = new FlightFileScanner();
             flightReader = new JsonReader<FlightImport>();
-            blackboxReader = new JsonReader<BlackBoxFlight>();
             blackboxOperations = new BlackboxOperations();
-            stkpReader = new JsonReader<SimToolkitProFlight>();
             stkpCompressor = new SimToolkitProCompressor();
             stkpTrackReader = new JsonReader<Track>();
             flightWriter = new JsonWriter<FlightImport>();
@@ -46,6 +47,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             Console.WriteLine(ImportProcessorOptions.Welcome);
             Guard.EnsureConfig(config);
+
+            airports = new OurAirportFinder(airportReader, config.OurAirportFile);
 
             var folders = options.GetFlightFolders(config.FlightsFolder);
             foreach (var folder in folders)
@@ -62,6 +65,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                     flight = GenerateDistance(flight);
                     flight = GenerateGeoTags(folder, flight);
                     flight = MergeStatsFromStkp(flight);
+                    flight = GetActualTakeoffAndLanding(flight);
 
                     flightWriter.Write(flight, folder, true);
                 }
@@ -72,7 +76,46 @@ namespace TheFipster.Aviation.FlightCli.Commands
             }
         }
 
-        private FlightImport MergeStatsFromStkp(FlightImport flight)
+        public FlightImport GetActualTakeoffAndLanding(FlightImport flight)
+        {
+            if (!flight.HasEvents)
+                return flight;
+
+            var takeoff = flight.Events.FirstOrDefault(x => x.Name == FlightEvents.Takeoff);
+            var actualTakeoff = getFlightTerminator(takeoff);
+            if (actualTakeoff != null)
+                flight.ActualDeparture = actualTakeoff;
+
+            var landing = flight.Events.FirstOrDefault(x => x.Name == FlightEvents.Landing);
+            var actualLanding = getFlightTerminator(landing);
+            if (actualLanding != null)
+                flight.ActualArrival = actualLanding;
+
+            return flight;
+        }
+
+        private FlightTerminator? getFlightTerminator(Waypoint landing)
+        {
+            if (landing == null)
+                return null;
+
+            var runway = airports.SearchRunwayWithWaypoint(landing);
+            OurAirport airport;
+            if (runway == null)
+                airport = airports.SearchWithWaypoint(landing);
+            else
+                airport = airports.SearchWithIcao(runway.AirportIdent);
+
+            if (runway == null && airport?.Runways != null && airport.Runways.Count() == 1)
+                runway = airport.Runways.First();
+
+            if (airport != null)
+                return new FlightTerminator(airport.Ident, runway);
+
+            return null;
+        }
+
+        public FlightImport MergeStatsFromStkp(FlightImport flight)
         {
             if (!flight.HasSimToolkitPro)
                 return flight;
@@ -93,18 +136,32 @@ namespace TheFipster.Aviation.FlightCli.Commands
             {
                 var tags = blackboxGeotagger.GeocodeScreenshots(flight, folder);
                 if (tags.GeoTags.Count > 0)
-                    flight.Geotags = tags.GeoTags;
+                {
+                    if (flight.Geotags == null)
+                        flight.Geotags = new List<GeoTag>();
 
-                return flight;
+                    foreach (var tag in tags.GeoTags)
+                        if (!flight.Geotags.Any(x => x.Screenshot == tag.Screenshot))
+                            flight.Geotags.Add(tag);
+
+                    return flight;
+                }
             }
 
             if (flight.HasSimToolkitPro && flight.HasTrack)
             {
                 var tags = stkpGeotagger.GeocodeScreenshots(flight, folder);
                 if (tags.GeoTags.Count > 0)
-                    flight.Geotags = tags.GeoTags;
+                {
+                    if (flight.Geotags == null)
+                        flight.Geotags = new List<GeoTag>();
 
-                return flight;
+                    foreach (var tag in tags.GeoTags)
+                        if (!flight.Geotags.Any(x => x.Screenshot == tag.Screenshot))
+                            flight.Geotags.Add(tag);
+
+                    return flight;
+                }
             }
 
             return flight;
