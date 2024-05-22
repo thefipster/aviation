@@ -4,12 +4,16 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
 {
     internal class Track
     {
-        public Track(string flightName, string uri, List<List<decimal>> latLonCoordinates)
+        public Track(int flightNo, string flightName, string uri, List<List<decimal>> latLonCoordinates)
         {
+            FlightNo = flightNo;
             Flight = flightName;
             FlightUri = uri;
             Coordinates = latLonCoordinates;
         }
+
+        [JsonPropertyName("no")]
+        public int FlightNo { get; set; }
 
         [JsonPropertyName("flt")]
         public string Flight { get; set; }

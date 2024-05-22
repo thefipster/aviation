@@ -268,22 +268,22 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public string Metar { get; set; }
 
         [JsonPropertyName("metar_time")]
-        public string MetarTime { get; set; }
+        public object MetarTime { get; set; }
 
         [JsonPropertyName("metar_category")]
-        public string MetarCategory { get; set; }
+        public object MetarCategory { get; set; }
 
         [JsonPropertyName("metar_visibility")]
-        public string MetarVisibility { get; set; }
+        public object MetarVisibility { get; set; }
 
         [JsonPropertyName("metar_ceiling")]
-        public string MetarCeiling { get; set; }
+        public object MetarCeiling { get; set; }
 
         [JsonPropertyName("taf")]
         public string Taf { get; set; }
 
         [JsonPropertyName("taf_time")]
-        public string TafTime { get; set; }
+        public object TafTime { get; set; }
 
         [JsonPropertyName("atis")]
         public List<object> Atis { get; set; }
@@ -421,22 +421,22 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public string Metar { get; set; }
 
         [JsonPropertyName("metar_time")]
-        public bool MetarTime { get; set; }
+        public object MetarTime { get; set; }
 
         [JsonPropertyName("metar_category")]
-        public bool MetarCategory { get; set; }
+        public object MetarCategory { get; set; }
 
         [JsonPropertyName("metar_visibility")]
-        public bool MetarVisibility { get; set; }
+        public object MetarVisibility { get; set; }
 
         [JsonPropertyName("metar_ceiling")]
-        public bool MetarCeiling { get; set; }
+        public object MetarCeiling { get; set; }
 
         [JsonPropertyName("taf")]
         public string Taf { get; set; }
 
         [JsonPropertyName("taf_time")]
-        public bool TafTime { get; set; }
+        public object TafTime { get; set; }
 
         [JsonPropertyName("atis")]
         public List<object> Atis { get; set; }
@@ -1096,7 +1096,7 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public string NotamNrc { get; set; }
 
         [JsonPropertyName("notam_qcode")]
-        public string NotamQcode { get; set; }
+        public object NotamQcode { get; set; }
 
         [JsonPropertyName("notam_expire_dtg_estimated")]
         public string NotamExpireDtgEstimated { get; set; }
@@ -1144,22 +1144,22 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public string Metar { get; set; }
 
         [JsonPropertyName("metar_time")]
-        public string MetarTime { get; set; }
+        public object MetarTime { get; set; }
 
         [JsonPropertyName("metar_category")]
-        public string MetarCategory { get; set; }
+        public object MetarCategory { get; set; }
 
         [JsonPropertyName("metar_visibility")]
-        public string MetarVisibility { get; set; }
+        public object MetarVisibility { get; set; }
 
         [JsonPropertyName("metar_ceiling")]
-        public string MetarCeiling { get; set; }
+        public object MetarCeiling { get; set; }
 
         [JsonPropertyName("taf")]
         public string Taf { get; set; }
 
         [JsonPropertyName("taf_time")]
-        public string TafTime { get; set; }
+        public object TafTime { get; set; }
 
         [JsonPropertyName("atis")]
         public List<object> Atis { get; set; }
@@ -1225,16 +1225,16 @@ namespace TheFipster.Aviation.Domain.Simbrief
         public string NotamNrc { get; set; }
 
         [JsonPropertyName("notam_qcode")]
-        public string NotamQcode { get; set; }
+        public object NotamQcode { get; set; }
 
         [JsonPropertyName("notam_qcode_category")]
         public string NotamQcodeCategory { get; set; }
 
         [JsonPropertyName("notam_qcode_subject")]
-        public string NotamQcodeSubject { get; set; }
+        public object NotamQcodeSubject { get; set; }
 
         [JsonPropertyName("notam_qcode_status")]
-        public string NotamQcodeStatus { get; set; }
+        public object NotamQcodeStatus { get; set; }
 
         [JsonPropertyName("notam_is_obstacle")]
         public bool NotamIsObstacle { get; set; }

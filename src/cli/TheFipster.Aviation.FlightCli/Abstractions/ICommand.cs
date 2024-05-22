@@ -4,4 +4,9 @@
     {
         void Run(T options, IConfig config);
     }
+
+    public interface ICommand<T, Tr> where T : IOptions
+    {
+        Tr Run(T options, IConfig config);
+    }
 }

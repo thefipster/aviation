@@ -1,6 +1,5 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.DirtyLittleHelper.Models;
-using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
 
 namespace TheFipster.Aviation.DirtyLittleHelper.Stuff
@@ -18,10 +17,13 @@ namespace TheFipster.Aviation.DirtyLittleHelper.Stuff
                 var item = new FlightFiled(line);
                 Console.WriteLine(item.Departure + " - " + item.Arrival);
                 var folder = new FlightFinder().GetFlightFolder(flightsFolder, item.Departure, item.Arrival);
-                var flightFile = new FlightFileScanner().GetFile(folder, FileTypes.FlightJson);
-                var flight = new JsonReader<FlightImport>().FromFile(flightFile);
-                flight.Started = item.Date.ToUniversalTime();
-                new JsonWriter<FlightImport>().Write(flightFile, flight, true);
+                var departure = new FlightMeta().GetDeparture(folder);
+                var arrival = new FlightMeta().GetArrival(folder);
+                var flightNo = new FlightMeta().GetLeg(folder);
+
+                var leg = new Leg(flightNo, departure, arrival);
+                var file = new FileOperations().CreateInitFile(folder, leg, item.Date.ToUniversalTime());
+                Console.WriteLine("\t" + file);
             }
         }
     }

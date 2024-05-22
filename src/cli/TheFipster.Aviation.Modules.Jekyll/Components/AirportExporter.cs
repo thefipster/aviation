@@ -11,7 +11,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
     {
         public List<Location> GetPlannedAirports(string flightsFolder, OurAirportFinder airports)
         {
-            var result = new List<Location>();
+            var result = new ConcurrentBag<Location>();
             var folders = Directory.GetDirectories(flightsFolder);
             Parallel.ForEach(folders, folder =>
             {
@@ -31,7 +31,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                 }
             });
 
-            return result;
+            return result.ToList();
         }
     }
 }

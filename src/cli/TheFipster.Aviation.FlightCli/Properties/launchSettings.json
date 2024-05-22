@@ -28,6 +28,16 @@
       "commandName": "Project",
       "commandLineArgs": "wizard",
       "hotReloadEnabled": false
+    },
+    "flightcli newdispatch": {
+      "commandName": "Project",
+      "commandLineArgs": "newdispatch",
+      "hotReloadEnabled": false
+    },
+    "flightcli newflight": {
+      "commandName": "Project",
+      "commandLineArgs": "newflight",
+      "hotReloadEnabled": false
     }
   }
 }

@@ -51,6 +51,7 @@ namespace TheFipster.Aviation.Domain.Enums
         CropFolderLock,
         FlightJson,
         SimbriefImportJson,
-        SimbriefMap
+        SimbriefMap,
+        CreatedTxt
     }
 }
