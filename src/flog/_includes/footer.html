@@ -3,13 +3,13 @@
 	<div class="copyright">
 		<div>&copy; {{ site.title }} {{ site.subtitle }}</div>
 		<div>
-			Captain:
+			Pilot:
 			<a href="https://github.com/thefipster" target="_blank">thefipster</a>
 		</div>
 		<div>
 			Made with
 			<a href="https://jekyllrb.com/" target="_blank">Jekyll</a>
-			and
+			based on
 			<a href="https://jekyllthemes.io/theme/forty-jekyll-theme" target="_blank">Forty</a>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 <script src="{{ "assets/js/util.js" | relative_url }}"></script>
 <!--[if lte IE 8]><script src="{{ "assets/js/ie/respond.min.js" | relative_url }}"></script><![endif]-->
 <script src="{{ "assets/js/main.js" | relative_url }}"></script>
-<script>
+<script defer>
 	// Enable Fancybox for any element with the `data-fancybox` attribute
 	Fancybox.bind('[data-fancybox]', {
 	  // Your custom options
@@ -34,4 +34,16 @@
 	Fancybox.bind('[data-fancybox="gallery"]', {
 	  // Your custom options
 	});  
+
+	const element = document.getElementById("map");
+	if (element) {
+		var map = L.map('map').fitWorld();
+
+		// Tiles
+		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+		}).addTo(map);
+
+		populateMap();
+	}
   </script>

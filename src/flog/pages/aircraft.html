@@ -3,7 +3,7 @@ layout: page
 title: Aircraft
 registration: D-FIPS
 description: Airbus A320neo 251N LEAP-1A
-image: assets/images/aircraft.jpg
+image: assets/images/aircraft4.jpg
 navmenu: true
 navtitle: Aircraft
 navorder: 4
@@ -13,7 +13,7 @@ navorder: 4
 <section id="two" class="spotlights">
 	<section>
 		<span class="image">
-			<img src="{% link assets/images/aircraft.jpg %}" alt="" data-position="top center" />
+			<img src="/assets/images/aircraft3.jpg" alt="" data-position="top center" />
 		</span>
 		<div class="content">
 			<div class="inner">
@@ -22,9 +22,16 @@ navorder: 4
 				</header>
 				<ul class="alt">
 					<li>{{ page.description }}</li>
-					<li>{{ site.data.aircraft.flights }} flights</li>
-					<li>{{ site.data.aircraft.stats.trackDistance | floor }} km travelled</li>
-					<li>{{ site.data.aircraft.stats.flightTime | divided_by: 3600 | floor }} hours flown</li>
+					<li>
+						{{ site.data.aircraft.flights }} flights
+					</li>
+					<li>
+						{% for country in site.data.aircraft.visitedCountries %}
+
+						<span class="fi fi-{{ country | downcase }}"></span>
+
+        				{% endfor %}
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -50,7 +57,42 @@ navorder: 4
 			</div>
 		</div>
 	</section>
-	<!-- Landing overview -->
+	<!-- Overall -->
+	<section>
+		<span class="image">
+			<img src="{% link assets/images/aircraft4.jpg %}" alt="" data-position="top center" />
+		</span>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h3>Overall</h3>
+				</header>
+				<ul class="alt">
+					<li>{{ site.data.aircraft.stats.trackDistance | round: 0 }} km travelled</li>
+					<li>{{ site.data.aircraft.stats.taxiDistance | round: 0 }} km taxied*</li>
+					<li>{{ site.data.aircraft.stats.fuelUsed | times: 1.0 | divided_by: 1000 | round: 1 }} t fuel burned</li>
+					<li>{{ site.data.aircraft.stats.flightTime | divided_by: 3600 | round: 0 }} hours flown</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- Max -->
+	<section>
+		<span class="image">
+			<img src="{% link assets/images/aircraft5.jpg %}" alt="" data-position="top center" />
+		</span>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h3>Peak Performance</h3>
+				</header>
+				<ul class="alt">
+					<li>{{ site.data.aircraft.stats.maxAltitudeM }} meters altitude</li>
+					<li>{{ site.data.aircraft.stats.maxGroundspeedMps | times: 3.6 | round: 0 }} km/h ground speed</li>
+				</ul>
+			</div>
+		</div>
+	</section>
 	<section>
 		<span class="image">
 			<img src="{% link assets/images/landing3.jpg %}" alt="" data-position="top center" />
@@ -67,26 +109,8 @@ navorder: 4
 			</div>
 		</div>
 	</section>
-	<!-- Flight record -->
-	<section>
-		<span class="image">
-			<img src="{% link assets/images/dfips-flight.jpg %}" alt="" data-position="top center" />
-		</span>
-		<div class="content">
-			<div class="inner">
-				<header class="major">
-					<h3>Flight record</h3>
-				</header>
-				<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus
-					condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna
-					pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et
-					sagittis tempus.</p>
-			</div>
-		</div>
-	</section>
 </section>
 
 {% include osm_aircraft.html
 latitude=site.data.aircraft.position.latitude
 longitude=site.data.aircraft.position.longitude %}
-{% include osm_layer.html %}

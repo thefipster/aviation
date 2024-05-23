@@ -10,7 +10,7 @@
 			<div class="inner">
 				<!-- Title -->
 				<header class="major">
-					<h1>{{ page.description }}</h1>
+					<h1>{{ page.description }} <span class="smaller">{{ page.title }}</span></h1>
 				</header>
 				<!-- Map -->
 				<div class="map-container">
@@ -18,12 +18,12 @@
 
 					</div>
 				</div>
-				<br />
+				<p>{{ page.route }}</p>
 				<!-- InfoBox -->
 				<div>
 					<div class="row">
 						<div class="6u 12u$(medium)">
-							<h3>Departure</h3>
+							<h3><i class="fa-solid fa-plane-departure"></i> Departure</h3>
 							<ul class="alt">
 								<li>{{ page.departure.name }} ({{ page.departure.ident }})</li>
 								<li>{{ page.departure.region.name }}</li>
@@ -32,7 +32,7 @@
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3>Arrival</h3>
+							<h3><i class="fa-solid fa-plane-arrival"></i> Arrival</h3>
 							<ul class="alt">
 								<li>{{ page.arrival.name }} ({{ page.arrival.ident }})</li>
 								<li>{{ page.arrival.region.name }}</li>
@@ -44,10 +44,8 @@
 
 					<div class="row">
 						<div class="6u 12u$(medium)">
-							<h3>Route</h3>
+							<h3><i class="fa-solid fa-signs-post"></i> Route</h3>
 							<ul class="alt">
-								<li>{{ page.route }}</li>
-
 								{% assign flyOverhead = page.distanceKm | divided_by: page.greatCircleKm | times: 100 %}
 								<li>{{ page.distanceKm | round:0 }} km actual ({{ flyOverhead | round: 0 }}%)</li>
 
@@ -57,7 +55,7 @@
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3>Fuel</h3>
+							<h3><i class="fa-solid fa-gas-pump"></i> Fuel</h3>
 							<ul class="alt">
 								<li>{{ page.fuelRamp }} kg at the ramp</li>
 								<li>{{ page.fuelShutdown }} kg at engine shutdown</li>
@@ -70,37 +68,13 @@
 				<div class="flightgallery">
 					<h3>Screenshots</h3>
 					{% include gallery.html flightNo = page.legNo %}
-					<!-- <div class="box alt">
-						<div class="row 50% uniform">
-							{% capture preview_folder %}/assets/caps/{{ page.legNo }}/tn/{% endcapture %}
-							{% capture image_folder %}/assets/caps/{{ page.legNo }}/{% endcapture %}
-							{% for file in site.static_files %}
-							{% if file.path contains preview_folder %}
-							{% assign filenameparts = file.path | split: "/" %}
-							{% assign filename = filenameparts | last %}
-							{% assign caption = filename %}
-							{% assign preview = preview_folder | append: filename %}
-							{% assign image = image_folder | append: filename %}
-							<div class="3u 4u(medium) 6u(small)">
-								<a class="fancy-image" data-src="{{ image }}" data-fancybox="gallery"
-									data-caption="{{ caption }}">
-									<img src="{{ preview }}" />
-								</a>
-							</div>
-							{% endif %}
-							{% endfor %}
-						</div>
-					</div> -->
 				</div>
 			</div>
 		</section>
 	</div>
 
+	{% include osm_post.html departure=page.departure.ident arrival=page.plannedArrival.ident %}
 	{% include footer.html %}
-
-	{% include osm_post.html departure=page.departure.ident arrival=page.arrival.ident %}
-	{% include osm_layer.html %}
-
 </body>
 
 </html>
