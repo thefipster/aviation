@@ -20,9 +20,6 @@
 				</div>
 				<!-- InfoBox -->
 				<div>
-					<h3>Route</h3>
-					<p>{{ page.route }}</p>
-
 					<div class="row">
 						<div class="6u 12u$(medium)">
 							<h3>Departure</h3>
@@ -40,6 +37,30 @@
 								<li>{{ page.arrival.region.name }}</li>
 								<li>{{ page.arrival.country.name }}</li>
 								<li>{{ page.arrival.continentCode }}</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="6u 12u$(medium)">
+							<h3>Route</h3>
+							<ul class="alt">
+								<li>{{ page.route }}</li>
+
+								{% assign flyOverhead = page.distanceKm | divided_by: page.greatCircleKm | times: 100 %}
+								<li>{{ page.distanceKm | round:0 }} km actual ({{ flyOverhead | round: 0 }}%)</li>
+
+								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by: page.greatCircleKm | times: 100 %}
+								<li>{{ page.routeKm | round: 0 }} km planned ({{ planOverhead | round: 0 }}%)</li>
+								<li>{{ page.greatCircleKm | round:0 }} km direct </li>
+							</ul>
+						</div>
+						<div class="6u 12u$(medium)">
+							<h3>Fuel</h3>
+							<ul class="alt">
+								<li>{{ page.fuelRamp }} kg at the ramp</li>
+								<li>{{ page.fuelShutdown }} kg at engine shutdown</li>
+								<li>{{ page.fuelBurned }} kg used</li>
 							</ul>
 						</div>
 					</div>

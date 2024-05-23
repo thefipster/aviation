@@ -47,6 +47,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 stats.ArrivalAt = int.Parse(logbook.ActualArr);
                 stats.Route = logbook.Route;
                 stats.Remarks = logbook.DocsRmk;
+                stats.FuelUsed = stats.FuelRamp - stats.FuelShutdown;
+                stats.FlightTime = stats.ArrivalAt - stats.DepartureAt;
 
             }
             catch (FileNotFoundException)
@@ -105,22 +107,16 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 stats.MaxDescentMps = blackbox.MaxDescentMps;
                 stats.MaxWindspeedMps = blackbox.MaxWindspeedMps;
                 stats.MaxWindspeedDirection = blackbox.WindDirectionRad;
-
+                stats.FuelUsed = stats.FuelRamp - stats.FuelShutdown;
             }
             catch (FileNotFoundException)
             {
                 Console.WriteLine("\t\t no Blackbox file");
             }
 
-            if (stats.HasLogbook)
-            {
-                stats.FuelUsed = stats.FuelRamp - stats.FuelShutdown;
-                stats.FlightTime = stats.ArrivalAt - stats.DepartureAt;
-                stats.PrepTime = stats.DepartureAt - stats.DispatchAt;
-            }
-
             if (stats.HasLogbook && stats.HasSimbrief)
             {
+                stats.PrepTime = stats.DepartureAt - stats.DispatchAt;
                 stats.FuelDelta = stats.FuelUsed - stats.FuelPlanned;
             }
 

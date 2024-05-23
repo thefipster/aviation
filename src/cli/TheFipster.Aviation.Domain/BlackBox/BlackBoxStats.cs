@@ -31,5 +31,7 @@ namespace TheFipster.Aviation.Domain
         public double DistanceTrack { get; set; }
         public long TouchdownTime { get; set; }
         public long TakeoffTime { get; set; }
+        public int MaxFuel { get; set; }
+        public int ShutdownFuel { get; set; }
     }
 }

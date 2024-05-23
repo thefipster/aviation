@@ -9,7 +9,6 @@ internal class Program
         Console.WriteLine();
 
         // do your dirty little things here
-        new RecordBlackbox().Record("EDDL", "EGLL");
 
         Console.WriteLine();
         Console.WriteLine("Finished");

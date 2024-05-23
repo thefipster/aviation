@@ -52,11 +52,17 @@ namespace TheFipster.Aviation.Domain
             MaxGroundspeedMps = extrems.MaxGroundSpeedMps;
             MaxWindspeedMps = extrems.MaxWindspeedMps;
             MaxWindspeedDirection = extrems.WindDirectionRad;
+            FuelRamp = extrems.MaxFuel;
+            FuelShutdown = extrems.ShutdownFuel;
+            FuelUsed = FuelRamp - FuelShutdown;
         }
 
         public void Merge(LogbookStats stats)
         {
             FlightTime = stats.FlightTime;
+            FuelShutdown = stats.FuelShutdown;
+            FuelRamp = stats.FuelRamp;
+            FuelUsed = stats.FuelUsed;
         }
     }
 }

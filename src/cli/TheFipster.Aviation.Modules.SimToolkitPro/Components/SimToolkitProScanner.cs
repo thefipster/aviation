@@ -13,6 +13,10 @@ namespace TheFipster.Aviation.Modules.SimToolkitPro.Components
                 int.Parse(simToolkitPro.Logbook.ActualArr) 
                 - int.Parse(simToolkitPro.Logbook.ActualDep);
 
+            stats.FuelRamp = int.Parse(simToolkitPro.Logbook.FuelRamp);
+            stats.FuelShutdown = int.Parse(simToolkitPro.Logbook.FuelShutdown);
+            stats.FuelUsed = stats.FuelRamp - stats.FuelShutdown;
+
             return stats;
         }
     }

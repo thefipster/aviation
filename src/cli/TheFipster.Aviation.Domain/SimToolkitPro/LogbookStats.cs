@@ -9,5 +9,8 @@ namespace TheFipster.Aviation.Domain.SimToolkitPro
     public class LogbookStats
     {
         public int FlightTime { get; set; }
+        public int FuelRamp { get; set; }
+        public int FuelShutdown { get; set; }
+        public int FuelUsed { get; set; }
     }
 }

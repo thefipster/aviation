@@ -160,6 +160,11 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 if (cur.VerticalSpeedMps < stats.MaxDescentMps)
                     stats.MaxDescentMps = cur.VerticalSpeedMps;
 
+                if (cur.FuelLiters > stats.MaxFuel)
+                    stats.MaxFuel = cur.FuelLiters;
+
+                stats.ShutdownFuel = cur.FuelLiters;
+
                 var windspeed = UnitConverter.KnotsToMetersPerSecond(cur.WindSpeedKnots);
                 if (windspeed > stats.MaxWindspeedMps)
                 {
@@ -167,6 +172,9 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                     stats.WindDirectionRad = cur.WindDirectionRadians;
                 }
             }
+
+            stats.MaxFuel = (int)Math.Round(UnitConverter.JetA1LiterToKg(stats.MaxFuel));
+            stats.ShutdownFuel = (int)Math.Round(UnitConverter.JetA1LiterToKg(stats.ShutdownFuel));
         }
     }
 }
