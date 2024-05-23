@@ -1,5 +1,5 @@
 ---
-layout: aircraft
+layout: page
 title: Aircraft
 registration: D-FIPS
 description: Airbus A320neo 251N LEAP-1A
@@ -8,3 +8,84 @@ navmenu: true
 navtitle: Aircraft
 navorder: 4
 ---
+
+<!-- Registration -->
+<section id="two" class="spotlights">
+	<section>
+		<span class="image">
+			<img src="{% link assets/images/aircraft.jpg %}" alt="" data-position="top center" />
+		</span>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h2>{{ page.registration }}</h2>
+				</header>
+				<ul class="alt">
+					<li>{{ page.description }}</li>
+					<li>{{ site.data.aircraft.flights }} flights</li>
+					<li>{{ site.data.aircraft.stats.trackDistance | floor }} km travelled</li>
+					<li>{{ site.data.aircraft.stats.flightTime | divided_by: 3600 | floor }} hours flown</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- Parking position -->
+	<section>
+		<div class="map-box">
+			<div id="map">
+
+			</div>
+		</div>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h3>Parking Position</h3>
+				</header>
+				<ul class="alt">
+					<li>{{ site.data.aircraft.airport.name }} ({{ site.data.aircraft.airport.ident }})</li>
+					<li>{{ site.data.aircraft.airport.region.name }}</li>
+					<li>{{ site.data.aircraft.airport.country.name }}</li>
+					<li>{{ site.data.aircraft.airport.continentCode }}</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<!-- Landing overview -->
+	<section>
+		<span class="image">
+			<img src="{% link assets/images/landing3.jpg %}" alt="" data-position="top center" />
+		</span>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h3>Landing overview</h3>
+				</header>
+				<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus
+					condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna
+					pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et
+					sagittis tempus.</p>
+			</div>
+		</div>
+	</section>
+	<!-- Flight record -->
+	<section>
+		<span class="image">
+			<img src="{% link assets/images/dfips-flight.jpg %}" alt="" data-position="top center" />
+		</span>
+		<div class="content">
+			<div class="inner">
+				<header class="major">
+					<h3>Flight record</h3>
+				</header>
+				<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus
+					condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna
+					pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et
+					sagittis tempus.</p>
+			</div>
+		</div>
+	</section>
+</section>
+
+{% include osmaircraft.html latitude=site.data.aircraft.position.latitude
+longitude=site.data.aircraft.position.longitude %}
+{% include osmlayer.html %}

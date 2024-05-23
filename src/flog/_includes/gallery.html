@@ -1,52 +1,25 @@
-<style>
-    .image-gallery {
-        overflow: auto;
-        margin-left: -1% !important;
-    }
-
-    .image-gallery li {
-        float: left;
-        display: block;
-        margin: 0 0 1% 1%;
-        width: 19%;
-    }
-
-    .image-gallery li a {
-        text-align: center;
-        text-decoration: none !important;
-        color: #777;
-    }
-
-    .image-gallery li a span {
-        display: block;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        padding: 3px 0;
-    }
-
-    .image-gallery li a img {
-        width: 100%;
-        display: block;
-    }
-</style>
-
 <div class="box alt">
     <div class="row 50% uniform">
-        {% for file in site.static_files %}
-        {% if file.path contains include.folder %}
-        {% if file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.JPG' or file.extname == '.JPEG' %}
-        {% assign filenameparts = file.path | split: "/" %}
-        {% assign filename = filenameparts | last | replace: file.extname,"" %}
-        <div class="3u">
-            <span class="image fit lbwojs-img" style="background-image:url({{ include.folder }}/{{ filename }}.png)">
-                <span><img src="{{ include.folder }}/tn/{{ filename }}.jpg" alt="{{ filename }}"
-                        title="{{ filename }}" /></span>
-            </span>
+        {% capture preview_folder %}/assets/caps/{{ include.flightNo }}/tn/{% endcapture %}
+        {% capture image_folder %}/assets/caps/{{ include.flightNo }}/{% endcapture %}
 
+        {% for file in site.static_files %}
+        {% if file.path contains preview_folder %}
+        
+        {% assign filenameparts = file.path | split: "/" %}
+        {% assign filename = filenameparts | last %}
+
+        {% assign caption = filename %}
+        {% assign preview = preview_folder | append: filename %}
+        {% assign image = image_folder | append: filename %}
+
+        <div class="3u 4u(medium) 6u(small)">
+            <a class="fancy-image" data-src="{{ image }}" data-fancybox="gallery"
+                data-caption="{{ caption }}">
+                <img src="{{ preview }}" />
+            </a>
         </div>
         {% endif %}
-        {% endif%}
         {% endfor %}
     </div>
 </div>
