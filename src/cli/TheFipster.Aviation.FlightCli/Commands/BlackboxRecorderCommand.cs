@@ -5,6 +5,7 @@ using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
+using TheFipster.Aviation.Modules.BlackBox;
 using TheFipster.Aviation.Modules.BlackBox.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands

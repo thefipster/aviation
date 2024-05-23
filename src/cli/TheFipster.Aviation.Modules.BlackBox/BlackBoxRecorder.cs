@@ -1,7 +1,7 @@
 ﻿using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.Modules.BlackBox.Models;
 
-namespace TheFipster.Aviation.Modules.BlackBox.Components
+namespace TheFipster.Aviation.Modules.BlackBox
 {
     public class BlackBoxRecorder
     {

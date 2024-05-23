@@ -8,21 +8,6 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxScanner
     {
-        public BlackBoxStats GenerateStatsFromBlackbox(string folder)
-        {
-            var blackboxFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxJson);
-            var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
-            var items = blackbox.Records.ToList();
-            var stats = new BlackBoxStats(blackbox.Origin, blackbox.Destination);
-
-            extractRecords(items, stats);
-            // must run after extractRecords since it uses the record values to determine where they happened
-            // on the first pass we don't know when we encounter a maximum
-            extractWaypoints(items, stats);
-
-            return stats;
-        }
-
         public BlackBoxStats GenerateStatsFromBlackbox(ICollection<Record> records)
         {
             var items = records.ToList();

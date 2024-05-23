@@ -3,7 +3,7 @@ using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain.Simbrief.Xml;
 
-namespace TheFipster.Aviation.Modules.Simbrief.Components
+namespace TheFipster.Aviation.Modules.Simbrief
 {
     public class SimbriefDownloader
     {
