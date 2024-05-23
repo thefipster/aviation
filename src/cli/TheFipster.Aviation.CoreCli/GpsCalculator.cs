@@ -14,10 +14,10 @@
         /// <returns>Distance between latlon1 and latlon2 in kilometers.</returns>
         public static double GetHaversineDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            var lat1Rads = lat1.toRadians();
-            var lat2Rads = lat2.toRadians();
-            var dLatRads = (lat2 - lat1).toRadians();
-            var dLonRads = (lon2 - lon1).toRadians();
+            var lat1Rads = lat1.ToRadians();
+            var lat2Rads = lat2.ToRadians();
+            var dLatRads = (lat2 - lat1).ToRadians();
+            var dLonRads = (lon2 - lon1).ToRadians();
 
             var x = Math.Sin(dLatRads / 2) 
                 * Math.Sin(dLatRads / 2) 
@@ -44,17 +44,17 @@
         /// <returns>Bearing from latlon1 to latlon2 is degrees</returns>
         public static double GetBearing(double lat1, double lon1, double lat2, double lon2)
         {
-            double x = Math.Cos(lat1.toRadians()) 
-                * Math.Sin(lat2.toRadians()) 
-                - Math.Sin(lat1.toRadians()) 
-                * Math.Cos(lat2.toRadians()) 
-                * Math.Cos((lon2 - lon1).toRadians());
+            double x = Math.Cos(lat1.ToRadians()) 
+                * Math.Sin(lat2.ToRadians()) 
+                - Math.Sin(lat1.ToRadians()) 
+                * Math.Cos(lat2.ToRadians()) 
+                * Math.Cos((lon2 - lon1).ToRadians());
 
-            double y = Math.Sin((lon2 - lon1).toRadians()) 
-                * Math.Cos(lat2.toRadians());
+            double y = Math.Sin((lon2 - lon1).ToRadians()) 
+                * Math.Cos(lat2.ToRadians());
 
             var bearing = Math.Atan2(y, x);
-            return (bearing.toDegree() + 360) % 360;
+            return (bearing.ToDegree() + 360) % 360;
         }
 
         /// <summary>
@@ -94,9 +94,9 @@
             var bearing2 = GetBearing(lat1, lon1, lat2, lon2);
             bearing2 = 360 - ((bearing2 + 360) % 360);
 
-            double lat1Rads = lat1.toRadians();
-            double lat3Rads = lat3.toRadians();
-            double dLon = (lon3 - lon1).toRadians();
+            double lat1Rads = lat1.ToRadians();
+            double lat3Rads = lat3.ToRadians();
+            double dLon = (lon3 - lon1).ToRadians();
 
             double distanceAC = Math.Acos(
                 Math.Sin(lat1Rads) 
@@ -110,8 +110,8 @@
             double min_distance = Math.Abs(
                 Math.Asin(
                     Math.Sin(distanceAC / 6371) 
-                    * Math.Sin(bearing1.toRadians() 
-                    - bearing2.toRadians())) 
+                    * Math.Sin(bearing1.ToRadians() 
+                    - bearing2.ToRadians())) 
                 * EarthRadiusKm);
 
             return min_distance;
@@ -122,7 +122,7 @@
         /// </summary>
         /// <param name="angle">Angle in degrees</param>
         /// <returns>Angle in radians</returns>
-        public static double toRadians(this double angle)
+        public static double ToRadians(this double angle)
             => angle * Math.PI / 180;
 
 
@@ -131,7 +131,7 @@
         /// </summary>
         /// <param name="angle">Angle in radians</param>
         /// <returns>Angle in degrees</returns>
-        public static double toDegree(this double angle)
+        public static double ToDegree(this double angle)
             => angle * 180.0d / Math.PI;
     }
 }

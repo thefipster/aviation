@@ -3,6 +3,6 @@ using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
-    [Verb("jekyll", HelpText = "Generates output for jekyll static site generator.")]
+    [Verb("flog", HelpText = "Generated the output data for the flog.")]
     public class JekyllCreateOptions : FlightOptions { }
 }

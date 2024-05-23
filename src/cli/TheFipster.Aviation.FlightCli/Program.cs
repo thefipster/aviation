@@ -50,7 +50,7 @@ static IEnumerable<Type> findTypesByInheritance<T>() where T : class
 
 static void executeCommand(string[] args, IConfig config)
 {
-    var optionTypes = findTypesByAttribute<VerbAttribute>().ToArray();
+    var optionTypes = findTypesByAttribute<VerbAttribute>().OrderBy(x => x.FullName).ToArray();
     Parser.Default.ParseArguments(args, optionTypes)
         .WithParsed<NewManualFlightOptions>(options => { new NewManualFlightCommand().Run(options, config); })
         .WithParsed<NewDispatchFlightOptions>(options => { new NewDispatchFlightCommand().Run(options, config); })
@@ -66,9 +66,9 @@ static void executeCommand(string[] args, IConfig config)
 
         .WithParsed<JekyllBuildOptions>(options => { new JekyllBuildCommand().Run(options, config); })
 
+        .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
         .WithParsed<ScanFolderOptions>(options => { new ScanFolderCommand().Run(options, config); })
         .WithParsed<JekyllCreateOptions>(options => { new JekyllCreateCommand().Run(options, config); })
-        .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
 
         .WithNotParsed(_ => Console.WriteLine());
 }
