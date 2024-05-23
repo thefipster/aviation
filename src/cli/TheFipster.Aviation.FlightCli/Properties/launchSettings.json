@@ -38,6 +38,11 @@
       "commandName": "Project",
       "commandLineArgs": "newflight",
       "hotReloadEnabled": false
+    },
+    "flightcli build": {
+      "commandName": "Project",
+      "commandLineArgs": "build",
+      "hotReloadEnabled": false
     }
   }
 }

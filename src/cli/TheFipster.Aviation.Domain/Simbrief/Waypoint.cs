@@ -1,9 +1,30 @@
 ﻿
+using TheFipster.Aviation.Domain.OurAirports;
+using TheFipster.Aviation.Domain.Simbrief.Kml;
+
 namespace TheFipster.Aviation.Domain.Simbrief
 {
     public class Waypoint
     {
         public Waypoint() { }
+
+        public Waypoint(OurAirport ourAirport)
+        {
+            Name = ourAirport.Ident;
+            Latitude = ourAirport.Latitude;
+            Longitude = ourAirport.Longitude;
+        }
+
+        public Waypoint(Placemark kmlPlacemark)
+        {
+            Name = kmlPlacemark.Name;
+
+            var coordinate = Coordinate
+                .FromAirportCoordinateString(kmlPlacemark.Point.Coordinates);
+
+            Latitude = coordinate.Latitude;
+            Longitude = coordinate.Longitude;
+        }
 
         public Waypoint(int index, string airway, Datahub.Airport departure)
         {
@@ -11,7 +32,9 @@ namespace TheFipster.Aviation.Domain.Simbrief
             Name = departure.Ident;
             Airway = airway;
 
-            var coordinate = Coordinate.FromAirportCoordinateString(departure.Coordinates);
+            var coordinate = Coordinate
+                .FromAirportCoordinateString(departure.Coordinates);
+
             Latitude = coordinate.Latitude;
             Longitude = coordinate.Longitude;
         }

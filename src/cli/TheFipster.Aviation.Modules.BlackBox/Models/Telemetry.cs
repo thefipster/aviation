@@ -20,6 +20,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
         // States
         private Offset<int> flaps = new Offset<int>(0x0BDC);
         private Offset<int> gear = new Offset<int>(0x0BE8);
+        private Offset<int> apMaster = new Offset<int>(0x0764);
         private Offset<short> parkingBrake = new Offset<short>(0x0BCA);
         private Offset<ushort> onGround = new Offset<ushort>(0x0366);
 
@@ -44,6 +45,13 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
         private Offset<ushort> engine1N2 = new Offset<ushort>(0x0896);
         private Offset<ushort> engine2N1 = new Offset<ushort>(0x0930);
         private Offset<ushort> engine2N2 = new Offset<ushort>(0x092E);
+
+        // Weight
+        private Offset<double> loadedWeight = new Offset<double>(0x30C0);
+
+        // Acceleration
+
+
 
 
         public bool IsConnected => FSUIPCConnection.IsOpen;
@@ -105,6 +113,9 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
             record.Engine1N2Percent = Math.Round(engine1N2.Value / 16384d * 100d, 1);
             record.Engine2N1Percent = Math.Round(engine2N1.Value / 16384d * 100d, 1);
             record.Engine2N2Percent = Math.Round(engine2N2.Value / 16384d * 100d, 1);
+
+            record.PlaneWeightKg = loadedWeight.Value * 0.45359237;
+
 
             return record;
         }

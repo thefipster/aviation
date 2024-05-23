@@ -1,7 +1,6 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Modules.Jekyll.Model;
 using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Domain.OurAirports;
 using TheFipster.Aviation.Domain.Simbrief;

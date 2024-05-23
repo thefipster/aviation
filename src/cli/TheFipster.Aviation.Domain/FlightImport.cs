@@ -85,6 +85,11 @@ namespace TheFipster.Aviation.Domain
         public ICollection<Waypoint> Events { get; set; }
         public bool HasEvents => Events != null && Events.Any();
 
+
         public DateTime? Started { get; set; }
+
+        public FlightTerminator ActualDeparture { get; set; }
+
+        public FlightTerminator ActualArrival { get; set; }
     }
 }

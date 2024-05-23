@@ -93,6 +93,9 @@ namespace TheFipster.Aviation.Domain.BlackBox
         [JsonPropertyName("2n2")]
         public double Engine2N2Percent { get; set; }
 
+        [JsonPropertyName("pwk")]
+        public double PlaneWeightKg { get; set; }
+
         public void Print()
         {
             Console.Clear();

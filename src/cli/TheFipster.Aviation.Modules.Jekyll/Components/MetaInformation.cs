@@ -22,6 +22,9 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
         internal static string? GenerateScreenshotUrl(string screenshot, int flightNumber)
             // EKVG - BIEG - Screenshot - 1.png
             // /assets/images/screenshots/38/PAHO%20-%20PAKN%20-%20Screenshot%20-%201.png
-            => $"/assets/images/screenshots/{flightNumber}/{screenshot.Replace(" ", string.Empty)}.jpg";
+            => $"/assets/caps/{flightNumber}/" + ScreenshotExporter.GetFinalImageNameFromFilename(screenshot);
+
+        internal static string GeneratePostName(FlightImport flight)
+            => $"{flight.Started.Value.Year}-{flight.Started.Value.Month}-{flight.Started.Value.Day}-{flight.FlightNumber}-{flight.Departure}-{flight.Arrival}.html";
     }
 }

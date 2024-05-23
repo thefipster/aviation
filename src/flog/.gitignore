@@ -5,6 +5,7 @@ Gemfile.lock
 *.gem
 .jekyll-cache
 assets/images/screenshots
+assets/caps
 assets/api
 _data/flights
 _posts

@@ -21,24 +21,21 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var folders = options.GetFlightFolders(config.FlightsFolder);
             var jekyllExporter = new JekyllExporter(config.JekyllFolder, config.OurAirportFile);
 
-            if (folders.Count() > 1)
-            {
-                Console.WriteLine("Generating combined output.");
-                jekyllExporter.ExportCombined(config.FlightsFolder);
-            }
+            Console.WriteLine("Generating combined output.");
+            jekyllExporter.ExportCombined(config.FlightsFolder);
 
             Console.WriteLine("Generating per flight output.");
             Parallel.ForEach(folders, folder =>
             {
-                Console.WriteLine($"\t {folder}");
 
                 try
                 {
                     jekyllExporter.ExportFlight(folder);
+                    Console.WriteLine($"\t {folder}");
                 }
                 catch (FileNotFoundException)
                 {
-                    Console.WriteLine($"\t\t skipping, files missing");
+                    Console.WriteLine($"\t {folder} - skipping, files missing");
                 }
             });
         }

@@ -22,7 +22,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
         {
             var data = new FrontMatter(flight, airports);
             var frontmatter = new YamlWriter().ToFrontmatter(data);
-            string name = MetaInformation.GeneratePostName(flight.FlightNumber, flight.Departure, flight.Arrival);
+            string name = MetaInformation.GeneratePostName(flight);
 
             return new Post(name, frontmatter);
         }

@@ -9,7 +9,7 @@ using TheFipster.Aviation.FlightCli.Options;
 //   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
 //   , "-w", "400", "-h", "300"
 
-//args = new[] { "process", "-d", "UHSI", "-a", "RJEC" };
+//args = new[] { "process", "-d", "UHSB", "-a", "RJEC" };
 
 try
 {
@@ -86,6 +86,8 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<ImportCollectorOptions>(options => { new ImportCollectorCommand().Run(options, config); })
         .WithParsed<ImportCombinerOptions>(options => { new ImportCombinerCommand().Run(options, config); })
         .WithParsed<ImportProcessorOptions>(options => { new ImportProcessorCommand().Run(options, config); })
+
+        .WithParsed<JekyllBuildOptions>(options => { new JekyllBuildCommand().Run(options, config); })
 
         .WithParsed<ScanOptions>(options => { new ScanCommand().Run(options, config); })
         .WithParsed<JekyllOptions>(options => { new JekyllCommand().Run(options, config); })
