@@ -9,9 +9,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
     /// <summary>
     /// Takes every file it needs to generate the output files for jekyll.
     /// </summary>
-    internal class JekyllCommand : IFlightCommand<JekyllOptions>
+    internal class JekyllCreateCommand : IFlightCommand<JekyllCreateOptions>
     {
-        public void Run(JekyllOptions options, IConfig config)
+        public void Run(JekyllCreateOptions options, IConfig config)
         {
             Console.WriteLine("Generating output for Jekyll.");
 

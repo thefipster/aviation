@@ -5,12 +5,12 @@ using TheFipster.Aviation.FlightCli.Options;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
-    internal class ScanCommand
+    internal class ScanFolderCommand
     {
         private IConfig config;
-        private ScanOptions options;
+        private ScanFolderOptions options;
 
-        internal void Run(ScanOptions options, IConfig config)
+        internal void Run(ScanFolderOptions options, IConfig config)
         {
             this.config = config;
             this.options = options;

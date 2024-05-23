@@ -12,7 +12,7 @@ using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.BlackBox;
 using TheFipster.Aviation.Modules.BlackBox.Components;
-using TheFipster.Aviation.Modules.SimToolkitPro.Components;
+using TheFipster.Aviation.Modules.SimToolkitPro;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
@@ -22,12 +22,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly FlightFileScanner scanner;
         private readonly JsonReader<FlightImport> flightReader;
         private readonly BlackboxOperations blackboxOperations;
-        private readonly SimToolkitProCompressor stkpCompressor;
-        private readonly JsonReader<Track> stkpTrackReader;
         private readonly JsonWriter<FlightImport> flightWriter;
         private readonly BlackboxGeotagger blackboxGeotagger;
-        private readonly SimToolkitProGeotagger stkpGeotagger;
-        private readonly SimToolkitProScanner stkpScanner;
+        private readonly StkpOps stkpOps;
         private OurAirportFinder airports;
 
         public ImportProcessorCommand()
@@ -36,12 +33,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
             scanner = new FlightFileScanner();
             flightReader = new JsonReader<FlightImport>();
             blackboxOperations = new BlackboxOperations();
-            stkpCompressor = new SimToolkitProCompressor();
-            stkpTrackReader = new JsonReader<Track>();
             flightWriter = new JsonWriter<FlightImport>();
             blackboxGeotagger = new BlackboxGeotagger();
-            stkpGeotagger = new SimToolkitProGeotagger();
-            stkpScanner = new SimToolkitProScanner();
+            stkpOps = new StkpOps();
         }
 
         public void Run(ImportProcessorOptions options, IConfig config)
@@ -184,7 +178,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (!flight.HasSimToolkitPro)
                 return flight;
 
-            LogbookStats stats = stkpScanner.Scan(flight.SimToolkitPro);
+            LogbookStats stats = stkpOps.ScanFlight(flight.SimToolkitPro);
 
             if (flight.Stats == null)
                 flight.Stats = new Stats();
@@ -214,7 +208,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             if (flight.HasSimToolkitPro && flight.HasTrack)
             {
-                var tags = stkpGeotagger.GeocodeScreenshots(flight, folder);
+                var tags = stkpOps.GeotagScreenshots(flight, folder);
                 if (tags.GeoTags.Count > 0)
                 {
                     if (flight.Geotags == null)
@@ -280,8 +274,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             if (flight.HasSimToolkitPro)
             {
-                var geojson = stkpTrackReader.FromText(flight.SimToolkitPro.Logbook.TrackedGeoJson);
-                var compressed = stkpCompressor.CompressTrack(geojson);
+                var geojson = stkpOps.ExtractTrack(flight.SimToolkitPro);
+                var compressed = stkpOps.CompressTrack(geojson);
                 var track = compressed.Features.First().Geometry.Coordinates.Select(x => new Coordinate(x));
                 flight.Track = track;
                 return flight;

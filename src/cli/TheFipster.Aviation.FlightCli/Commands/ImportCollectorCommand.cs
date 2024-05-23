@@ -1,24 +1,20 @@
 ﻿using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.SimToolkitPro.Components;
+using TheFipster.Aviation.Modules.SimToolkitPro;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
     public class ImportCollectorCommand : IFlightRequiredCommand<ImportCollectorOptions>
     {
-        private readonly SimToolkitProSqlReader stkpReader;
-        private readonly JsonWriter<SimToolkitProFlight> stkpWriter;
         private readonly FileOperations fileOperations;
+        private readonly StkpOps stkpOps;
 
         public ImportCollectorCommand()
         {
-            stkpReader = new SimToolkitProSqlReader();
-            stkpWriter = new JsonWriter<SimToolkitProFlight>();
             fileOperations = new FileOperations();
+            stkpOps = new StkpOps();
         }
 
         public void Run(ImportCollectorOptions options, IConfig config)
@@ -28,8 +24,8 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var folder = options.GetFlightFolder(config.FlightsFolder);
 
             // simtoolkitpro
-            var stkpFlight = stkpReader.Read(config.SimToolkitProDatabaseFile, options.DepartureAirport, options.ArrivalAirport);
-            stkpWriter.Write(folder, stkpFlight, FileTypes.SimToolkitProJson, stkpFlight.Logbook.Dep, stkpFlight.Logbook.Arr);
+            var stkpFlight = stkpOps.ReadFlight(config.SimToolkitProDatabaseFile, options.DepartureAirport, options.ArrivalAirport);
+            stkpOps.WriteFlight(folder, stkpFlight);
 
             // navigraph charts
             var chartFiles = fileOperations.CollectFiles(config.NavigraphFolder, "*.pdf");
