@@ -2,7 +2,7 @@
 
 <section id="one" class="tiles">
   {% for tile in tiles limit:site.tiles-count %}
-  <article>
+  <article class="{{ tile.imagePosition }}">
     <span class="image">
       <img src="{{ tile.image }}" alt="{{ tile.title }}" />
     </span>
