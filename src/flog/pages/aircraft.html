@@ -86,6 +86,7 @@ navorder: 4
 	</section>
 </section>
 
-{% include osmaircraft.html latitude=site.data.aircraft.position.latitude
+{% include osm_aircraft.html
+latitude=site.data.aircraft.position.latitude
 longitude=site.data.aircraft.position.longitude %}
-{% include osmlayer.html %}
+{% include osm_layer.html %}
