@@ -13,23 +13,6 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
     {
         private int flightNumber;
 
-        [Obsolete]
-        public FlightGeo GenerateGpsApiData(string flightFolder)
-        {
-            flightNumber = new FlightMeta().GetLeg(flightFolder);
-
-            var gpsFile = new FlightFileScanner().GetFile(flightFolder, FileTypes.GpsJson);
-            var gps = new JsonReader<GpsReport>().FromFile(gpsFile);
-
-            var geo = new FlightGeo();
-            geo.Events = generateLocation(gps.BlackBoxEvents);
-            geo.Waypoints = generateLocation(gps.Waypoints);
-            geo.Images = generateLocation(gps.GeoTags);
-            geo.Track = generateTrack(gps.Coordinates);
-
-            return geo;
-        }
-
         public FlightGeo GenerateGpsApiData(FlightImport flight)
         {
             flightNumber = int.Parse(flight.FlightNumber);

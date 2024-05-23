@@ -1,6 +1,6 @@
 ﻿using TheFipster.Aviation.Domain.BlackBox;
 using TheFipster.Aviation.Domain;
-using TheFipster.Aviation.Modules.BlackBox.Components;
+using TheFipster.Aviation.Modules.BlackBox;
 
 namespace TheFipster.Aviation.DirtyLittleHelper.Stuff
 {

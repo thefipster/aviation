@@ -9,15 +9,6 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
 {
     internal class Location
     {
-        public Location(Airport departure)
-        {
-            Name = departure.Icao;
-            LatLon = [
-                departure.Latitude.RoundToSignificantDigits(4),
-                departure.Longitude.RoundToSignificantDigits(4)
-            ];
-        }
-
         public Location(Waypoint item)
         {
             Name = item.Name;

@@ -1,11 +1,13 @@
-﻿using TheFipster.Aviation.FlightCli.Abstractions;
+﻿using CommandLine;
+using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
+    [Verb(Verb, HelpText = Help, Hidden = true)]
     public class CreateSimbriefFlightOptions : IOptions
     {
-        public const string Verb = "simbriefflight";
-        public const string Help = "Creating flight from the last dispatched Simbrief flight.";
-        public const string Welcome = Help;
+        public const string Verb = "simbrief";
+        public const string Help = "Create a flight from the latest dispatched Simbrief flight.";
+        public const string Welcome = "Creating a new flight with the latest Simbrief dispatch.";
     }
 }

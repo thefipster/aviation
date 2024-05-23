@@ -1,20 +1,10 @@
 ﻿using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.Domain.Enums;
-using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
 
 namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxCompressor
     {
-        public BlackBoxFlight CompressRecords(string folder)
-        {
-            var blackboxFile = new FlightFileScanner().GetFile(folder, FileTypes.BlackBoxTrimmedJson);
-            var blackbox = new JsonReader<BlackBoxFlight>().FromFile(blackboxFile);
-            var compressed = CompressRecords(blackbox.Records);
-            return new BlackBoxFlight(blackbox.Origin, blackbox.Destination, compressed);
-        }
-
         public List<Record> CompressRecords(ICollection<Record> records)
         {
             var coordinates = records.ToList();

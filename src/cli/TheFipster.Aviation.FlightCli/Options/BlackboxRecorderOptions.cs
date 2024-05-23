@@ -3,6 +3,6 @@ using TheFipster.Aviation.FlightCli.Abstractions;
 
 namespace TheFipster.Aviation.FlightCli.Options
 {
-    [Verb("rec", HelpText = "Record a flight in MSFS2020.")]
+    [Verb("record", HelpText = "Record a flight in Microsoft Flight Simulator 2020 via FSUIPC.")]
     internal class BlackboxRecorderOptions : FlightRequiredOptions { }
 }

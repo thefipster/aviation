@@ -3,7 +3,7 @@ using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
-using TheFipster.Aviation.Modules.Simbrief.Components;
+using TheFipster.Aviation.Modules.Simbrief;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
