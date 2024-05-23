@@ -1,5 +1,5 @@
 <script type="text/javascript" defer>
-    function populateMap() {
+    function populateMap(map) {
         var flight = "{{ include.departure }}{{ include.arrival }}";
         $.getJSON("/assets/api/flights/" + flight + "-gps.json", function (data) {
             // Track

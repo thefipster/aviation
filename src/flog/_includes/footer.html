@@ -16,34 +16,11 @@
 </footer>
 
 <!-- Scripts -->
-<script src="{{ "assets/js/jquery.min.js" | relative_url }}"></script>
-<script src="{{ "assets/js/jquery.scrolly.min.js" | relative_url }}"></script>
-<script src="{{ "assets/js/jquery.scrollex.min.js" | relative_url }}"></script>
-<script src="{{ "assets/js/fancybox.umd.js" | relative_url }}"></script>
+<script src="{{ "assets/js/jquery.v3.6.0.min.js" | relative_url }}"></script>
+<script src="{{ "assets/js/jquery.scrolly.v1.0.0.min.js" | relative_url }}"></script>
+<script src="{{ "assets/js/jquery.scrollex.v0.2.1.min.js" | relative_url }}"></script>
+<script src="{{ "assets/js/fancybox.v5.0.umd.min.js" | relative_url }}"></script>
 <script src="{{ "assets/js/skel.min.js" | relative_url }}"></script>
 <script src="{{ "assets/js/util.js" | relative_url }}"></script>
-<!--[if lte IE 8]><script src="{{ "assets/js/ie/respond.min.js" | relative_url }}"></script><![endif]-->
 <script src="{{ "assets/js/main.js" | relative_url }}"></script>
-<script defer>
-	// Enable Fancybox for any element with the `data-fancybox` attribute
-	Fancybox.bind('[data-fancybox]', {
-	  // Your custom options
-	});   
-
-	// Set custom options for elements with the `data-fancybox="gallery"` attribute
-	Fancybox.bind('[data-fancybox="gallery"]', {
-	  // Your custom options
-	});  
-
-	const element = document.getElementById("map");
-	if (element) {
-		var map = L.map('map').fitWorld();
-
-		// Tiles
-		L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-			attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-		}).addTo(map);
-
-		populateMap();
-	}
-  </script>
+<script src="{{ "assets/js/custom.js" | relative_url }}" defer></script>

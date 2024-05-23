@@ -1,5 +1,5 @@
 <script defer>
-    function populateMap() {
+    function populateMap(map) {
         $.getJSON("/assets/api/airports-all.json", function (data) {
             $.each(data, function (key, val) {
                 let color = "";

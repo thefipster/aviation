@@ -10,18 +10,10 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
         public FrontMatter(FlightImport flight, OurAirportFinder airports)
         {
             PlannedDeparture = airports.SearchWithIcao(flight.Departure);
+            Departure = airports.SearchWithIcao(flight.GetDeparture());
+
             PlannedArrival = airports.SearchWithIcao(flight.Arrival);
-
-            if (flight.ActualArrival != null)
-                Arrival = airports.SearchWithIcao(flight.ActualArrival.Airport);
-            else
-                Arrival = airports.SearchWithIcao(flight.Arrival);
-
-
-            if (flight.ActualDeparture != null)
-                Departure = airports.SearchWithIcao(flight.ActualDeparture.Airport);
-            else
-                Departure = airports.SearchWithIcao(flight.Departure);
+            Arrival = airports.SearchWithIcao(flight.GetArrival());
 
             Title = Departure.Ident + " - " + Arrival.Ident;
             Description = Departure.Name + " - " + Arrival.Name;
@@ -29,8 +21,6 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
             DistanceKm = flight.Stats.TrackDistance;
             RouteKm = flight.Stats.RouteDistance;
             GreatCircleKm = flight.Stats.GreatCircleDistance;
-
-            Route = flight.GetRoute();
 
             if (flight.Started.HasValue)
                 DispatchDate = new DateTimeOffset(flight.Started.Value).ToUnixTimeSeconds();
@@ -45,7 +35,9 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
 
             FuelRamp = flight.Stats.FuelRamp;
             FuelShutdown = flight.Stats.FuelShutdown;
-            FuelBurned = flight.Stats.FuelUsed;
+
+            Route = flight.GetRoute();
+            FuelBurned = flight.GetFuelUsedKg();
         }
 
         public string Layout => "post";

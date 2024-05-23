@@ -1,5 +1,5 @@
 <script defer>
-    function populateMap() {
+    function populateMap(map) {
         // Track
         $.getJSON("/assets/api/track-flown.json", function (data) {
             $.each(data, function (key, val) {

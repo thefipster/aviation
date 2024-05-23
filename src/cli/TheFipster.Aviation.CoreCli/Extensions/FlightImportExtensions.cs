@@ -43,5 +43,17 @@ namespace TheFipster.Aviation.CoreCli.Extensions
 
             return route;
         }
+
+        public static int GetFuelUsedKg(this FlightImport flight)
+        {
+            double fuel = 0;
+            if (flight.HasStats)
+                fuel = flight.Stats.FuelUsed;
+
+            if (fuel <= 0 && flight.HasSimbriefXml)
+                fuel = int.Parse(flight.SimbriefXml.Ofp.Fuel.PlanRamp) - int.Parse(flight.SimbriefXml.Ofp.Fuel.PlanLanding);
+
+            return (int)Math.Round(fuel, 0);
+        }
     }
 }

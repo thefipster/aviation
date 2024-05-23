@@ -96,6 +96,12 @@ namespace TheFipster.Aviation.Domain.BlackBox
         [JsonPropertyName("pwk")]
         public double PlaneWeightKg { get; set; }
 
+        [JsonPropertyName("psd")]
+        public bool IsPaused { get; set; }
+
+        [JsonPropertyName("apu")]
+        public byte ApuActive { get; set; }
+
         public void Print()
         {
             Console.Clear();
@@ -136,6 +142,12 @@ namespace TheFipster.Aviation.Domain.BlackBox
             Console.WriteLine("Engine 2");
             Console.WriteLine($"N1: {Engine2N1Percent}%");
             Console.WriteLine($"N2: {Engine2N2Percent}%");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine($"Mass: {PlaneWeightKg}%");
+            Console.WriteLine($"Paused: {IsPaused}");
+            Console.WriteLine($"APU: {ApuActive}");
+            Console.WriteLine($"Autopilot: {ApMaster}");
         }
 
         public override bool Equals(object? obj)

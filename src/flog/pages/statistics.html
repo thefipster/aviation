@@ -1,0 +1,35 @@
+---
+layout: page
+title: Statistics
+description: Plots and things
+landing-title: All flights
+navmenu: true
+image: assets/images/aircraft6.jpg
+navtitle: Statistics
+navorder: 10
+imagePosition: bottom
+---
+
+<section id="one">
+    <table class="flightlog">
+      <thead>
+        <tr>
+          <th>Flight</th>
+          <th>Distance</th>
+          <th>Fuel</th>
+          <th>Milage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% assign posts = site.posts | sort: 'flightNumber' | reverse %}
+        {% for post in posts %}
+        <tr>
+          <td>{{ post.title }}</td>
+          <td>{{ post.distanceKm | round: 0 }}</td>
+          <td>{{ post.fuelBurned }}</td>
+          <td>{{ post.fuelBurned | divided_by: post.distanceKm | round: 1 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</section>

@@ -43,6 +43,11 @@
       "commandName": "Project",
       "commandLineArgs": "build",
       "hotReloadEnabled": false
+    },
+    "flightcli flog": {
+      "commandName": "Project",
+      "commandLineArgs": "flog",
+      "hotReloadEnabled": false
     }
   }
 }

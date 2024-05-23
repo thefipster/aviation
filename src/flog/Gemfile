@@ -4,6 +4,7 @@ gem 'jekyll', '~> 4.2'
 #gem 'wdm', '~> 0.1.0' if Gem.win_platform?
 gem "webrick", "~> 1.8"
 gem 'jekyll-watch'
+gem "jekyll-assets", group: :jekyll_plugins
 
 platforms :mingw, :x64_mingw, :mswin, :jruby do
   gem "tzinfo", ">= 1", "< 3"
