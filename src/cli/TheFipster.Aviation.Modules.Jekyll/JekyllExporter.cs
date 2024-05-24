@@ -77,6 +77,14 @@ namespace TheFipster.Aviation.Modules.Jekyll
             var yaml = new YamlWriter().ToYaml(aircraft);
             var aircraftFile = Path.Combine(dataFolder, "aircraft.yml");
             new PlainWriter().Write(aircraftFile, yaml, true);
+
+            var fuelChart = new ChartExporter().ExportFuelChart(flightsFolder);
+            var fuelChartFile = Path.Combine(apiFolder, "line-milage.json");
+            new JsonWriter<IEnumerable<int>>().Write(fuelChartFile, fuelChart, true);
+
+            var speedChart = new ChartExporter().ExportSpeedChart(flightsFolder);
+            var speedChartFile = Path.Combine(apiFolder, "line-groundspeed.json");
+            new JsonWriter<IEnumerable<int>>().Write(speedChartFile, speedChart, true);
         }
     }
 }

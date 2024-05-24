@@ -1,35 +1,131 @@
 ---
-layout: page
+layout: landing
 title: Statistics
 description: Plots and things
 landing-title: All flights
 navmenu: true
-image: assets/images/aircraft6.jpg
+image: assets/images/aircraft5.jpg
 navtitle: Statistics
-navorder: 10
-imagePosition: bottom
+navorder: 6
+accent: style5
 ---
 
-<section id="one">
-    <table class="flightlog">
-      <thead>
-        <tr>
-          <th>Flight</th>
-          <th>Distance</th>
-          <th>Fuel</th>
-          <th>Milage</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% assign posts = site.posts | sort: 'flightNumber' | reverse %}
-        {% for post in posts %}
-        <tr>
-          <td>{{ post.title }}</td>
-          <td>{{ post.distanceKm | round: 0 }}</td>
-          <td>{{ post.fuelBurned }}</td>
-          <td>{{ post.fuelBurned | divided_by: post.distanceKm | round: 1 }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-</section>
+
+<!-- Main -->
+<div id="main">
+    <div id="chart-loader"></div>
+    <section id="one">
+        <div class="inner">
+            <!-- Fuel Consumption -->
+            <div class="content">
+                <div class="inner">
+                    <header class="major">
+                        <h3>Fuel Consumption</h3>
+                        <p>Kg / 100 km</p>
+                    </header>
+                    <canvas class="chart" id="chart-fuel"></canvas>
+                </div>
+            </div>
+            <br />
+            <br />
+            <!-- Maximum Groundspeed -->
+            <div class="content">
+                <div class="inner">
+                    <header class="major">
+                        <h3>Maximum Groundspeed</h3>
+                        <p>km/h</p>
+                    </header>
+                    <header>
+                    </header>
+                    <canvas class="chart" id="chart-speed"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript" defer>
+    function populateChart() {
+        $.getJSON("/assets/api/line-milage.json", function (data) {
+            const chartObj = document.getElementById("chart-fuel");
+            const config = {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: "Jet A1 Fuel Consumption [kg/100km]",
+                        data: data.y,
+                    }],
+                    labels: data.x
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90,
+                                color: "#fff"
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: "#fff"
+                            }
+                        }
+                    }
+                }
+            }
+
+            new Chart(
+                chartObj,
+                config
+            );
+        });
+
+        $.getJSON("/assets/api/line-groundspeed.json", function (data) {
+            const chartObj = document.getElementById("chart-speed");
+            const config = {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        label: "Maximum Ground Speed [km/h]",
+                        data: data.y,
+                    }],
+                    labels: data.x
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 90,
+                                minRotation: 90,
+                                color: "#fff"
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: "#fff"
+                            }
+                        }
+                    }
+                }
+            }
+
+            new Chart(
+                chartObj,
+                config
+            );
+        });
+    }
+</script>

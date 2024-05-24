@@ -23,7 +23,7 @@ namespace TheFipster.Aviation.Domain.Simbrief
             Longitude = point[0];
 
             if (point.Count > 2)
-                Altitude = UnitConverter.FeetToMeters((int)point[2]);
+                Altitude = UnitConverter.FtToM((int)point[2]);
         }
 
         public Coordinate(double latitude, double longitude)

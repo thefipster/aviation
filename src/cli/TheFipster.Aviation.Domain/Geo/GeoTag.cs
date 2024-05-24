@@ -26,7 +26,7 @@ namespace TheFipster.Aviation.Domain.Geo
             Longitude = coordinate.Longitude;
 
             if (coordinate.Altitude.HasValue)
-                AltitudeInMeters = UnitConverter.FeetToMeters(coordinate.Altitude.Value);
+                AltitudeInMeters = UnitConverter.FtToM(coordinate.Altitude.Value);
         }
 
         public string Screenshot { get; set; }

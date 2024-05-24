@@ -147,7 +147,6 @@ namespace TheFipster.Aviation.Domain.BlackBox
             Console.WriteLine($"Mass: {PlaneWeightKg}%");
             Console.WriteLine($"Paused: {IsPaused}");
             Console.WriteLine($"APU: {ApuActive}");
-            Console.WriteLine($"Autopilot: {ApMaster}");
         }
 
         public override bool Equals(object? obj)

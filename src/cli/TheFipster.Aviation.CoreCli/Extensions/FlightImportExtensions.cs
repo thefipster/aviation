@@ -4,7 +4,7 @@ namespace TheFipster.Aviation.CoreCli.Extensions
 {
     public static class FlightImportExtensions
     {
-        public static string GetDeparture(this FlightImport flight)
+        public static string GetDepartureIcao(this FlightImport flight)
         {
             if (flight.ActualDeparture != null)
                 return flight.ActualDeparture.Airport;
@@ -12,7 +12,7 @@ namespace TheFipster.Aviation.CoreCli.Extensions
             return flight.Departure;
         }
 
-        public static string GetArrival(this FlightImport flight)
+        public static string GetArrivalcao(this FlightImport flight)
         {
             if (flight.ActualArrival != null)
                 return flight.ActualArrival.Airport;
@@ -20,7 +20,16 @@ namespace TheFipster.Aviation.CoreCli.Extensions
             return flight.Arrival;
         }
 
-        public static string GetRoute(this FlightImport flight)
+        public static string GetName(this FlightImport flight)
+            => $"{flight.GetDepartureIcao()} - {flight.GetArrivalcao()}";
+
+        public static string GetArrivalPlannedIcao(this FlightImport flight)
+            => flight.Arrival;
+
+        public static string GetDeparturePlannedIcao(this FlightImport flight)
+            => flight.Arrival;
+
+        public static string GetRouteTxt(this FlightImport flight)
         {
             string? route = null;
 
@@ -29,8 +38,8 @@ namespace TheFipster.Aviation.CoreCli.Extensions
             else if (flight.HasSimToolkitPro)
                 route = flight.SimToolkitPro.Logbook.Route;
 
-            var departure = flight.GetDeparture();
-            var arrival = flight.GetArrival();
+            var departure = flight.GetDepartureIcao();
+            var arrival = flight.GetArrivalcao();
 
             if (string.IsNullOrWhiteSpace(route))
                 return departure + " DCT " + arrival;
@@ -55,5 +64,11 @@ namespace TheFipster.Aviation.CoreCli.Extensions
 
             return (int)Math.Round(fuel, 0);
         }
+
+        public static int GetDistanceFlownKm(this FlightImport flight)
+            => (int)Math.Round(flight.Stats.TrackDistance, 0);
+
+        public static int GetMaxGroundSpeedKmh(this FlightImport flight)
+            => (int)Math.Round(UnitConverter.MpsToKmh(flight.Stats.MaxGroundspeedMps), 0);
     }
 }

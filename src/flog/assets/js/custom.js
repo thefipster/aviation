@@ -16,4 +16,9 @@
 
     populateMap(map);
   }
+
+  const chartObj = document.getElementById("chart-loader");
+  if (chartObj) {
+    populateChart();
+  }
 })(jQuery);

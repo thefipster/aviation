@@ -45,7 +45,7 @@
 						<div class="6u 12u$(medium)">
 							<h3><i class="fa-solid fa-signs-post"></i> Route</h3>
 							<ul class="alt">
-								{% assign flyOverhead = page.distanceKm | divided_by: page.greatCircleKm | times: 100 | minus: 100 %}
+								{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by: page.greatCircleKm | times: 100 | minus: 100 %}
 								<li>
 									{{ page.distanceKm | round:0 }} km actual ( +{{ flyOverhead | round: 0 }}% )
 								</li>

@@ -81,10 +81,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var waypoints = new List<Waypoint>();
             var placemarks = flight.SimbriefKml.Kml.Document.Placemark.Where(x => x.Point != null);
 
-            var departureIcao = flight.GetDeparture();
+            var departureIcao = flight.GetDepartureIcao();
             var departure = airports.SearchWithIcao(departureIcao);
 
-            var arrivalIcao = flight.GetArrival();
+            var arrivalIcao = flight.GetArrivalcao();
             var arrival = airports.SearchWithIcao(arrivalIcao);
 
             if (!placemarks.Any(x => x.Name.ToUpper() == departureIcao.ToUpper()))
@@ -118,10 +118,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (flight.Stats == null)
                 flight.Stats = new Stats();
 
-            var departureIcao = flight.GetDeparture();
+            var departureIcao = flight.GetDepartureIcao();
             var departure = airports.SearchWithIcao(departureIcao);
 
-            var arrivalIcao = flight.GetArrival();
+            var arrivalIcao = flight.GetArrivalcao();
             var arrival = airports.SearchWithIcao(arrivalIcao);
 
             var gcDistance = GpsCalculator.GetHaversineDistance(
