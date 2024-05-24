@@ -1,4 +1,5 @@
 ﻿using TheFipster.Aviation.CoreCli;
+using TheFipster.Aviation.CoreCli.Extensions;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.OurAirports;
@@ -51,13 +52,14 @@ namespace TheFipster.Aviation.Modules.Jekyll
 
             var departure = meta.GetDeparture(folder);
             var arrival = meta.GetArrival(folder);
+            var leg = meta.GetLeg(folder);
 
             var post = new FrontMatterPostExporter().GenerateFlightPost(flight, airports);
             var postPath = Path.Combine(postFolder, post.Name);
             new PlainWriter().Write(postPath, post.Frontmatter, true);
 
             var gpsData = new FlightGpsExporter().GenerateGpsApiData(flight);
-            var gpsDataPath = Path.Combine(apiFolder, "flights", departure + arrival + "-gps.json");
+            var gpsDataPath = Path.Combine(apiFolder, "flights", leg + "-" + departure + "-" + arrival + "-gps.json");
             new JsonWriter<FlightGeo>().Write(gpsDataPath, gpsData, true);
 
             new ScreenshotExporter().GenerateImages(folder, captureFolder);
@@ -77,6 +79,20 @@ namespace TheFipster.Aviation.Modules.Jekyll
             var yaml = new YamlWriter().ToYaml(aircraft);
             var aircraftFile = Path.Combine(dataFolder, "aircraft.yml");
             new PlainWriter().Write(aircraftFile, yaml, true);
+
+            var parking = new decimal[] { 
+                aircraft.Position.Latitude.RoundToSignificantDigits(5), 
+                aircraft.Position.Longitude.RoundToSignificantDigits(5)};
+            var parkingFile = Path.Combine(apiFolder, "park-position.json");
+            new JsonWriter<IEnumerable<int>>().Write(parkingFile, parking, true);
+
+            var fuelChart = new ChartExporter().ExportFuelChart(flightsFolder);
+            var fuelChartFile = Path.Combine(apiFolder, "line-milage.json");
+            new JsonWriter<IEnumerable<int>>().Write(fuelChartFile, fuelChart, true);
+
+            var speedChart = new ChartExporter().ExportSpeedChart(flightsFolder);
+            var speedChartFile = Path.Combine(apiFolder, "line-groundspeed.json");
+            new JsonWriter<IEnumerable<int>>().Write(speedChartFile, speedChart, true);
         }
     }
 }

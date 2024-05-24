@@ -1,5 +1,5 @@
 ---
-layout: index
+layout: page
 title: Home
 landing-title: 'Fipsters Flight Log'
 description: null
@@ -9,27 +9,23 @@ show_tile: false
 navmenu: true
 navtitle: Home
 navorder: 1
+icon: house
 ---
 
-    <!-- Banner -->
-    <section id="banner" class="major">
-        <div class="inner">
-            <header class="major">
-                <h1>{{ page.landing-title }}</h1>
-            </header>
-            <div class="content">
-                <p style="text-transform: uppercase;">{{ site.description }}</p>
-                <ul class="actions">
-                    <li><a href="/pages/flightlog.html" class="button next scrolly">See all flights</a></li>
-                </ul>
-            </div>
+<!-- Banner -->
+<section id="banner">
+    <div class="inner">
+        <header class="major">
+            <h1>{{ page.landing-title }}</h1>
+        </header>
+        <div class="content">
+            <p style="text-transform: uppercase;">{{ site.description }}</p>
+            <ul class="actions">
+                <li><a href="/pages/flightlog.html" class="button next scrolly">See all flights</a></li>
+            </ul>
         </div>
-    </section>
-
-    <!-- Main -->
-    <div id="main">
-
-        <!-- One -->
-        {% include tiles.html %}
-
     </div>
+</section>
+
+<!-- Tiles -->
+{% include tiles.html %}

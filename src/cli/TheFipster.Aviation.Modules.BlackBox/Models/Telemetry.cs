@@ -20,9 +20,10 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
         // States
         private Offset<int> flaps = new Offset<int>(0x0BDC);
         private Offset<int> gear = new Offset<int>(0x0BE8);
-        private Offset<int> apMaster = new Offset<int>(0x0764);
         private Offset<short> parkingBrake = new Offset<short>(0x0BCA);
         private Offset<ushort> onGround = new Offset<ushort>(0x0366);
+        private Offset<ushort> paused = new Offset<ushort>(0x0264);
+        private Offset<byte> apuActive = new Offset<byte>(0x0B52);
 
         // Angles
         private Offset<double> bank = new Offset<double>(0x2F78);
@@ -49,11 +50,6 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
         // Weight
         private Offset<double> loadedWeight = new Offset<double>(0x30C0);
 
-        // Acceleration
-
-
-
-
         public bool IsConnected => FSUIPCConnection.IsOpen;
 
         public Record Get()
@@ -62,19 +58,14 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
                 connect();
 
             refresh();
+            var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
             var record = sanitize();
-            applyTimestamp(record);
+            record.Timestamp = timestamp;
             return record;
         }
         private void connect() => FSUIPCConnection.Open();
 
         private static void refresh() => FSUIPCConnection.Process();
-
-        private void applyTimestamp(Record record)
-        {
-            var timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
-            record.Timestamp = timestamp;
-        }
 
         private Record sanitize()
         {
@@ -107,6 +98,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
             record.FlapsConfig = getFlapsConfig();
             record.GearPosition = gear.Value < 10000 ? "up" : "down";
             record.BrakesActivated = getBrakesActivated();
+            record.IsPaused = paused.Value == 0 ? false : true;
 
             record.FuelLiters = (int)Math.Round(fuel.Value * 3.78541);
             record.Engine1N1Percent = Math.Round(engine1N1.Value / 16384d * 100d, 1);
@@ -115,7 +107,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Models
             record.Engine2N2Percent = Math.Round(engine2N2.Value / 16384d * 100d, 1);
 
             record.PlaneWeightKg = loadedWeight.Value * 0.45359237;
-
+            record.ApuActive = apuActive.Value;
 
             return record;
         }

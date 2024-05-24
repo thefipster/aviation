@@ -9,6 +9,7 @@ internal class Program
         Console.WriteLine();
 
         // do your dirty little things here
+        new RecordBlackbox().Record("gw", "fwfw");
 
         Console.WriteLine();
         Console.WriteLine("Finished");

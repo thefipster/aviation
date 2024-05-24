@@ -20,7 +20,5 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
         public Stats Stats { get; set; }
         public List<string> VisitedCountries { get; set; }
         public int Flights { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
     }
 }

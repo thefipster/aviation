@@ -54,7 +54,7 @@ namespace TheFipster.Aviation.Modules.OurAirports.Components
                 var runs = runways.Where(x =>
                     x.AirportRef == airport.Id
                     && x.LengthFeet.HasValue
-                    && x.LengthFeet > UnitConverter.MetersToFeet(minRunwayLengthMeters));
+                    && x.LengthFeet > UnitConverter.MToFt(minRunwayLengthMeters));
 
                 foreach (var surface in excludedSurfaces)
                     runs = runs.Where(x => !x.Surface.ToUpper().Contains(surface));

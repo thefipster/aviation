@@ -14,9 +14,8 @@
         {% assign image = image_folder | append: filename %}
 
         <div class="3u 4u(medium) 6u(small)">
-            <a class="fancy-image" data-src="{{ image }}" data-fancybox="gallery"
-                data-caption="{{ caption }}">
-                <img src="{{ preview }}" />
+            <a data-fancybox="gallery" href="{{ image }}">
+                <img src="{{ preview }}">
             </a>
         </div>
         {% endif %}

@@ -60,7 +60,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                     descentTrigger = false;
                 }
 
-                var windspeed = UnitConverter.KnotsToMetersPerSecond(rec.WindSpeedKnots);
+                var windspeed = UnitConverter.KtsToMps(rec.WindSpeedKnots);
                 if (windTrigger && windspeed == stats.MaxWindspeedMps)
                 {
                     var waypoint = new Waypoint(FlightEvents.MaxWind, rec.LatitudeDecimals, rec.LongitudeDecimals);
@@ -150,7 +150,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 
                 stats.ShutdownFuel = cur.FuelLiters;
 
-                var windspeed = UnitConverter.KnotsToMetersPerSecond(cur.WindSpeedKnots);
+                var windspeed = UnitConverter.KtsToMps(cur.WindSpeedKnots);
                 if (windspeed > stats.MaxWindspeedMps)
                 {
                     stats.MaxWindspeedMps = windspeed;
@@ -158,8 +158,8 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 }
             }
 
-            stats.MaxFuel = (int)Math.Round(UnitConverter.JetA1LiterToKg(stats.MaxFuel));
-            stats.ShutdownFuel = (int)Math.Round(UnitConverter.JetA1LiterToKg(stats.ShutdownFuel));
+            stats.MaxFuel = (int)Math.Round(UnitConverter.JetA1LToKg(stats.MaxFuel));
+            stats.ShutdownFuel = (int)Math.Round(UnitConverter.JetA1LToKg(stats.ShutdownFuel));
         }
     }
 }

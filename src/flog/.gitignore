@@ -7,6 +7,9 @@ Gemfile.lock
 assets/images/screenshots
 assets/caps
 assets/api
+assets/js
 _data/flights
 _posts
 _data/aircraft.yml
+node_modules
+assets/css

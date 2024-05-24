@@ -9,28 +9,21 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
     {
         public FrontMatter(FlightImport flight, OurAirportFinder airports)
         {
-            PlannedDeparture = airports.SearchWithIcao(flight.Departure);
-            PlannedArrival = airports.SearchWithIcao(flight.Arrival);
+            PlannedDeparture = airports.SearchWithIcao(flight.GetDeparturePlannedIcao());
+            Departure = airports.SearchWithIcao(flight.GetDepartureIcao());
 
-            if (flight.ActualArrival != null)
-                Arrival = airports.SearchWithIcao(flight.ActualArrival.Airport);
-            else
-                Arrival = airports.SearchWithIcao(flight.Arrival);
+            PlannedArrival = airports.SearchWithIcao(flight.GetArrivalPlannedIcao());
+            Arrival = airports.SearchWithIcao(flight.GetArrivalcao());
 
-
-            if (flight.ActualDeparture != null)
-                Departure = airports.SearchWithIcao(flight.ActualDeparture.Airport);
-            else
-                Departure = airports.SearchWithIcao(flight.Departure);
+            Route = flight.GetRouteTxt();
+            FuelBurned = flight.GetFuelUsedKg();
+            DistanceKm = flight.GetDistanceFlownKm();
 
             Title = Departure.Ident + " - " + Arrival.Ident;
             Description = Departure.Name + " - " + Arrival.Name;
 
-            DistanceKm = flight.Stats.TrackDistance;
             RouteKm = flight.Stats.RouteDistance;
             GreatCircleKm = flight.Stats.GreatCircleDistance;
-
-            Route = flight.GetRoute();
 
             if (flight.Started.HasValue)
                 DispatchDate = new DateTimeOffset(flight.Started.Value).ToUnixTimeSeconds();
@@ -45,7 +38,6 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
 
             FuelRamp = flight.Stats.FuelRamp;
             FuelShutdown = flight.Stats.FuelShutdown;
-            FuelBurned = flight.Stats.FuelUsed;
         }
 
         public string Layout => "post";
@@ -53,7 +45,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
         public string Description { get; set; }
         public string? AiracCycle { get; set; }
         public long DispatchDate { get; set; }
-        public double DistanceKm { get; set; }
+        public int DistanceKm { get; set; }
         public int RouteKm { get; set; }
         public int GreatCircleKm { get; set; }
         public OurAirport Arrival { get; set; }

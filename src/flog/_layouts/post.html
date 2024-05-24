@@ -10,58 +10,72 @@
 			<div class="inner">
 				<!-- Title -->
 				<header class="major">
-					<h1>{{ page.description }}</h1>
+					<h2>{{ page.description }}</h2>
+					<p>{{ page.route }} | {{ page.airacCycle }}</p>
 				</header>
 				<!-- Map -->
 				<div class="map-container">
-					<div id="map">
-
-					</div>
+					<div id="map"></div>
 				</div>
 				<br />
 				<!-- InfoBox -->
 				<div>
 					<div class="row">
+						<!-- Departure & Arrival -->
 						<div class="6u 12u$(medium)">
-							<h3>Departure</h3>
+							<h3>
+								<i class="phi ph-bold ph-airplane-takeoff"></i>
+								<span>Departure</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.departure.name }} ({{ page.departure.ident }})</li>
 								<li>{{ page.departure.region.name }}</li>
 								<li>{{ page.departure.country.name }}</li>
-								<li>{{ page.departure.continentCode }}</li>
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3>Arrival</h3>
+							<h3>
+								<i class="phi ph-bold ph-airplane-landing"></i>
+								<span>Arrival</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.arrival.name }} ({{ page.arrival.ident }})</li>
 								<li>{{ page.arrival.region.name }}</li>
 								<li>{{ page.arrival.country.name }}</li>
-								<li>{{ page.arrival.continentCode }}</li>
 							</ul>
 						</div>
 					</div>
 
+					<!-- Route & Fuel -->
 					<div class="row">
 						<div class="6u 12u$(medium)">
-							<h3>Route</h3>
+							<h3>
+								<i class="phi ph-bold ph-signpost"></i>
+								<span>Route</span>
+							</h3>
 							<ul class="alt">
-								<li>{{ page.route }}</li>
+								{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by: page.greatCircleKm |
+								times: 100 | minus: 100 %}
+								<li>
+									{{ page.distanceKm | round:0 }} km actual ( +{{ flyOverhead | round: 0 }}% )
+								</li>
 
-								{% assign flyOverhead = page.distanceKm | divided_by: page.greatCircleKm | times: 100 %}
-								<li>{{ page.distanceKm | round:0 }} km actual ({{ flyOverhead | round: 0 }}%)</li>
-
-								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by: page.greatCircleKm | times: 100 %}
-								<li>{{ page.routeKm | round: 0 }} km planned ({{ planOverhead | round: 0 }}%)</li>
+								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by: page.greatCircleKm |
+								times: 100 | minus: 100 %}
+								<li>{{ page.routeKm | round: 0 }} km planned ( +{{ planOverhead | round: 0 }}% )</li>
 								<li>{{ page.greatCircleKm | round:0 }} km direct </li>
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3>Fuel</h3>
+							<h3>
+								<i class="phi ph-bold ph-gas-pump"></i>
+								<span>Fuel</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.fuelRamp }} kg at the ramp</li>
 								<li>{{ page.fuelShutdown }} kg at engine shutdown</li>
-								<li>{{ page.fuelBurned }} kg used</li>
+								<li>{{ page.fuelBurned }} kg used ( {{ page.fuelBurned | divided_by: 0.8 | divided_by:
+									page.distanceKm | times: 100 | round: 0 }} l/100km )</li>
 							</ul>
 						</div>
 					</div>
@@ -70,37 +84,12 @@
 				<div class="flightgallery">
 					<h3>Screenshots</h3>
 					{% include gallery.html flightNo = page.legNo %}
-					<!-- <div class="box alt">
-						<div class="row 50% uniform">
-							{% capture preview_folder %}/assets/caps/{{ page.legNo }}/tn/{% endcapture %}
-							{% capture image_folder %}/assets/caps/{{ page.legNo }}/{% endcapture %}
-							{% for file in site.static_files %}
-							{% if file.path contains preview_folder %}
-							{% assign filenameparts = file.path | split: "/" %}
-							{% assign filename = filenameparts | last %}
-							{% assign caption = filename %}
-							{% assign preview = preview_folder | append: filename %}
-							{% assign image = image_folder | append: filename %}
-							<div class="3u 4u(medium) 6u(small)">
-								<a class="fancy-image" data-src="{{ image }}" data-fancybox="gallery"
-									data-caption="{{ caption }}">
-									<img src="{{ preview }}" />
-								</a>
-							</div>
-							{% endif %}
-							{% endfor %}
-						</div>
-					</div> -->
 				</div>
 			</div>
 		</section>
 	</div>
 
 	{% include footer.html %}
-
-	{% include osm_post.html departure=page.departure.ident arrival=page.arrival.ident %}
-	{% include osm_layer.html %}
-
 </body>
 
 </html>

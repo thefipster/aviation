@@ -1,8 +1,8 @@
 {% assign tiles = site.html_pages | where_exp: "item", "item.show_tile != false" | sort:"navorder"  %}
 
 <section id="one" class="tiles">
-  {% for tile in tiles limit:site.tiles-count %}
-  <article>
+  {% for tile in tiles %}
+  <article class="{{ tile.imagePosition }}">
     <span class="image">
       <img src="{{ tile.image }}" alt="{{ tile.title }}" />
     </span>

@@ -46,7 +46,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             airports = new OurAirportFinder(airportReader, config.OurAirportFile);
 
             var folders = options.GetFlightFolders(config.FlightsFolder);
-            foreach (var folder in folders)
+            Parallel.ForEach(folders, folder =>
             {
                 Console.WriteLine("\t" + folder);
 
@@ -56,9 +56,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
                     var flight = flightReader.FromFile(file);
 
                     flight = GenerateTrack(flight);
-                    flight = MergeStatsFromBlackbox(flight);
                     flight = GenerateGeoTags(folder, flight);
                     flight = MergeStatsFromStkp(flight);
+                    flight = MergeStatsFromBlackbox(flight);
                     flight = GetActualTakeoffAndLanding(flight);
                     flight = GenerateTrackDistance(flight);
                     flight = GenerateGcDistance(flight);
@@ -70,7 +70,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                 {
                     StdOut.Write(2, Emoji.YellowCircle, "skipping, there is no flight file");
                 }
-            }
+            });
         }
 
         private FlightImport GenerateRouteDistance(FlightImport flight)
@@ -81,17 +81,17 @@ namespace TheFipster.Aviation.FlightCli.Commands
             var waypoints = new List<Waypoint>();
             var placemarks = flight.SimbriefKml.Kml.Document.Placemark.Where(x => x.Point != null);
 
-            var departureIcao = flight.GetDeparture();
+            var departureIcao = flight.GetDepartureIcao();
             var departure = airports.SearchWithIcao(departureIcao);
 
-            var arrivalIcao = flight.GetArrival();
+            var arrivalIcao = flight.GetArrivalcao();
             var arrival = airports.SearchWithIcao(arrivalIcao);
 
             if (!placemarks.Any(x => x.Name.ToUpper() == departureIcao.ToUpper()))
                 waypoints.Add(new Waypoint(departure));
 
             waypoints.AddRange(placemarks.Select(x => new Waypoint(x)));
-                
+
             if (!waypoints.Any(x => x.Name.ToUpper() == arrivalIcao.ToUpper()))
                 waypoints.Add(new Waypoint(arrival));
 
@@ -108,7 +108,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
                     cur.Longitude);
             }
 
-            flight.Stats.RouteDistance = (int)Math.Round(distance,0);
+            flight.Stats.RouteDistance = (int)Math.Round(distance, 0);
 
             return flight;
         }
@@ -118,10 +118,10 @@ namespace TheFipster.Aviation.FlightCli.Commands
             if (flight.Stats == null)
                 flight.Stats = new Stats();
 
-            var departureIcao = flight.GetDeparture();
+            var departureIcao = flight.GetDepartureIcao();
             var departure = airports.SearchWithIcao(departureIcao);
 
-            var arrivalIcao = flight.GetArrival();
+            var arrivalIcao = flight.GetArrivalcao();
             var arrival = airports.SearchWithIcao(arrivalIcao);
 
             var gcDistance = GpsCalculator.GetHaversineDistance(
