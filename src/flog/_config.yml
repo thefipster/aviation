@@ -1,17 +1,13 @@
-# site settings
 title: FFLOG
+pilot: thefipster
 subtitle: fipster's flight log
 description: Bloglike Microsoft Flight Simulator Tracking System
-github: https://github.com/thefipster
+social: https://github.com/thefipster
 permalink: flights/:title:output_ext
-
-tiles-source: pages
-tiles-count: 6
 
 markdown: kramdown
 
-sass:
-  style: compressed
+sass: false
 
 exclude:
 - "*.gemspec"

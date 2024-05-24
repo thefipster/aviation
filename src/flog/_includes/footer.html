@@ -4,7 +4,7 @@
 		<div>&copy; {{ site.title }} {{ site.subtitle }}</div>
 		<div>
 			Pilot:
-			<a href="https://github.com/thefipster" target="_blank">thefipster</a>
+			<a href="{{ site.social }}" target="_blank">{{ site.pilot }}</a>
 		</div>
 		<div>
 			Made with
@@ -14,6 +14,4 @@
 		</div>
 	</div>
 </footer>
-
-{% assign script = page.script | default: include.script | default: "common.js" %}
-<script src="{{ "assets/bundle/" | append: script | relative_url }}"></script>
+<script src="/assets/js/main.js"></script>

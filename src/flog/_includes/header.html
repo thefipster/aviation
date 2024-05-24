@@ -2,8 +2,8 @@
 <div id="wrapper">
 
 	<!-- Header -->
-	<header id="header" {% if page.layout=="landing" or page.layout=="aircraft" %} class="alt style2" {% endif %} {% if page.layout=="index" %}
-		class="alt" {% endif %}>
+	<header id="header" {% if page.layout=="landing" or page.layout=="aircraft" %} class="alt style2" {% endif %} {% if
+		page.layout=="index" %} class="alt" {% endif %}>
 		<a href="/" class="logo">
 			<strong>{{ site.title }}</strong>
 			<span>{{ site.subtitle }}</span>
@@ -19,7 +19,10 @@
 			{% assign pages = site.html_pages | where: "navmenu","true" | sort: "navorder" %}
 			{% for page in pages %}
 			<li>
-				<a href="{{ page.url }}">{{ page.navtitle }}</a>
+				<a class="navmenu-item" href="{{ page.url }}">
+					<i class="phi ph-bold ph-{{ page.icon }}"></i>
+					<span>{{ page.navtitle }}</span>
+				</a>
 			</li>
 			{% endfor %}
 		</ul>

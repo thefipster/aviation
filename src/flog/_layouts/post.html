@@ -23,7 +23,10 @@
 					<div class="row">
 						<!-- Departure & Arrival -->
 						<div class="6u 12u$(medium)">
-							<h3><i class="fa-solid fa-plane-departure"></i> Departure</h3>
+							<h3>
+								<i class="phi ph-bold ph-airplane-takeoff"></i>
+								<span>Departure</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.departure.name }} ({{ page.departure.ident }})</li>
 								<li>{{ page.departure.region.name }}</li>
@@ -31,7 +34,10 @@
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3><i class="fa-solid fa-plane-arrival"></i> Arrival</h3>
+							<h3>
+								<i class="phi ph-bold ph-airplane-landing"></i>
+								<span>Arrival</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.arrival.name }} ({{ page.arrival.ident }})</li>
 								<li>{{ page.arrival.region.name }}</li>
@@ -43,24 +49,33 @@
 					<!-- Route & Fuel -->
 					<div class="row">
 						<div class="6u 12u$(medium)">
-							<h3><i class="fa-solid fa-signs-post"></i> Route</h3>
+							<h3>
+								<i class="phi ph-bold ph-signpost"></i>
+								<span>Route</span>
+							</h3>
 							<ul class="alt">
-								{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by: page.greatCircleKm | times: 100 | minus: 100 %}
+								{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by: page.greatCircleKm |
+								times: 100 | minus: 100 %}
 								<li>
 									{{ page.distanceKm | round:0 }} km actual ( +{{ flyOverhead | round: 0 }}% )
 								</li>
 
-								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by: page.greatCircleKm | times: 100 | minus: 100 %}
+								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by: page.greatCircleKm |
+								times: 100 | minus: 100 %}
 								<li>{{ page.routeKm | round: 0 }} km planned ( +{{ planOverhead | round: 0 }}% )</li>
 								<li>{{ page.greatCircleKm | round:0 }} km direct </li>
 							</ul>
 						</div>
 						<div class="6u 12u$(medium)">
-							<h3><i class="fa-solid fa-gas-pump"></i> Fuel</h3>
+							<h3>
+								<i class="phi ph-bold ph-gas-pump"></i>
+								<span>Fuel</span>
+							</h3>
 							<ul class="alt">
 								<li>{{ page.fuelRamp }} kg at the ramp</li>
 								<li>{{ page.fuelShutdown }} kg at engine shutdown</li>
-								<li>{{ page.fuelBurned }} kg used ( {{ page.fuelBurned | divided_by: 0.8 | divided_by: page.distanceKm | times: 100 | round: 0 }} l/100km )</li>
+								<li>{{ page.fuelBurned }} kg used ( {{ page.fuelBurned | divided_by: 0.8 | divided_by:
+									page.distanceKm | times: 100 | round: 0 }} l/100km )</li>
 							</ul>
 						</div>
 					</div>
@@ -74,7 +89,7 @@
 		</section>
 	</div>
 
-	{% include footer.html script = "post.js" %}
+	{% include footer.html %}
 </body>
 
 </html>
