@@ -5,14 +5,13 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "bundle": "rollup -c",
-    "watch": "npm-watch",
-    "build": "npm run bundle && npm run fonts && npm run sass-prod && bundle exec jekyll build",
-    "serve": "npm run bundle && npm run fonts && npm run sass-prod && bundle exec jekyll serve",
-    "sass": "sass --watch --update --style=expanded _sass/main.scss:assets/css/main.css",
-    "sass-prod": "sass --no-source-map --style=compressed _sass/main.scss:assets/css/main.css",
-    "dev": "concurrently \"npm run watch\" \"npm run sass\" \"bundle exec jekyll serve --watch --livereload\"",
-    "fonts": "copyfiles -f node_modules/@phosphor-icons/web/src/bold/*.woff node_modules/@phosphor-icons/web/src/bold/*.woff2 node_modules/@phosphor-icons/web/src/bold/*.ttf node_modules/@phosphor-icons/web/src/bold/*.svg assets/css"
+    "fonts": "copyfiles -f node_modules/@phosphor-icons/web/src/bold/*.woff node_modules/@phosphor-icons/web/src/bold/*.woff2 node_modules/@phosphor-icons/web/src/bold/*.ttf node_modules/@phosphor-icons/web/src/bold/*.svg assets/css",
+    "js": "rollup -c",
+    "js-dev": "npm-watch",
+    "css": "sass --no-source-map --style=compressed _sass/main.scss:assets/css/main.css",
+    "css-dev": "sass --watch --update --style=expanded _sass/main.scss:assets/css/main.css",
+    "build": "npm run js && npm run fonts && npm run css && bundle exec jekyll build",
+    "dev": "concurrently \"npm run js-dev\" \"npm run css-dev\" \"bundle exec jekyll serve --watch --livereload\""
   },
   "author": "thefipster",
   "license": "ISC",
@@ -39,7 +38,7 @@
     "sass": "^1.77.2"
   },
   "watch": {
-    "bundle": {
+    "js": {
       "patterns": [
         "_scripts"
       ],
