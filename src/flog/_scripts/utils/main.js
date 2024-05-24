@@ -1,25 +1,12 @@
-/*
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+import * as $ from 'jquery';
 
 (function($) {
-
-	skel.breakpoints({
-		xlarge: '(max-width: 1680px)',
-		large: '(max-width: 1280px)',
-		medium: '(max-width: 980px)',
-		small: '(max-width: 736px)',
-		xsmall: '(max-width: 480px)',
-		xxsmall: '(max-width: 360px)'
-	});
 
 	/**
 	 * Applies parallax scrolling to an element's background image.
 	 * @return {jQuery} jQuery object.
 	 */
-	$.fn._parallax = (skel.vars.browser == 'ie' || skel.vars.browser == 'edge' || skel.vars.mobile) ? function() { return $(this) } : function(intensity) {
+	$.fn._parallax = function(intensity) {
 
 		var	$window = $(window),
 			$this = $(this);
@@ -68,26 +55,7 @@
 					.off('scroll._parallax');
 
 			};
-
-			skel.on('change', function() {
-
-				if (skel.breakpoint('medium').active)
-					(off)();
-				else
-					(on)();
-
-			});
-
 		});
-
-		$window
-			.off('load._parallax resize._parallax')
-			.on('load._parallax resize._parallax', function() {
-				$window.trigger('scroll');
-			});
-
-		return $(this);
-
 	};
 
 	$(function() {
@@ -110,28 +78,6 @@
 				window.setTimeout(function() {
 					$('.is-transitioning').removeClass('is-transitioning');
 				}, 250);
-			});
-
-		// Fix: Enable IE-only tweaks.
-			if (skel.vars.browser == 'ie' || skel.vars.browser == 'edge')
-				$body.addClass('is-ie');
-
-		// Fix: Placeholder polyfill.
-			$('form').placeholder();
-
-		// Prioritize "important" elements on medium.
-			skel.on('+medium -medium', function() {
-				$.prioritize(
-					'.important\\28 medium\\29',
-					skel.breakpoint('medium').active
-				);
-			});
-
-		// Scrolly.
-			$('.scrolly').scrolly({
-				offset: function() {
-					return $header.height() - 2;
-				}
 			});
 
 		// Tiles.
@@ -159,7 +105,7 @@
 				// Link.
 					if ($link.length > 0) {
 
-						$x = $link.clone()
+						var $x = $link.clone()
 							.text('')
 							.addClass('primary')
 							.appendTo($this);
@@ -197,32 +143,7 @@
 			});
 
 		// Header.
-			if (skel.vars.IEVersion < 9)
-				$header.removeClass('alt');
 
-			if ($banner.length > 0
-			&&	$header.hasClass('alt')) {
-
-				$window.on('resize', function() {
-					$window.trigger('scroll');
-				});
-
-				$window.on('load', function() {
-
-					$banner.scrollex({
-						bottom:		$header.height() + 10,
-						terminate:	function() { $header.removeClass('alt'); },
-						enter:		function() { $header.addClass('alt'); },
-						leave:		function() { $header.removeClass('alt'); $header.addClass('reveal'); }
-					});
-
-					window.setTimeout(function() {
-						$window.triggerHandler('scroll');
-					}, 100);
-
-				});
-
-			}
 
 		// Banner.
 			$banner.each(function() {

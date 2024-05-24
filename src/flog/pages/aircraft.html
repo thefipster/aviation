@@ -8,6 +8,7 @@ navmenu: true
 navtitle: Aircraft
 navorder: 5
 imagePosition: top
+script: aircraft.js
 ---
 
 <section id="two" class="spotlights">
@@ -118,8 +119,3 @@ imagePosition: top
 		</div>
 	</section>
 </section>
-
-<!-- Open Street Map -->
-{% include osm_aircraft.html
-latitude=site.data.aircraft.position.latitude
-longitude=site.data.aircraft.position.longitude %}
