@@ -28,4 +28,5 @@ icon: house
 </section>
 
 <!-- Tiles -->
-{% include tiles.html %}
+{% assign tiles = site.html_pages | where_exp: "item", "item.show_tile != false" | sort:"navorder" %}
+{% include tiles.html tiles = tiles %}
