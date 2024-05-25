@@ -15,7 +15,6 @@ namespace TheFipster.Aviation.Modules.Jekyll
 
         private readonly string assetFolder;
         private readonly string dataFolder;
-        private readonly string imageFolder;
         private readonly string captureFolder;
         private readonly string apiFolder;
         private readonly string postFolder;
@@ -41,7 +40,6 @@ namespace TheFipster.Aviation.Modules.Jekyll
 
             assetFolder = Path.Combine(jekyllRoot, "assets");
             apiFolder = Path.Combine(assetFolder, "api");
-            imageFolder = Path.Combine(assetFolder, "images");
             captureFolder = Path.Combine(assetFolder, "caps");
         }
 

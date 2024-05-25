@@ -9,7 +9,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
     public class BlackBoxCsvWriter
     {
-        public void Write(string flightFolder, BlackBoxFlight flight, FileTypes filetype, string? departure, string? arrival = null, bool overwrite = false)
+        public void Write(string flightFolder, BlackBoxFlight flight, FileTypes filetype, bool overwrite = false)
         {
             string filetypeName = filetype switch
             {
@@ -17,9 +17,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 _ => throw new UnknownFileTypeException($"Unknown csv file type {filetype}.")
             };
 
-            var file = string.IsNullOrEmpty(arrival)
-                ? $"{departure} - {filetypeName}.csv"
-                : $"{departure} - {arrival} - {filetypeName}.csv";
+            var file = $"{flight.Origin} - {flight.Destination} - {filetypeName}.csv";
 
             var path = Path.Combine(flightFolder, file);
 

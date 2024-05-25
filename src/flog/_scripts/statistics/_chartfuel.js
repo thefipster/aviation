@@ -1,4 +1,4 @@
-import Chart from '../../node_modules/chart.js/auto/auto.js'
+import Chart from 'chart.js/auto'
 export function generate() {
     $.getJSON("/assets/api/line-milage.json", function (data) {
         const chartObj = document.getElementById("chart-fuel");

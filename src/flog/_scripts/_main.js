@@ -1,11 +1,12 @@
-import "./utils/util.js";
-import "./utils/main.js";
+import "./components/_menu.js";
+import "./components/_banner.js";
+import "./components/_tiles.js";
 
 import "leaflet";
 import "@fancyapps/fancybox";
 
-import * as speedChart from "./statistics/speed-chart.js";
-import * as fuelChart from "./statistics/fuel-chart.js";
+import * as fuelChart from "./statistics/_chartfuel.js";
+import * as speedChart from "./statistics/_chartspeed.js";
 
 const mapId = "map";
 

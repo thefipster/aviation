@@ -6,10 +6,25 @@ namespace TheFipster.Aviation.FlightCli.Commands
 {
     public class JekyllBuildCommand : ICommand<JekyllBuildOptions>
     {
+        private IConfig config;
+
         public void Run(JekyllBuildOptions options, IConfig config)
         {
             Console.WriteLine(JekyllBuildOptions.Welcome);
             Console.WriteLine();
+
+            this.config = Guard.EnsureConfig(config);
+
+            runTerminalCommand("npm run fonts", "Bundling css.");
+            runTerminalCommand("npm run css");
+            runTerminalCommand("npm run js", "Bundling js.");
+            runTerminalCommand("bundle exec jekyll build --incremental", "Building jekyll");
+        }
+
+        private void runTerminalCommand(string command, string message = null)
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+                Console.WriteLine(message);
 
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
@@ -20,11 +35,13 @@ namespace TheFipster.Aviation.FlightCli.Commands
             cmd.StartInfo.UseShellExecute = false;
             cmd.Start();
 
-            cmd.StandardInput.WriteLine("bundle exec jekyll build");
+            cmd.StandardInput.WriteLine(command);
             cmd.StandardInput.Flush();
             cmd.StandardInput.Close();
             cmd.WaitForExit();
+            Console.WriteLine();
             Console.WriteLine(cmd.StandardOutput.ReadToEnd());
+            Console.WriteLine();
         }
     }
 }

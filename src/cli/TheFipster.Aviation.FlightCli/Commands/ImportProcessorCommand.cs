@@ -11,7 +11,6 @@ using TheFipster.Aviation.FlightCli.Extensions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.Airports.Components;
 using TheFipster.Aviation.Modules.BlackBox;
-using TheFipster.Aviation.Modules.BlackBox.Components;
 using TheFipster.Aviation.Modules.SimToolkitPro;
 
 namespace TheFipster.Aviation.FlightCli.Commands
@@ -23,7 +22,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
         private readonly JsonReader<FlightImport> flightReader;
         private readonly BlackboxOperations blackboxOperations;
         private readonly JsonWriter<FlightImport> flightWriter;
-        private readonly BlackboxGeotagger blackboxGeotagger;
         private readonly StkpOps stkpOps;
         private OurAirportFinder airports;
 
@@ -34,7 +32,6 @@ namespace TheFipster.Aviation.FlightCli.Commands
             flightReader = new JsonReader<FlightImport>();
             blackboxOperations = new BlackboxOperations();
             flightWriter = new JsonWriter<FlightImport>();
-            blackboxGeotagger = new BlackboxGeotagger();
             stkpOps = new StkpOps();
         }
 
@@ -192,7 +189,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
         {
             if (flight.HasBlackbox)
             {
-                var tags = blackboxGeotagger.GeocodeScreenshots(flight, folder);
+                var tags = blackboxOperations.GeotagScreenshots(flight, folder);
                 if (tags.GeoTags.Count > 0)
                 {
                     if (flight.Geotags == null)
@@ -253,6 +250,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             var extrems = blackboxOperations.Scan(flight.Blackbox);
             flight.Events = extrems.Waypoints;
+            flight.TimeTable = extrems.TimeTable;
 
             if (flight.Stats == null)
                 flight.Stats = new Stats();

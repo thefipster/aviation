@@ -7,11 +7,13 @@
   "scripts": {
     "fonts": "copyfiles -f node_modules/@phosphor-icons/web/src/bold/*.woff node_modules/@phosphor-icons/web/src/bold/*.woff2 node_modules/@phosphor-icons/web/src/bold/*.ttf node_modules/@phosphor-icons/web/src/bold/*.svg assets/css",
     "js": "rollup -c",
-    "js-dev": "npm-watch",
-    "css": "sass --no-source-map --style=compressed _sass/main.scss:assets/css/main.css",
-    "css-dev": "sass --watch --update --style=expanded _sass/main.scss:assets/css/main.css",
-    "build": "npm run js && npm run fonts && npm run css && bundle exec jekyll build",
-    "dev": "concurrently \"npm run js-dev\" \"npm run css-dev\" \"bundle exec jekyll serve --watch --livereload\""
+    "js-dev": "npm-watch js",
+    "css": "sass --no-source-map --style=compressed _sass/_main.scss:assets/css/main.css",
+    "css-dev": "sass --watch --update --style=expanded _sass/_main.scss:assets/css/main.css",
+    "jekyll": "bundle exec jekyll build --incremental",
+    "jekyll-dev": "bundle exec jekyll serve --incremental --livereload",
+    "build": "npm run js && npm run fonts && npm run css && npm run jekyll",
+    "dev": "concurrently \"npm run js-dev\" \"npm run css-dev\" \"npm run jekyll-dev\""
   },
   "author": "thefipster",
   "license": "ISC",
@@ -23,8 +25,7 @@
     "flag-icons": "^7.2.2",
     "glob": "^10.4.1",
     "jquery": "^3.7.1",
-    "leaflet": "^1.9.4",
-    "npm-watch": "^0.13.0"
+    "leaflet": "^1.9.4"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",
@@ -35,7 +36,8 @@
     "concurrently": "^8.2.2",
     "copyfiles": "^2.4.1",
     "rollup": "^4.18.0",
-    "sass": "^1.77.2"
+    "sass": "^1.77.2",
+    "npm-watch": "^0.13.0"
   },
   "watch": {
     "js": {

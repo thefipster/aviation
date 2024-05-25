@@ -91,5 +91,6 @@ namespace TheFipster.Aviation.Domain
         public FlightTerminator ActualDeparture { get; set; }
 
         public FlightTerminator ActualArrival { get; set; }
+        public ICollection<TimeTable> TimeTable { get; set; }
     }
 }

@@ -1,14 +1,18 @@
-{% assign tiles = site.html_pages | where_exp: "item", "item.show_tile != false" | sort:"navorder"  %}
-
 <section id="one" class="tiles">
-  {% for tile in tiles %}
+  {% for tile in include.tiles %}
   <article class="{{ tile.imagePosition }}">
     <span class="image">
       <img src="{{ tile.image }}" alt="{{ tile.title }}" />
     </span>
     <header class="major">
-      <h3><a href="{{ tile.url  | relative_url }}" class="link">{{ tile.title }}</a></h3>
-      <p>{{ tile.description }}</p>
+      <h3>
+        <a href="{{ tile.url  | relative_url }}" class="link">
+          {{ tile.title }}
+        </a>
+      </h3>
+      <p>
+        {{ tile.description }}
+      </p>
     </header>
   </article>
   {% endfor %}

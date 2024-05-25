@@ -1,19 +1,25 @@
 ﻿using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.Domain.BlackBox;
-using TheFipster.Aviation.Domain.Enums;
 using TheFipster.Aviation.Domain.Exceptions;
 using TheFipster.Aviation.FlightCli.Abstractions;
 using TheFipster.Aviation.FlightCli.Options;
 using TheFipster.Aviation.Modules.BlackBox;
-using TheFipster.Aviation.Modules.BlackBox.Components;
 
 namespace TheFipster.Aviation.FlightCli.Commands
 {
 
-    internal class BlackboxRecorderCommand : IFlightRequiredCommand<BlackboxRecorderOptions>
+    public class BlackboxRecorderCommand : IFlightRequiredCommand<BlackboxRecorderOptions>
     {
         BlackBoxFlight? flight;
+        private BlackboxOperations blackboxOps;
+        private FlightFinder finder;
+
+        public BlackboxRecorderCommand()
+        {
+            blackboxOps = new BlackboxOperations();
+            finder = new FlightFinder();
+        }
 
         public void Run(BlackboxRecorderOptions options, IConfig config)
         {
@@ -22,9 +28,9 @@ namespace TheFipster.Aviation.FlightCli.Commands
 
             Record(options.DepartureAirport, options.ArrivalAirport);
 
-            var folder = new FlightFinder().GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
-            new JsonWriter<BlackBoxFlight>().Write(folder, flight, FileTypes.BlackBoxJson, flight.Origin, flight.Destination);
-            new BlackBoxCsvWriter().Write(folder, flight, FileTypes.BlackBoxCsv, flight.Origin, flight.Destination);
+            var folder = finder.GetFlightFolder(config.FlightsFolder, options.DepartureAirport, options.ArrivalAirport);
+            blackboxOps.WriteJson(folder, flight);
+            blackboxOps.WriteCsv(folder, flight);
         }
 
         public BlackBoxFlight Record(string departure, string arrival)
