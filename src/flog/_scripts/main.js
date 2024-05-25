@@ -1,5 +1,7 @@
-import "./utils/util.js";
-import "./utils/main.js";
+//import "./utils/util.js";
+import "./components/_tiles.js";
+import "./components/_banner.js";
+import "./components/_menu.js";
 
 import "leaflet";
 import "@fancyapps/fancybox";
