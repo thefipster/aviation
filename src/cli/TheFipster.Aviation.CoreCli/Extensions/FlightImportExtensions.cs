@@ -1,4 +1,5 @@
 ﻿using TheFipster.Aviation.Domain;
+using TheFipster.Aviation.Domain.Enums;
 
 namespace TheFipster.Aviation.CoreCli.Extensions
 {
@@ -70,5 +71,18 @@ namespace TheFipster.Aviation.CoreCli.Extensions
 
         public static int GetMaxGroundSpeedKmh(this FlightImport flight)
             => (int)Math.Round(UnitConverter.MpsToKmh(flight.Stats.MaxGroundspeedMps), 0);
+
+        public static IEnumerable<TimeTable> GetTimeTable(this FlightImport flight)
+        {
+            var table = flight.TimeTable ?? new List<TimeTable>();
+
+            if (flight.Started.HasValue)
+                table.Add(new TimeTable(flight.Started.Value, TimeEvents.PilotIsReady));
+
+            if (flight.HasSimbriefXml)
+                table.Add(new TimeTable(flight.SimbriefXml.Ofp.Params.TimeGenerated, TimeEvents.SimbriefDispatch));
+
+            return table.OrderBy(x => x.Timestamp);
+        }
     }
 }

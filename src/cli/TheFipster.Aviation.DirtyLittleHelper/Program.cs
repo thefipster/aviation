@@ -1,5 +1,4 @@
-﻿using TheFipster.Aviation.CoreCli;
-using TheFipster.Aviation.DirtyLittleHelper.Stuff;
+﻿using TheFipster.Aviation.DirtyLittleHelper.Stuff;
 
 internal class Program
 {
@@ -9,7 +8,6 @@ internal class Program
         Console.WriteLine();
 
         // do your dirty little things here
-        new RecordBlackbox().Record("gw", "fwfw");
 
         Console.WriteLine();
         Console.WriteLine("Finished");

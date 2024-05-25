@@ -7,6 +7,7 @@ namespace TheFipster.Aviation.Domain
         public BlackBoxStats()
         {
             Waypoints = new List<Waypoint>();
+            TimeTable = new List<TimeTable>();
         }
 
         public BlackBoxStats(string? origin, string? destination)
@@ -33,5 +34,6 @@ namespace TheFipster.Aviation.Domain
         public long TakeoffTime { get; set; }
         public int MaxFuel { get; set; }
         public int ShutdownFuel { get; set; }
+        public ICollection<TimeTable> TimeTable { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
             FuelBurned = flight.GetFuelUsedKg();
             DistanceKm = flight.GetDistanceFlownKm();
 
+            Timetable = flight.GetTimeTable();
+
             Title = Departure.Ident + " - " + Arrival.Ident;
             Description = Departure.Name + " - " + Arrival.Name;
 
@@ -48,15 +50,16 @@ namespace TheFipster.Aviation.Modules.Jekyll.Model
         public int DistanceKm { get; set; }
         public int RouteKm { get; set; }
         public int GreatCircleKm { get; set; }
-        public OurAirport Arrival { get; set; }
-        public OurAirport Departure { get; set; }
         public string FlightNumber { get; set; }
         public int LegNo { get; set; }
         public string Route { get; set; }
-        public OurAirport PlannedDeparture { get; set; }
-        public OurAirport PlannedArrival { get; set; }
         public int FuelBurned { get; set; }
         public int FuelRamp { get; set; }
         public int FuelShutdown { get; set; }
+        public OurAirport PlannedArrival { get; set; }
+        public OurAirport Arrival { get; set; }
+        public OurAirport PlannedDeparture { get; set; }
+        public OurAirport Departure { get; set; }
+        public IEnumerable<TimeTable> Timetable { get; set; }
     }
 }

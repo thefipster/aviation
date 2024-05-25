@@ -6,57 +6,57 @@ import * as $ from 'jquery';
 	 * Applies parallax scrolling to an element's background image.
 	 * @return {jQuery} jQuery object.
 	 */
-	$.fn._parallax = function(intensity) {
+	// $.fn._parallax = function(intensity) {
 
-		var	$window = $(window),
-			$this = $(this);
+	// 	var	$window = $(window),
+	// 		$this = $(this);
 
-		if (this.length == 0 || intensity === 0)
-			return $this;
+	// 	if (this.length == 0 || intensity === 0)
+	// 		return $this;
 
-		if (this.length > 1) {
+	// 	if (this.length > 1) {
 
-			for (var i=0; i < this.length; i++)
-				$(this[i])._parallax(intensity);
+	// 		for (var i=0; i < this.length; i++)
+	// 			$(this[i])._parallax(intensity);
 
-			return $this;
+	// 		return $this;
 
-		}
+	// 	}
 
-		if (!intensity)
-			intensity = 0.25;
+	// 	if (!intensity)
+	// 		intensity = 0.25;
 
-		$this.each(function() {
+	// 	$this.each(function() {
 
-			var $t = $(this),
-				on, off;
+	// 		var $t = $(this),
+	// 			on, off;
 
-			on = function() {
+	// 		on = function() {
 
-				$t.css('background-position', 'center 100%, center 100%, center 0px');
+	// 			$t.css('background-position', 'center 100%, center 100%, center 0px');
 
-				$window
-					.on('scroll._parallax', function() {
+	// 			$window
+	// 				.on('scroll._parallax', function() {
 
-						var pos = parseInt($window.scrollTop()) - parseInt($t.position().top);
+	// 					var pos = parseInt($window.scrollTop()) - parseInt($t.position().top);
 
-						$t.css('background-position', 'center ' + (pos * (-1 * intensity)) + 'px');
+	// 					$t.css('background-position', 'center ' + (pos * (-1 * intensity)) + 'px');
 
-					});
+	// 				});
 
-			};
+	// 		};
 
-			off = function() {
+	// 		off = function() {
 
-				$t
-					.css('background-position', '');
+	// 			$t
+	// 				.css('background-position', '');
 
-				$window
-					.off('scroll._parallax');
+	// 			$window
+	// 				.off('scroll._parallax');
 
-			};
-		});
-	};
+	// 		};
+	// 	});
+	// };
 
 	$(function() {
 
@@ -65,13 +65,6 @@ import * as $ from 'jquery';
 			$wrapper = $('#wrapper'),
 			$header = $('#header'),
 			$banner = $('#banner');
-
-		// Disable animations/transitions until the page has loaded.
-			$body.addClass('is-loading');
-
-			window.setTimeout(function() {
-				$body.removeClass('is-loading');
-			}, 200);
 
 		// Clear transitioning state on unload/hide.
 			$window.on('unload pagehide', function() {
@@ -146,26 +139,26 @@ import * as $ from 'jquery';
 
 
 		// Banner.
-			$banner.each(function() {
+			// $banner.each(function() {
 
-				var $this = $(this),
-					$image = $this.find('.image'), $img = $image.find('img');
+			// 	var $this = $(this),
+			// 		$image = $this.find('.image'), $img = $image.find('img');
 
-				// Parallax.
-					$this._parallax(0.275);
+			// 	// Parallax.
+			// 		$this._parallax(0.275);
 
-				// Image.
-					if ($image.length > 0) {
+			// 	// Image.
+			// 		if ($image.length > 0) {
 
-						// Set image.
-							$this.css('background-image', 'url(' + $img.attr('src') + ')');
+			// 			// Set image.
+			// 				$this.css('background-image', 'url(' + $img.attr('src') + ')');
 
-						// Hide original.
-							$image.hide();
+			// 			// Hide original.
+			// 				$image.hide();
 
-					}
+			// 		}
 
-			});
+			// });
 
 		// Menu.
 			var $menu = $('#menu'),

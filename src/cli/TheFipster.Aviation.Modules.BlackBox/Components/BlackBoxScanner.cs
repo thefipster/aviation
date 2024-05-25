@@ -3,6 +3,7 @@ using TheFipster.Aviation.Domain.Simbrief;
 using TheFipster.Aviation.Domain;
 using TheFipster.Aviation.CoreCli;
 using TheFipster.Aviation.Domain.BlackBox;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheFipster.Aviation.Modules.BlackBox.Components
 {
@@ -37,6 +38,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                     var waypoint = new Waypoint(FlightEvents.RealToc, rec.LatitudeDecimals, rec.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
                     tocTrigger = false;
+                    stats.TimeTable.Add(new TimeTable(rec.Timestamp, TimeEvents.TopOfClimb));
                 }
 
                 if (gsTrigger && rec.GroundSpeedMps == stats.MaxGroundSpeedMps)
@@ -74,6 +76,12 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
         {
             bool above = true;
             bool below = true;
+            bool engineStart = true;
+            bool leftRamp = true;
+            bool reachedRamp = true;
+
+            var firstRec = records.First();
+            var lastRec = records.Last();
 
             for (int i = 1; i < records.Count; i++)
             {
@@ -84,6 +92,26 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                 {
                     var waypoint = new Waypoint($"{FlightEvents.Flaps} {last.FlapsConfig}->{cur.FlapsConfig}", cur.LatitudeDecimals, cur.LongitudeDecimals);
                     stats.Waypoints.Add(waypoint);
+                }
+
+                if (engineStart && cur.Engine2N1Percent > 0)
+                {
+                    engineStart = false;
+                    stats.TimeTable.Add(new TimeTable(cur.Timestamp, TimeEvents.EngineStart));
+                }
+
+                var kmFromStart = GpsCalculator.GetHaversineDistance(firstRec.LatitudeDecimals, firstRec.LongitudeDecimals, cur.LatitudeDecimals, cur.LongitudeDecimals);
+                if (leftRamp && kmFromStart > 0.05)
+                {
+                    leftRamp = false;
+                    stats.TimeTable.Add(new TimeTable(cur.Timestamp, TimeEvents.StartRolling));
+                }
+
+                var kmFromParking = GpsCalculator.GetHaversineDistance(lastRec.LatitudeDecimals, lastRec.LongitudeDecimals, cur.LatitudeDecimals, cur.LongitudeDecimals);
+                if (reachedRamp && kmFromParking < 0.05)
+                {
+                    reachedRamp = false;
+                    stats.TimeTable.Add(new TimeTable(cur.Timestamp, TimeEvents.ParkPosition));
                 }
 
                 if (last.GearPosition != cur.GearPosition)
@@ -100,6 +128,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                         var waypoint = new Waypoint(FlightEvents.Landing, cur.LatitudeDecimals, cur.LongitudeDecimals);
                         stats.Waypoints.Add(waypoint);
                         stats.TouchdownTime = cur.Timestamp;
+                        stats.TimeTable.Add(new TimeTable(cur.Timestamp, TimeEvents.Touchdown));
                     }
                     else
                     {
@@ -107,6 +136,7 @@ namespace TheFipster.Aviation.Modules.BlackBox.Components
                         var waypoint = new Waypoint(FlightEvents.Takeoff, cur.LatitudeDecimals, cur.LongitudeDecimals);
                         stats.Waypoints.Add(waypoint);
                         stats.TakeoffTime = cur.Timestamp;
+                        stats.TimeTable.Add(new TimeTable(cur.Timestamp, TimeEvents.Takeoff));
                     }
                 }
 
