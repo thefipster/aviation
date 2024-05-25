@@ -8,18 +8,8 @@ const inputs = [
   "main.js"
 ];
 
-// const inputs = [
-//   "common.js",
-//   "main.js",
-//   "post.js",
-//   "aircraft.js",
-//   "airports.js",
-//   "worldmap.js",
-//   "statistics.js"
-// ];
-
 export default inputs.map(input => ({
-    input: join("_scripts", input),
+    input: join("_scripts", "_" + input),
     output: {
       file: join("assets/js", input),
       format: 'iife',

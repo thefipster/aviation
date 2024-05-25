@@ -7,8 +7,6 @@ permalink: flights/:title:output_ext
 
 markdown: kramdown
 
-sass: false
-
 exclude:
 - "*.gemspec"
 - LICENSE.md
