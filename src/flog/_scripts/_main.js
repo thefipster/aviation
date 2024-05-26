@@ -9,4 +9,5 @@ import "./components/_tiles.js";
 import "./components/_table.js";
 import "./components/_map.js";
 import "./components/_statistics.js";
+import "./components/_spotlight.js";
 

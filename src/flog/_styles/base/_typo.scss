@@ -20,3 +20,10 @@ svg {
     stroke: val($palette, fg);
     stroke-width: 2px;
 }
+
+h1 {
+    .smaller {
+        font-size: 0.4em;
+        font-weight: normal;
+    }
+}

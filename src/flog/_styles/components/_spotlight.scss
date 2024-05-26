@@ -1,0 +1,41 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+.spotlights {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  section {
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+
+    background-color: desaturate(lighten(val($palette, bg-alt), 2), 1);
+
+    &:nth-child(2n) {
+      flex-direction: row-reverse;
+      background-color: desaturate(lighten(val($palette, bg-alt), 4), 2);
+    }
+
+    .chrome {
+      min-width: 40%;
+      width: 40%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    .content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -42,6 +42,10 @@ body {
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
   }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, bg-dark);
+  }
 }
 
 .accent1 {
@@ -50,6 +54,10 @@ body {
     -webkit-animation: fadein val($duration, banner) ease-in;
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
+  }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent1-dark);
   }
 }
 
@@ -60,6 +68,10 @@ body {
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
   }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent2-dark);
+  }
 }
 
 .accent3 {
@@ -68,6 +80,10 @@ body {
     -webkit-animation: fadein val($duration, banner) ease-in;
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
+  }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent3-dark);
   }
 }
 
@@ -78,6 +94,10 @@ body {
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
   }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent4-dark);
+  }
 }
 
 .accent5 {
@@ -87,6 +107,10 @@ body {
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
   }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent5-dark);
+  }
 }
 
 .accent6 {
@@ -95,5 +119,9 @@ body {
     -webkit-animation: fadein val($duration, banner) ease-in;
     -moz-animation: fadein val($duration, banner) ease-in;
     animation: fadein val($duration, banner) ease-in;
+  }
+
+  &.dark {
+    box-shadow: inset 0 0 0 2000px val($palette, accent6-dark);
   }
 }

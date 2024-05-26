@@ -11,10 +11,21 @@
         margin: 15px 0;
     }
 
-    span {
+    h3 {
+        font-size: 1.5em;
+        border-bottom: 2px solid val($palette, fg);
+        padding-bottom: 7px;
+        margin: 7px 0;
+    }
+
+    > span {
         font-size: 0.8em;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 4px;
+
+        .fi {
+            font-size: 1.25em;
+        }
     }
 }

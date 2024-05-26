@@ -1,6 +1,6 @@
 <div class="tiles">
   {% for tile in include.tiles %}
-  <a href="{{ tile.url  | relative_url }}" class="tile {{ tile.imagePosition }} accent{{ tile.navorder }}">
+  <a href="{{ tile.url  | relative_url }}" class="tile {{ tile.imagePosition }} accent{{ tile.navorder }} dark">
     <span class="tile-image">
       <img src="{{ tile.image }}" alt="{{ tile.title }}" />
     </span>
