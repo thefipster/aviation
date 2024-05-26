@@ -1,6 +1,6 @@
-import * as $ from "jquery";
-
-(function ($) {
+import $ from 'jquery';
+    
+$(function(){
   $("#banner").each(function () {
     var $this = $(this),
       $image = $this.find(".banner-image"),
@@ -18,4 +18,4 @@ import * as $ from "jquery";
       $("#banner").css("background-position-y", scrolledY * 0.5 + "px");
     }
   });
-})(jQuery);
+});

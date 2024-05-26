@@ -1,6 +1,6 @@
-import * as $ from "jquery";
-
-(function ($) {
+import $ from 'jquery';
+    
+$(function(){
   $(".menu-button").on("click", function (event) {
     event.stopPropagation();
     event.preventDefault();
@@ -11,4 +11,4 @@ import * as $ from "jquery";
   $("#menu").on("click", function (event) {
     $("#menu").removeClass("open");
   });
-})(jQuery);
+});

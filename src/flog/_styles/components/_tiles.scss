@@ -41,21 +41,7 @@
         box-shadow: none;
     }
 
-    .headline {
-        h2 {
-            font-size: 2em;
-            border-bottom: 2px solid val($palette, fg);
-            padding-bottom: 15px;
-            margin: 15px 0;
-        }
 
-        span {
-            font-size: 0.8em;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-        }
-    }
   }
 
   @media only screen and (max-width: val($breakpoints, medium)) {

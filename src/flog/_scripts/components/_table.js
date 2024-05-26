@@ -1,6 +1,6 @@
-import * as $ from "jquery";
-
-(function ($) {
+import $ from 'jquery';
+    
+$(function(){
   $("tr").each(function () {
     if ($(this).attr("href")) $(this).addClass("clickable");
   });
@@ -8,4 +8,4 @@ import * as $ from "jquery";
   $("tr.clickable").on("click", function () {
     if ($(this).attr("href")) window.location.href = $(this).attr("href");
   });
-})(jQuery);
+});

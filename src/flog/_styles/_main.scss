@@ -1,7 +1,7 @@
 /* Vendor */
 @use "../node_modules/flag-icons/css/flag-icons";
 @use "../node_modules/@fancyapps/fancybox/dist/jquery.fancybox";
-@use "../node_modules/leaflet/dist/leaflet";
+@use "../node_modules/ol/ol";
 @use "../node_modules/@phosphor-icons/web/src/bold/style";
 
 /* Core */
@@ -25,3 +25,4 @@
 @use "components/tiles" as *;
 @use "components/table" as *;
 @use "components/section" as *;
+@use "components/headline" as *;
