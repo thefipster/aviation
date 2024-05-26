@@ -1,38 +1,69 @@
-import $ from "jquery";
 import { Map, View, Overlay } from "ol";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
+import { fromLonLat } from "ol/proj";
+import { easeOut } from "ol/easing";
 
-import { getAirportPoints } from "../maps/_airportmap";
-import { aircraftPosition } from "../maps/_aircraft";
-import { createPointLayer } from "../maps/_layers";
-import { flyTo } from "../maps/_flyto";
+export function initMap(mapId) {
+  const tileLayer = new TileLayer({
+    source: new XYZ({
+      attributions:
+        'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' +
+        'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+      url:
+        "https://server.arcgisonline.com/ArcGIS/rest/services/" +
+        "World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    }),
+  });
 
-function initMap(view, layer, overlay) {
-  return new Map({
-    target: "map",
-    overlays: [overlay],
-    layers: [
-      new TileLayer({
-        source: new XYZ({
-          attributions:
-            'Tiles © <a href="https://services.arcgisonline.com/ArcGIS/' +
-            'rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
-          url:
-            "https://server.arcgisonline.com/ArcGIS/rest/services/" +
-            "World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        }),
-      }),
-      layer,
-    ],
-    view: view,
+  const map = new Map({
+    target: mapId,
+    layers: [tileLayer],
+  });
+
+  return map;
+}
+
+let parts = 2;
+let called = false;
+function flytoCallback(complete) {
+  --parts;
+  if (called) {
+    return;
+  }
+  if (parts === 0 || !complete) {
+    called = true;
+  }
+}
+
+export function flyTo(view, latLon, duration) {
+  const location = fromLonLat([latLon[1], latLon[0]]);
+  view.animate(
+    {
+      center: location,
+      duration: duration / 2,
+      easing: easeOut,
+    },
+    flytoCallback
+  );
+  view.animate(
+    {
+      zoom: 15,
+      duration: duration,
+      easing: easeOut,
+    },
+    flytoCallback
+  );
+}
+
+export function getDefaultView() {
+  return new View({
+    center: [0, 0],
+    zoom: 2,
   });
 }
 
-$(function () {
-  const container = document.getElementById("popup");
-  const content = document.getElementById("popup-content");
-
+export function addPopups(map, container, content) {
   const overlay = new Overlay({
     element: container,
     autoPan: {
@@ -42,23 +73,25 @@ $(function () {
     },
   });
 
-  const view = new View({
-    center: [0, 0],
-    zoom: 2,
-  });
+  map.addOverlay(overlay);
 
-  var map = null;
-
-  if (window.location.pathname.includes("airportmap")) {
-    const customLayer = getAirportPoints();
-    map = initMap(view, customLayer, overlay);
-  }
-
-  if (window.location.pathname.includes("aircraft")) {
-    aircraftPosition().then((data) => {
-      const customLayer = createPointLayer(data, "D-FIPS");
-      map = initMap(view, customLayer, overlay);
-      flyTo(view, data, 5000, () => { console.log("flyby done"); });
+  map.on("click", function (evt) {
+    console.log(evt);
+    const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+      return feature;
     });
-  }
-});
+    if (feature) {
+      let title = feature.get("title");
+      const link = feature.get("link");
+
+      if (link) {
+        title = '<a href="' + link + '">' + title + '</a>';
+      }
+
+      content.innerHTML = title;
+      overlay.setPosition(evt.coordinate);
+    } else {
+      overlay.setPosition(undefined);
+    }
+  });
+}

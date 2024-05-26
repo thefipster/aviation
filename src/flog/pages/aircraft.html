@@ -20,9 +20,11 @@ icon: airplane
 		<div class="headline">
 			<h1>D-FIPS <span class="smaller">{{ site.data.aircraft.flights }} flights</span></h1>
 			<span>
-				{% for country in site.data.aircraft.visitedCountries %}
-				<span class="fi fi-{{ country | downcase }}"></span>
-				{% endfor %}
+				<span>
+					{% for country in site.data.aircraft.visitedCountries %}
+					<span class="fi fi-{{ country | downcase }}"></span>
+					{% endfor %}
+				</span>
 			</span>
 		</div>
 	</div>
@@ -32,7 +34,7 @@ icon: airplane
 	<!-- Parking position -->
 	<section>
 		<span class="chrome">
-			<div id="map"></div>
+			{% include map.html %}
 		</span>
 		<div class="content">
 			<div class="inner">

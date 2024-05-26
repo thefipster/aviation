@@ -19,6 +19,11 @@
     }
 
     > span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+        
         font-size: 0.8em;
         font-weight: 600;
         text-transform: uppercase;

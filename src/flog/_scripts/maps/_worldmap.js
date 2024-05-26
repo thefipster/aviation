@@ -1,24 +1,35 @@
-export function mapWorld(map) {
-  if (window.location.pathname.includes("worldmap")) {
-    // Track
-    $.getJSON("/assets/api/track-flown.json", function (data) {
-      $.each(data, function (key, val) {
-        var polyline = L.polyline(val.gps, { color: "Aquamarine" })
-          .addTo(map)
-          .bindPopup('<a href="' + val.uri + '">' + val.flt + "</a>");
-      });
-    });
+import { addPopups, getDefaultView, initMap } from "./../components/_map.js";
+import {
+  createAirportPointLayer,
+  createLineLayer,
+} from "./_layers.js";
 
-    // Airports
-    $.getJSON("/assets/api/airports-planned.json", function (data) {
-      $.each(data, function (key, val) {
-        L.circleMarker(val.latlon, {
-          radius: 5,
-          color: "Orchid",
-        })
-          .addTo(map)
-          .bindPopup(val.name);
+import $ from "jquery";
+
+$(function () {
+  if (window.location.pathname.includes("worldmap")) {
+    const container = document.getElementById("popup");
+    const content = document.getElementById("popup-content");
+
+    Promise.all([
+      fetch("/assets/api/track-flown.json"),
+      fetch("/assets/api/airports-planned.json"),
+    ])
+      .then((responses) =>
+        Promise.all(responses.map((response) => response.json()))
+      )
+      .then((data) => {
+        const view = getDefaultView();
+        const map = initMap("map");
+
+        const trackLayer = createLineLayer(data[0]);
+        map.addLayer(trackLayer);
+
+        const airportLayer = createAirportPointLayer(data[1]);
+        map.addLayer(airportLayer);
+
+        map.setView(view);
+        addPopups(map, container, content);
       });
-    });
   }
-}
+});

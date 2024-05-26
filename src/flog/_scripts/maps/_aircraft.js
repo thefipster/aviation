@@ -1,13 +1,25 @@
+import { addPopups, flyTo, getDefaultView, initMap } from "./../components/_map.js";
+import { createPointLayer } from "./_layers.js";
 
-  export var aircraftPosition = () => {
-    return new Promise((resolve, reject)=>{
-        const client = new XMLHttpRequest();
-        client.open("GET", "/assets/api/park-position.json");
-        client.onload = function () {
-          const response = client.responseText;
-          const data = JSON.parse(response);
-          resolve(data);
-        };
-        client.send();
-    });
+import $ from "jquery";
+
+$(function () {
+  if (window.location.pathname.includes("aircraft")) {
+    const container = document.getElementById("popup");
+    const content = document.getElementById("popup-content");
+
+    Promise.all([fetch("/assets/api/park-position.json")])
+      .then((responses) => Promise.all(
+        responses.map((response) => response.json())
+      ))
+      .then((data) => {
+        const layer = createPointLayer(data[0], "D-FIPS");
+        const view = getDefaultView();
+        const map = initMap("map");
+        map.addLayer(layer);
+        map.setView(view);
+        addPopups(map, container, content);
+        flyTo(view, data[0], 5000);
+      });
   }
+});
