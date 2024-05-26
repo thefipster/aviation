@@ -1,23 +1,18 @@
 import * as $ from "jquery";
 
 (function ($) {
-  $(function () {
-    var $banner = $("#banner");
-
-    // Banner.
-    $banner.each(function () {
+    $("#banner").each(function () {
       var $this = $(this),
-        $image = $this.find(".image"),
+        $image = $this.find(".banner-image"),
         $img = $image.find("img");
-
-      // Image.
-      if ($image.length > 0) {
-        // Set image.
+      if ($img.length > 0) {
         $this.css("background-image", "url(" + $img.attr("src") + ")");
-
-        // Hide original.
-        $image.hide();
+        $image.remove();
       }
     });
-  });
+
+    $(window).on("scroll", () => {
+      var scrolledY = $(window).scrollTop();
+      $('#banner').css('background-position-y', ((scrolledY * 0.5)) + 'px');
+    });
 })(jQuery);

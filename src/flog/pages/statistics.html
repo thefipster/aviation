@@ -2,45 +2,38 @@
 layout: banner
 title: Statistics
 description: Plots and things
-navmenu: true
 image: assets/images/aircraft5.jpg
 navtitle: Statistics
-navorder: 6
+navmenu: true
+tile: true
+navorder: 5
 imagePosition: center
 accent: style5
 script: statistics.js
 icon: chart-line
 ---
 
-<!-- Main -->
 <div id="main">
-    <div id="chart-loader"></div>
-    <section id="one">
+    <!-- Fuel Consumption -->
+    <section>
         <div class="inner">
-            <!-- Fuel Consumption -->
-            <div class="content">
-                <div class="inner">
-                    <header class="major">
-                        <h3>Fuel Consumption</h3>
-                        <p>Kg / 100 km</p>
-                    </header>
-                    <canvas class="chart" id="chart-fuel"></canvas>
-                </div>
-            </div>
-            <br />
-            <br />
-            <!-- Maximum Groundspeed -->
-            <div class="content">
-                <div class="inner">
-                    <header class="major">
-                        <h3>Maximum Groundspeed</h3>
-                        <p>km/h</p>
-                    </header>
-                    <header>
-                    </header>
-                    <canvas class="chart" id="chart-speed"></canvas>
-                </div>
-            </div>
+            <header class="major">
+                <h3>Fuel Consumption</h3>
+                <p>Kg / 100 km</p>
+            </header>
+            <canvas class="chart" id="chart-fuel"></canvas>
+        </div>
+    </section>
+    <!-- Maximum Groundspeed -->
+    <section>
+        <div class="inner">
+            <header class="major">
+                <h3>Maximum Groundspeed</h3>
+                <p>km/h</p>
+            </header>
+            <header>
+            </header>
+            <canvas class="chart" id="chart-speed"></canvas>
         </div>
     </section>
 </div>

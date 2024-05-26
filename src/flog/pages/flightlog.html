@@ -2,10 +2,11 @@
 layout: page
 title: Flight Log
 description: All flights in a list
-navmenu: true
 image: assets/images/dfips-flight.jpg
 navtitle: Flight log
-navorder: 2
+navmenu: true
+tile: true
+navorder: 1
 imagePosition: bottom
 icon: list-checks
 ---
@@ -16,37 +17,38 @@ icon: list-checks
         <tr>
           <th></th>
           <th class="shrink"></th>
-          <th>Icao</th>
-          <th class="shrink">Distance</th>
+          <th align="center">Icao</th>
+          <th align="center" class="shrink">Distance</th>
           <th>Airport</th>
           <th class="shrink">Region</th>
-          <th>Country</th>
+          <th align="center">Country</th>
         </tr>
       </thead>
+      
       <tbody>
-
         {% assign posts = site.posts | sort: 'flightNumber' | reverse %}
         {% for post in posts %}
-        <tr>
-          <td align="right"><a href="{{ post.url }}">{{ post.flightNumber }}</a></td>
-          <td align="center" class="shrink"><a href="{{ post.url }}">{{ post.dispatchDate | date: "%Y-%m-%d" }}</a></td>
-          <td><a href="{{ post.url }}">{{ post.arrival.ident }}</a></td>
-          <td class="shrink"><a href="{{ post.url }}">{{ post.distanceKm | round: 0 }} km</a></td>
-          <td><a href="{{ post.url }}">{{ post.arrival.name }} </a></td>
-          <td class="shrink"><a href="{{ post.url }}">{{ post.arrival.region.name }}</a></td>
-          <td><a href="{{ post.url }}"><span class="fi fi-{{ post.arrival.country.code | downcase }}"></span></a></td>
+        <tr href="{{ post.url }}">
+          <td align="center">{{ post.flightNumber }}</td>
+          <td align="center" class="shrink">{{ post.dispatchDate | date: "%Y-%m-%d" }}</td>
+          <td align="center">{{ post.arrival.ident }}</td>
+          <td align="center" class="shrink">{{ post.distanceKm | round: 0 }} km</td>
+          <td>{{ post.arrival.name }}</td>
+          <td class="shrink">{{ post.arrival.region.name }}</td>
+          <td align="center"><span class="fi fi-{{ post.arrival.country.code | downcase }}"></span></td>
         </tr>
         {% endfor %}
       </tbody>
+
       <tfoot>
         <tr>
           <td></td>
           <td class="shrink"></td>
-          <td>EDDL</a></td>
+          <td align="center">EDDL</td>
           <td class="shrink"></td>
           <td>Düsseldorf</td>
-          <td class="shrink"><a href="{{ post.url }}">North Rhine-Westphalia</a></td>
-          <td><a href="{{ post.url }}"><span class="fi fi-de"></span></a></td>
+          <td class="shrink">North Rhine-Westphalia</td>
+          <td align="center"><span class="fi fi-de"></span></td>
         </tr>
       </tfoot>
     </table>

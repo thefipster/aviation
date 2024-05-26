@@ -1,0 +1,69 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+#banner {
+  height: 350px;
+  min-height: 350px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-position-x: center;
+  background-position-y: top;
+  background-size: cover;
+
+  .banner-image {
+    display: none;
+  }
+
+  .inner {
+    h1 {
+      font-size: 3em;
+      border-bottom: 2px solid val($palette, fg);
+      margin-top: 0;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      white-space: nowrap;
+    }
+
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    a {
+      padding: 15px 30px;
+
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+
+      border: 2px solid val($palette, fg);
+
+      white-space: nowrap;
+
+      &:hover {
+        border: 2px solid val($palette, focus);
+      }
+    }
+
+    @media only screen and (max-width: val($breakpoints, small)) {
+      a {
+        display: none;
+      }
+    }
+  }
+
+  @media only screen and (max-width: val($breakpoints, medium)) {
+    .inner {
+      font-size: 0.8em;
+    }
+  }
+}

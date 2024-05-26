@@ -1,6 +1,7 @@
 import "./components/_menu.js";
 import "./components/_banner.js";
 import "./components/_tiles.js";
+import "./components/_table.js";
 
 import "leaflet";
 import "@fancyapps/fancybox";
@@ -9,7 +10,6 @@ import * as fuelChart from "./statistics/_chartfuel.js";
 import * as speedChart from "./statistics/_chartspeed.js";
 
 const mapId = "map";
-
 function initMap() {
   var mapObj = document.getElementById(mapId);
   if (mapObj) {
@@ -27,11 +27,8 @@ function initMap() {
   return undefined;
 }
 
-const map = initMap();
-
-// MAP OBJECT GENERAL
-
 // WORLDMAP
+const map = initMap();
 if (window.location.pathname.includes("worldmap")) {
   // Track
   $.getJSON("/assets/api/track-flown.json", function (data) {
