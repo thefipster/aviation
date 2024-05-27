@@ -1,8 +1,8 @@
 /* Vendor */
 @use "../node_modules/flag-icons/css/flag-icons";
-@use "../node_modules/@fancyapps/fancybox/dist/jquery.fancybox";
 @use "../node_modules/ol/ol";
 @use "../node_modules/@phosphor-icons/web/src/bold/style";
+@use "../node_modules/spotlight.js/dist/css/spotlight.min";
 
 /* Core */
 @use "libs/vars" as *;
@@ -17,6 +17,7 @@
 @use "layout/wrapper" as *;
 @use "layout/header" as *;
 @use "layout/footer" as *;
+@use "layout/post" as *;
 
 /* Component */
 @use "components/menu" as *;
@@ -28,3 +29,5 @@
 @use "components/headline" as *;
 @use "components/spotlight" as *;
 @use "components/list" as *;
+@use "components/gallery" as *;
+@use "components/chart" as *;

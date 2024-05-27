@@ -1,9 +1,10 @@
-import { addPopups, getDefaultView, initMap } from "./../components/_map.js";
 import {
-  createAirportPointLayer,
-  createLineLayer,
-} from "./_layers.js";
-
+  addPopups,
+  getDefaultView,
+  initMap,
+  createWorldmapTrackLayer,
+  createWorldmapAirportLayer,
+} from "../components/_map.js";
 import $ from "jquery";
 
 $(function () {
@@ -22,10 +23,10 @@ $(function () {
         const view = getDefaultView();
         const map = initMap("map");
 
-        const trackLayer = createLineLayer(data[0]);
+        const trackLayer = createWorldmapTrackLayer(data[0]);
         map.addLayer(trackLayer);
 
-        const airportLayer = createAirportPointLayer(data[1]);
+        const airportLayer = createWorldmapAirportLayer(data[1]);
         map.addLayer(airportLayer);
 
         map.setView(view);

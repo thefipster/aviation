@@ -31,12 +31,12 @@
 
     li {
       font-weight: 600;
-      font-size: 1.2em;
 
       border-top: 1px solid val($palette, border);
 
       a {
         display: flex;
+        flex-direction: row;
         align-items: center;
         text-transform: uppercase;
         letter-spacing: 4px;
@@ -44,7 +44,7 @@
         gap: 20px;
 
         i {
-          font-size: 1.5em;
+          font-size: 1.2em;
         }
       }
 

@@ -15,23 +15,27 @@ icon: chart-line
 
 <div id="main">
     <!-- Fuel Consumption -->
-    <section>
+    <section class="chart-section">
         <div class="inner">
             <div class="headline">
                 <h2>Fuel Consumption</h2>
                 <span>Kg / 100 km</span>
             </div>
-            <canvas class="chart" id="chart-fuel"></canvas>
+            <div class="chart-wrapper">
+                <canvas class="chart" id="chart-fuel"></canvas>
+            </div>
         </div>
     </section>
     <!-- Maximum Groundspeed -->
-    <section>
+    <section class="chart-section">
         <div class="inner">
             <div class="headline">
                 <h2>Maximum Groundspeed</h2>
                 <span>km/h</span>
             </div>
-            <canvas class="chart" id="chart-speed"></canvas>
+            <div class="chart-wrapper">
+                <canvas class="chart" id="chart-speed"></canvas>
+            </div>
         </div>
     </section>
 </div>

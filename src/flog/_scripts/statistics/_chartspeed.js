@@ -14,6 +14,7 @@ export function generate() {
                 labels: data.x
             },
             options: {
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         display: false

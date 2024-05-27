@@ -1,0 +1,27 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+#flight {
+  margin: 40px 0;
+
+  > .inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 100px;
+
+    .col {
+      flex-basis: 33%;
+    }
+  }
+
+  .fi {
+    margin-left: 20px;
+  }
+
+  h2 {
+    i {
+        margin-right: 20px;
+    }
+  }
+}

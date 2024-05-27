@@ -1,25 +1,22 @@
-import { addPopups, flyTo, getDefaultView, initMap } from "./../components/_map.js";
-import { createPointLayer } from "./_layers.js";
-
+import { addPopups, getDefaultView, initMap, createAirportsLayer } from "../components/_map.js";
 import $ from "jquery";
 
 $(function () {
-  if (window.location.pathname.includes("aircraft")) {
+  if (window.location.pathname.includes("airportmap")) {
     const container = document.getElementById("popup");
     const content = document.getElementById("popup-content");
 
-    Promise.all([fetch("/assets/api/park-position.json")])
+    Promise.all([fetch("/assets/api/airports-all.json")])
       .then((responses) => Promise.all(
         responses.map((response) => response.json())
       ))
       .then((data) => {
-        const layer = createPointLayer(data[0], "D-FIPS");
+        const layer = createAirportsLayer(data[0]);
         const view = getDefaultView();
         const map = initMap("map");
         map.addLayer(layer);
         map.setView(view);
         addPopups(map, container, content);
-        flyTo(view, data[0], 5000);
       });
   }
 });

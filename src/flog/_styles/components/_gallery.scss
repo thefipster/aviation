@@ -1,0 +1,16 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+
+  a {
+    flex: 1 0 21%;
+
+    img {
+      width: 100%;
+    }
+  }
+}

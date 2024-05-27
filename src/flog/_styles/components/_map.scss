@@ -1,6 +1,11 @@
 @use "../libs/vars" as *;
 @use "../libs/functions" as *;
 
+#map-wrapper {
+  height: 550px;
+  width: 100%;
+}
+
 #map {
     height: 100%;
     background: #2a2f4a;
@@ -12,6 +17,8 @@
     font: inherit;
     vertical-align: baseline;
 }
+
+
 .ol-popup {
     position: absolute;
     background-color: val($palette, bg);
