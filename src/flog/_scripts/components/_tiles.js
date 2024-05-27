@@ -1,13 +1,11 @@
-import $ from 'jquery';
+import u from "umbrellajs";
     
-$(function(){
-  $(".tile").each(function () {
-    var $this = $(this),
-      $image = $this.find(".tile-image"),
-      $img = $image.find("img");
-    if ($img.length > 0) {
-      $this.css("background-image", "url(" + $img.attr("src") + ")");
-      $image.remove();
-    }
-  });
+u(".tile").each(function (node, i) {
+    var uimage = u(node).find(".tile-image");
+    var uimg = uimage.find("img");
+  if (uimg.length > 0) {
+    var src = uimg.attr("src");
+    node.style.backgroundImage = "url(" + src + ")";
+    uimage.remove();
+  }
 });

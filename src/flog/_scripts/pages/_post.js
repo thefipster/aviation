@@ -1,39 +1,77 @@
-import Spotlight from "spotlight.js";
-import { addPopups, createFlightTrackLayer, flyTo, getDefaultView, initMap } from "../components/_map.js";
+import u from "umbrellajs";
+import Spotlight from "spotlight.js/src/js/spotlight.js";
+import {
+  addPopups,
+  createFlightTrackLayer,
+  createScreenshotLayer,
+  createWaypointLayer,
+  flyToLayer,
+  getDefaultView,
+  initMap,
+} from "../components/_map.js";
 
-import $ from "jquery";
-import { fromLonLat } from "ol/proj.js";
+let gallery = null;
 
-$(function () {
-
+document.addEventListener("DOMContentLoaded", function (e) {
   if (window.location.pathname.includes("flights")) {
     const flightPath = window.location.href.split("/").pop();
     const flight = flightPath.slice(0, flightPath.indexOf("."));
-
-    const container = document.getElementById("popup");
-    const content = document.getElementById("popup-content");
-
+  
     Promise.all([fetch("/assets/api/flights/" + flight + "-gps.json")])
-      .then((responses) => Promise.all(
-        responses.map((response) => response.json())
-      ))
+      .then((responses) =>
+        Promise.all(responses.map((response) => response.json()))
+      )
       .then((data) => {
         var result = data[0];
-
-        const layer = createFlightTrackLayer(result.trk);
-        const view = getDefaultView();
-        const map = initMap("map");
-        map.addLayer(layer);
-        map.setView(view);
-        // addPopups(map, container, content);
-        // flyTo(view, data[0], 5000);
-        var layerExtent = layer.getSource().getExtent();
-
-        var padding = [100, 100, 100, 100];
-        map.getView().fit(layerExtent, {
-          size: map.getSize(),
-          padding: padding,
-        });
+        handleMap(result);
+        handleGallery(result.img);
       });
   }
 });
+
+export function openGallery(image) {
+  console.log("OPEN: " + image);
+  console.log(gallery);
+
+  Spotlight.show(gallery, { index: image });
+}
+
+function handleGallery(images) {
+  u(".gallery-image").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var index = u(this).data("index");
+    openGallery(index);
+  });
+
+  var gal = [];
+  for(let image of images) {
+    var img = {
+      src: image.uri,
+      title: image.name
+    }
+    gal.push(img);
+  }
+
+  gallery = gal;
+}
+
+function handleMap(result) {
+  const trackLayer = createFlightTrackLayer(result.trk);
+  const waypointLayer = createWaypointLayer(
+    result.wp,
+    "#87c5a4",
+    "#87c5a499"
+  );
+  const eventsLayer = createWaypointLayer(result.e, "#e7b788", "#e7b78899");
+  const imageLayer = createScreenshotLayer(result.img);
+  const view = getDefaultView();
+  const map = initMap("map");
+  map.addLayer(trackLayer);
+  map.addLayer(waypointLayer);
+  map.addLayer(eventsLayer);
+  map.addLayer(imageLayer);
+  map.setView(view);
+  addPopups(map);
+  flyToLayer(map, trackLayer, 5000, 0.2);
+}

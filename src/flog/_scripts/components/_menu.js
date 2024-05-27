@@ -1,14 +1,11 @@
-import $ from 'jquery';
-    
-$(function(){
-  $(".menu-button").on("click", function (event) {
-    event.stopPropagation();
-    event.preventDefault();
+import u from "umbrellajs";
 
-    $("#menu").addClass("open");
-  });
+u(".menu-button").on("click", function (event) {
+  event.stopPropagation();
+  event.preventDefault();
+  u("#menu").addClass("open");
+});
 
-  $("#menu").on("click", function (event) {
-    $("#menu").removeClass("open");
-  });
+u("#menu").on("click", function (event) {
+  u("#menu").removeClass("open");
 });

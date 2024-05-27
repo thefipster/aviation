@@ -1,5 +1,6 @@
 import { Map, View, Overlay, Feature } from "ol";
 import { easeOut } from "ol/easing";
+import { getCenter } from "ol/extent";
 import { LineString, Point } from "ol/geom";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector";
@@ -8,6 +9,9 @@ import XYZ from "ol/source/XYZ";
 import { Vector as VectorSource } from "ol/source";
 import Stroke from "ol/style/Stroke";
 import Style from "ol/style/Style";
+import Fill from "ol/style/Fill";
+import Circle from "ol/style/Circle";
+import { openGallery } from "../pages/_post";
 
 export function initMap(mapId) {
   const tileLayer = new TileLayer({
@@ -41,7 +45,8 @@ function flytoCallback(complete) {
   }
 }
 
-export function flyTo(view, latLon, duration) {
+export function flyTo(map, latLon, duration) {
+  const view = map.getView();
   const location = fromLonLat([latLon[1], latLon[0]]);
   view.animate(
     {
@@ -61,6 +66,49 @@ export function flyTo(view, latLon, duration) {
   );
 }
 
+export function flyToLayer(map, layer, duration, padding) {
+  if (!duration) duration = 2000;
+
+  if (!padding) padding = 0;
+
+  const extent = layer.getSource().getExtent();
+  const view = map.getView();
+  const center = getCenter(extent);
+  const mapSize = map.getSize();
+  const extentResolution = view.getResolutionForExtent(extent, mapSize);
+
+  let finalZoom = view.getZoomForResolution(extentResolution);
+  finalZoom -= padding;
+
+  view.animate(
+    {
+      center: center,
+      duration: duration / 2,
+      easing: easeOut,
+    },
+    flytoCallback
+  );
+  view.animate(
+    {
+      zoom: finalZoom,
+      duration: duration,
+      easing: easeOut,
+    },
+    flytoCallback
+  );
+}
+
+export function focusLayer(map, layer, padding) {
+  if (!padding) padding = 0;
+
+  var layerExtent = layer.getSource().getExtent();
+  var padding = [padding, padding, padding, padding];
+  map.getView().fit(layerExtent, {
+    size: map.getSize(),
+    padding: padding,
+  });
+}
+
 export function getDefaultView() {
   return new View({
     center: [0, 0],
@@ -68,7 +116,8 @@ export function getDefaultView() {
   });
 }
 
-export function addPopups(map, container, content) {
+export function addPopups(map) {
+  const container = document.getElementById("popup");
   const overlay = new Overlay({
     element: container,
     autoPan: {
@@ -81,16 +130,36 @@ export function addPopups(map, container, content) {
   map.addOverlay(overlay);
 
   map.on("click", function (evt) {
-    console.log(evt);
+    const content = document.getElementById("popup-content");
     const feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
       return feature;
     });
     if (feature) {
       let title = feature.get("title");
-      const link = feature.get("link");
+      if (!title) {
+        overlay.setPosition(undefined);
+        return;
+      }
 
+      const link = feature.get("link");
       if (link) {
-        title = '<a href="' + link + '">' + title + "</a>";
+        title = '<a href="' + imageLink + '">' + title + "</a>";
+      }
+
+      const imageLink = feature.get("imagelink");
+      if (imageLink) {
+        overlay.setPosition(undefined);
+        const index = feature.get("index");
+        openGallery(index);
+        return;
+
+        // const index = feature.get("index");
+        // title =
+        //   '<a href="#" onclick="openGallery(' +
+        //   index +
+        //   '); return false;">' +
+        //   title +
+        //   "</a>";
       }
 
       content.innerHTML = title;
@@ -206,6 +275,54 @@ export function createFlightTrackLayer(flight) {
   return layer;
 }
 
+export function createWaypointLayer(waypoints, strokeColor, fillColor) {
+  const source = new VectorSource();
+  const features = [];
+  for (const item of waypoints) {
+    const coords = fromLonLat([item.latlon[1], item.latlon[0]]);
+    features.push(
+      new Feature({
+        geometry: new Point(coords),
+        title: item.name,
+      })
+    );
+  }
+  source.addFeatures(features);
+  const style = getCustomPointStyle(5, 3, strokeColor, fillColor);
+  const layer = new VectorLayer({
+    source: source,
+    style: style,
+  });
+
+  return layer;
+}
+
+export function createScreenshotLayer(screenshots) {
+  const source = new VectorSource();
+  const features = [];
+  let i = 0;
+  for (const item of screenshots) {
+    i++;
+    const coords = fromLonLat([item.latlon[1], item.latlon[0]]);
+    features.push(
+      new Feature({
+        geometry: new Point(coords),
+        title: item.name,
+        imagelink: item.uri,
+        index: i,
+      })
+    );
+  }
+  source.addFeatures(features);
+  const style = getCustomPointStyle(5, 3, "#8d82c4", "#8d82c499");
+  const layer = new VectorLayer({
+    source: source,
+    style: style,
+  });
+
+  return layer;
+}
+
 export function createAirportsLayer(airports) {
   const source = new VectorSource();
   const features = [];
@@ -219,9 +336,42 @@ export function createAirportsLayer(airports) {
     );
   }
   source.addFeatures(features);
+  const style = getDefaultPointStyle();
   const layer = new VectorLayer({
     source: source,
+    style: style,
   });
 
   return layer;
+}
+
+export function getDefaultPointStyle() {
+  return new Style({
+    image: new Circle({
+      radius: 5,
+      fill: new Fill({ color: "#ffffff66" }),
+      stroke: new Stroke({
+        color: "#9bf1ff",
+        width: 1,
+      }),
+    }),
+  });
+}
+
+export function getCustomPointStyle(
+  radius,
+  strokeWitch,
+  strokeColor,
+  fillColor
+) {
+  return new Style({
+    image: new Circle({
+      radius: radius,
+      fill: new Fill({ color: fillColor }),
+      stroke: new Stroke({
+        color: strokeColor,
+        width: strokeWitch,
+      }),
+    }),
+  });
 }

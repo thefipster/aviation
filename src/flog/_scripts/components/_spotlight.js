@@ -1,14 +1,11 @@
-import $ from "jquery";
+import u from "umbrellajs";
 
-$(function () {
-  $(".spotlights section").each(function () {
-    
-    var $chrome = $(this).find(".chrome");
-    var $img = $chrome.find("img");
+  u(".spotlights section .chrome").each(function (node, i) {
+    var uimg = u(node).find("img");
 
-    if ($img.length > 0) {
-      $chrome.css("background-image", "url(" + $img.attr("src") + ")");
-      $img.remove();
+    if (uimg.length > 0) {
+      var src = uimg.attr("src");
+      node.style.backgroundImage = "url(" + src + ")";
+      uimg.remove();
     }
   });
-});

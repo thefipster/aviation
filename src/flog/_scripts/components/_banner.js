@@ -1,21 +1,22 @@
-import $ from 'jquery';
-    
-$(function(){
-  $("#banner").each(function () {
-    var $this = $(this),
-      $image = $this.find(".banner-image"),
-      $img = $image.find("img");
-    if ($img.length > 0) {
-      $this.css("background-image", "url(" + $img.attr("src") + ")");
-      $image.remove();
-    }
-  });
+import u from "umbrellajs";
 
-  $(window).on("scroll", () => {
-    var banner = $("#banner");
+u("#banner").each(function (node, i) {
+  var unode = u(node);
+  var uimage = unode.find(".banner-image");
+  var uimg = uimage.find("img");
+  if (uimg.length > 0) {
+    const src = uimg.attr("src");
+    node.style.backgroundImage = "url(" + src + ")";
+    uimage.remove();
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function (event) {
+  addEventListener("scroll", (event) => {
+    var banner = document.getElementById("banner");
     if (banner) {
-      var scrolledY = $(window).scrollTop();
-      $("#banner").css("background-position-y", scrolledY * 0.5 + "px");
+      var scrolledY = window.scrollY;
+      banner.style.backgroundPositionY = scrolledY * 0.5 + "px";
     }
   });
 });

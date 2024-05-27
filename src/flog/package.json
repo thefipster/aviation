@@ -24,7 +24,8 @@
     "flag-icons": "^7.2.2",
     "jquery": "^3.7.1",
     "ol": "^9.2.3",
-    "spotlight.js": "^0.7.8"
+    "spotlight.js": "^0.7.8",
+    "umbrellajs": "^3.3.3"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.4",

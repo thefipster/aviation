@@ -16,11 +16,11 @@ icon: list-checks
       <thead>
         <tr>
           <th></th>
-          <th class="shrink"></th>
+          <th class="hide-small hide-medium"></th>
           <th align="center">Icao</th>
-          <th align="center" class="shrink">Distance</th>
+          <th class="hide-small" align="center">Distance</th>
           <th>Airport</th>
-          <th class="shrink">Region</th>
+          <th class="hide-small hide-medium">Region</th>
           <th align="center">Country</th>
         </tr>
       </thead>
@@ -30,11 +30,11 @@ icon: list-checks
         {% for post in posts %}
         <tr href="{{ post.url }}">
           <td align="center">{{ post.flightNumber }}</td>
-          <td align="center" class="shrink">{{ post.dispatchDate | date: "%Y-%m-%d" }}</td>
+          <td class="hide-small hide-medium" align="center">{{ post.dispatchDate | date: "%Y-%m-%d" }}</td>
           <td align="center">{{ post.arrival.ident }}</td>
-          <td align="center" class="shrink">{{ post.distanceKm | round: 0 }} km</td>
+          <td class="hide-small" align="center">{{ post.distanceKm | round: 0 }} km</td>
           <td>{{ post.arrival.name }}</td>
-          <td class="shrink">{{ post.arrival.region.name }}</td>
+          <td class="hide-small hide-medium">{{ post.arrival.region.name }}</td>
           <td align="center"><span class="fi fi-{{ post.arrival.country.code | downcase }}"></span></td>
         </tr>
         {% endfor %}
@@ -43,11 +43,11 @@ icon: list-checks
       <tfoot>
         <tr>
           <td></td>
-          <td class="shrink"></td>
+          <td class="hide-small hide-medium"></td>
           <td align="center">EDDL</td>
-          <td class="shrink"></td>
+          <td class="hide-small"></td>
           <td>Düsseldorf</td>
-          <td class="shrink">North Rhine-Westphalia</td>
+          <td class="hide-small hide-medium">North Rhine-Westphalia</td>
           <td align="center"><span class="fi fi-de"></span></td>
         </tr>
       </tfoot>
