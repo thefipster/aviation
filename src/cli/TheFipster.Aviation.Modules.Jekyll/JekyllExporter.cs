@@ -16,6 +16,7 @@ namespace TheFipster.Aviation.Modules.Jekyll
         private readonly string assetFolder;
         private readonly string dataFolder;
         private readonly string captureFolder;
+        private readonly string replayFolder;
         private readonly string apiFolder;
         private readonly string postFolder;
 
@@ -41,6 +42,7 @@ namespace TheFipster.Aviation.Modules.Jekyll
             assetFolder = Path.Combine(jekyllRoot, "assets");
             apiFolder = Path.Combine(assetFolder, "api");
             captureFolder = Path.Combine(assetFolder, "caps");
+            replayFolder = Path.Combine(assetFolder, "replay");
         }
 
         public void ExportFlight(string folder)
@@ -61,6 +63,7 @@ namespace TheFipster.Aviation.Modules.Jekyll
             new JsonWriter<FlightGeo>().Write(gpsDataPath, gpsData, true);
 
             new ScreenshotExporter().GenerateImages(folder, captureFolder);
+            new ScreenshotExporter().CopyLanding(folder, replayFolder);
         }
 
         public void ExportCombined(string flightsFolder)

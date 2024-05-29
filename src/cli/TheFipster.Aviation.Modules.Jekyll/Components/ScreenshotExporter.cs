@@ -53,6 +53,30 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
             }
         }
 
+        public void CopyLanding(string folder, string replayFolder, bool overwrite = false)
+        {
+            try
+            {
+                var landingFile = scanner.GetFile(folder, FileTypes.ReplayLanding);
+                var flightNo = meta.GetLeg(folder);
+
+                var filename = $"{flightNo}-landing.mp4";
+                var newFile = Path.Combine(replayFolder, filename);
+
+                if (File.Exists(newFile) && !overwrite)
+                    return;
+
+                if (!Directory.Exists(replayFolder))
+                    Directory.CreateDirectory(replayFolder);
+
+                File.Move(landingFile, newFile, overwrite);
+            }
+            catch (Exception)
+            {
+                // lets just skip the landing replay
+            }
+        }
+
         public static string GetFinalImageNameFromFilename(string filename)
         {
             var nameParts = filename.Split(" - ");
