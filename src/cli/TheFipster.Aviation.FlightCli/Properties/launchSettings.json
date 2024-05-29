@@ -24,16 +24,6 @@
       "commandLineArgs": "jekyll",
       "hotReloadEnabled": false
     },
-    "flightcli wizard": {
-      "commandName": "Project",
-      "commandLineArgs": "wizard",
-      "hotReloadEnabled": false
-    },
-    "flightcli newdispatch": {
-      "commandName": "Project",
-      "commandLineArgs": "newdispatch",
-      "hotReloadEnabled": false
-    },
     "flightcli newflight": {
       "commandName": "Project",
       "commandLineArgs": "newflight",
@@ -47,6 +37,15 @@
     "flightcli flog": {
       "commandName": "Project",
       "commandLineArgs": "flog",
+      "hotReloadEnabled": false
+    },
+    "flightcli dispatch": {
+      "commandName": "Project",
+      "commandLineArgs": "dispatch",
+      "hotReloadEnabled": false
+    },
+    "flightcli": {
+      "commandName": "Project",
       "hotReloadEnabled": false
     }
   }

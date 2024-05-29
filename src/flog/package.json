@@ -11,7 +11,7 @@
     "css": "sass --no-source-map --style=compressed _styles/_main.scss:assets/css/main.css",
     "css-dev": "sass --watch --update --style=expanded _styles/_main.scss:assets/css/main.css",
     "serve": "bundle exec jekyll serve --incremental",
-    "jekyll": "bundle exec jekyll build --incremental",
+    "jekyll": "bundle exec jekyll build",
     "jekyll-dev": "bundle exec jekyll serve --incremental --livereload",
     "build": "npm run js && npm run fonts && npm run css && npm run jekyll",
     "dev": "concurrently \"npm run js-dev\" \"npm run css-dev\" \"npm run jekyll-dev\""
