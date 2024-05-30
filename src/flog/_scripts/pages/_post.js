@@ -1,5 +1,6 @@
 import u from "umbrellajs";
 import Spotlight from "spotlight.js/src/js/spotlight.js";
+
 import {
   addPopups,
   createFlightTrackLayer,

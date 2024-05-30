@@ -1,3 +1,5 @@
+import 'video.js/dist/video.es.js';
+
 import "./components/_menu.js";
 import "./components/_banner.js";
 import "./components/_tiles.js";

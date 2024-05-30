@@ -3,6 +3,7 @@
 @use "../node_modules/ol/ol";
 @use "../node_modules/@phosphor-icons/web/src/bold/style";
 @use "../node_modules/spotlight.js/dist/css/spotlight.min";
+@use "../node_modules/video.js/dist/video-js";
 
 /* Core */
 @use "libs/vars" as *;
