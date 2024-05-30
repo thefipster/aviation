@@ -52,6 +52,7 @@ namespace TheFipster.Aviation.Domain.Enums
         FlightJson,
         SimbriefImportJson,
         SimbriefMap,
-        CreatedTxt
+        CreatedTxt,
+        ReplayLanding
     }
 }

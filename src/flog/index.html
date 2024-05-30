@@ -3,30 +3,34 @@ layout: page
 title: Home
 landing-title: 'Fipsters Flight Log'
 description: null
-image: null
+image: /assets/images/banner2.jpg
 author: null
 show_tile: false
 navmenu: true
 navtitle: Home
-navorder: 1
+navorder: 0
 icon: house
 ---
 
 <!-- Banner -->
-<section id="banner">
+<section id="banner" class="accent0 fade major">
+    <span class="banner-image">
+        <img src="{{ page.image }}" />
+    </span>
     <div class="inner">
-        <header class="major">
+        <div class="headline">
             <h1>{{ page.landing-title }}</h1>
-        </header>
-        <div class="content">
-            <p style="text-transform: uppercase;">{{ site.description }}</p>
-            <ul class="actions">
-                <li><a href="/pages/flightlog.html" class="button next scrolly">See all flights</a></li>
-            </ul>
+            <span>{{ site.description }}
+                <a href="/pages/flightlog.html" class="button next scrolly">
+                    See all flights
+                    <!-- <i class="ph-bold ph-arrow-right"></i> -->
+                    <i class="ph-bold ph-caret-double-right"></i>
+                </a>
+            </span>
         </div>
     </div>
 </section>
 
 <!-- Tiles -->
-{% assign tiles = site.html_pages | where_exp: "item", "item.show_tile != false" | sort:"navorder" %}
+{% assign tiles = site.html_pages | where: "tile","true" | sort:"navorder" %}
 {% include tiles.html tiles = tiles %}

@@ -1,0 +1,24 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inner {
+  width: calc(100% - 20em);
+}
+
+@media only screen and (max-width: val($breakpoints, medium)) {
+  .inner {
+    width: calc(100% - 10em);
+  }
+}
+
+@media only screen and (max-width: val($breakpoints, small)) {
+  .inner {
+    width: calc(100% - 5em);
+  }
+}

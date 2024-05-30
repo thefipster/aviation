@@ -1,0 +1,70 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+
+  .tile-image {
+    display: none;
+  }
+
+  .tile {
+    transition: val($duration, tiles) ease-in-out;
+    height: 35vh;
+    width: 40%;
+
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &.bottom {
+      background-position: bottom;
+    }
+
+    &.top {
+      background-position: top;
+    }
+
+    &:nth-child(4n - 1),
+    &:nth-child(4n - 2) {
+      flex: 1 auto;
+    }
+
+
+    &:hover {
+        color: val($palette, fg);
+        box-shadow: none;
+    }
+
+
+  }
+
+  @media only screen and (max-width: val($breakpoints, medium)) {
+    .tile {
+      width: unset;
+      flex: 1 2 34%;
+
+      &:nth-child(4n - 1),
+      &:nth-child(4n - 2) {
+      flex: 1 2 34%;
+      }
+    }
+  }
+
+  @media only screen and (max-width: val($breakpoints, small)) {
+    .tile {
+      width: unset;
+      flex: 1 2 51%;
+
+      &:nth-child(4n - 1),
+      &:nth-child(4n - 2) {
+      flex: 1 2 51%;
+      }
+    }
+  }
+}

@@ -3,113 +3,166 @@
 {% include head.html %}
 
 <body>
-	{% include header.html %}
-
-	<div id="main" class="alt">
-		<section id="one">
-			<div class="inner">
-				<!-- Title -->
-				<header class="major">
-					<h2>{{ page.description }}</h2>
-					<p>{{ page.route }} | {{ page.airacCycle }}</p>
-				</header>
-				<!-- Map -->
-				<div class="map-container">
-					<div id="map"></div>
+	<div id="wrapper">
+		{% include header.html %}
+		<!-- Banner -->
+		<div id="main">
+			<section id="banner" class="accent0 fade">
+				<span class="banner-image">
+					<img src="/assets/images/banner.jpg" alt="">
+				</span>
+				<div class="inner">
+					<div class="headline">
+						<h1>{{ page.title }}</h1>
+						<span>{{ page.description }}</span>
+					</div>
 				</div>
-				<br />
-				<!-- InfoBox -->
-				<div>
-					<div class="row">
-						<div class="8u 12u$(medium)">
-							<!-- Departure & Arrival -->
-							<div class="row">
-								<div class="6u 12u$(medium)">
-									<h3>
-										<i class="phi ph-bold ph-airplane-takeoff"></i>
-										<span>Departure</span>
-									</h3>
-									<ul class="alt">
-										<li>{{ page.departure.name }} ({{ page.departure.ident }})</li>
-										<li>{{ page.departure.region.name }}</li>
-										<li>{{ page.departure.country.name }}</li>
-									</ul>
-								</div>
-								<div class="6u 12u$(medium)">
-									<h3>
-										<i class="phi ph-bold ph-airplane-landing"></i>
-										<span>Arrival</span>
-									</h3>
-									<ul class="alt">
-										<li>{{ page.arrival.name }} ({{ page.arrival.ident }})</li>
-										<li>{{ page.arrival.region.name }}</li>
-										<li>{{ page.arrival.country.name }}</li>
-									</ul>
-								</div>
-							</div>
-
-							<!-- Route & Fuel -->
-							<div class="row">
-								<div class="6u 12u$(medium)">
-									<h3>
-										<i class="phi ph-bold ph-signpost"></i>
-										<span>Route</span>
-									</h3>
-									<ul class="alt">
-										{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by:
-										page.greatCircleKm |
-										times: 100 | minus: 100 %}
-										<li>
-											{{ page.distanceKm | round:0 }} km actual ( +{{ flyOverhead | round: 0 }}% )
-										</li>
-
-										{% assign planOverhead = page.routeKm | times: 1.0 | divided_by:
-										page.greatCircleKm |
-										times: 100 | minus: 100 %}
-										<li>{{ page.routeKm | round: 0 }} km planned ( +{{ planOverhead | round: 0 }}% )
-										</li>
-										<li>{{ page.greatCircleKm | round:0 }} km direct </li>
-									</ul>
-								</div>
-								<div class="6u 12u$(medium)">
-									<h3>
-										<i class="phi ph-bold ph-gas-pump"></i>
-										<span>Fuel</span>
-									</h3>
-									<ul class="alt">
-										<li>{{ page.fuelRamp }} kg at the ramp</li>
-										<li>{{ page.fuelShutdown }} kg at engine shutdown</li>
-										<li>{{ page.fuelBurned }} kg used ( {{ page.fuelBurned | divided_by: 0.8 |
-											divided_by:
-											page.distanceKm | times: 100 | round: 0 }} l/100km )</li>
-									</ul>
-								</div>
-							</div>
-
+			</section>
+			<!-- InfoBox -->
+			<section id="flight">
+				<div class="inner">
+					<div class="col">
+						<h2>
+							<i class="phi ph-bold ph-hourglass"></i>
+							<span>Timeline</span>
+						</h2>
+						<ul class="alt">
+							{% for item in page.timetable %}
+							<li>{{ item.timestamp | date: "%H:%M" }} - {{ item.name }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="col">
+						<div>
+							<h2>
+								<i class="phi ph-bold ph-airplane-takeoff"></i>
+								<span>Departure</span>
+							</h2>
+							<ul>
+								<li>{{ page.departure.name }} ({{ page.departure.ident }})</li>
+								<li>{{ page.departure.region.name }}</li>
+								<li>{{ page.departure.country.name }} <span
+										class="fi fi-{{ page.departure.isoCountryCode | downcase }}"></span></li>
+							</ul>
 						</div>
-						<div class="4u 12u$(medium)">
-							<h3>
-								<i class="phi ph-bold ph-hourglass"></i>
-								<span>Timeline</span>
-							</h3>
-							<ul class="alt">
-								{% for item in page.timetable %}
-								<li>{{ item.timestamp | date: "%H:%M" }} - {{ item.name }}</li>
-								{% endfor %}
+						<div>
+							<h2>
+								<i class="phi ph-bold ph-airplane-landing"></i>
+								<span>Arrival</span>
+							</h2>
+							<ul>
+								<li>{{ page.arrival.name }} ({{ page.arrival.ident }})</li>
+								<li>{{ page.arrival.region.name }}</li>
+								<li>{{ page.arrival.country.name }} <span
+										class="fi fi-{{ page.arrival.isoCountryCode | downcase }}"></span></li>
 							</ul>
 						</div>
 					</div>
-				</div>
-				<!-- Gallery -->
-				<div class="flightgallery">
-					<h3>Screenshots</h3>
-					{% include gallery.html flightNo = page.legNo %}
-				</div>
-			</div>
-		</section>
-	</div>
+					<div class="col">
+						<div>
+							<h2>
+								<i class="phi ph-bold ph-signpost"></i>
+								<span>Route</span>
+							</h2>
+							<dl>
+								<dt>Direct</dt>
+								<dd>{{ page.greatCircleKm | round:0 }} km</dd>
+								{% assign planOverhead = page.routeKm | times: 1.0 | divided_by:
+								page.greatCircleKm |
+								times: 100 | minus: 100 %}
+								<dt>Planned</dt>
+								<dd>{{ page.routeKm | round: 0 }} km (+{{ planOverhead | round: 0 }}%)</dd>
+								{% assign flyOverhead = page.distanceKm | times: 1.0 | divided_by:
+								page.greatCircleKm |
+								times: 100 | minus: 100 %}
+								<dt>Actual</dt>
+								<dd>{{ page.distanceKm | round:0 }} km (+{{ flyOverhead | round: 0 }}%)</dd>
+							</dl>
+						</div>
+						<div>
+							<h2>
+								<i class="phi ph-bold ph-gas-pump"></i>
+								<span>Fuel</span>
+							</h2>
+							<dl>
+								<dt>Extra</dt>
+								<dd>{{ page.fuelShutdown }} kg</dd>
 
-	{% include footer.html %}
+								<dt>Consumed</dt>
+								<dd>{{ page.fuelBurned }} kg</dd>
+
+								<dt>Milage</dt>
+								<dd>{{ page.fuelBurned | divided_by: 0.8 |
+									divided_by:
+									page.distanceKm | times: 100 | round: 0 }} l/100km</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Map -->
+			<section class="flight-map">
+				<div id="map-wrapper">
+					{% include map.html %}
+				</div>
+				<span class="flight-route">{{ page.route }}</span>
+			</section>
+			<!-- Gallery -->
+			<section class="flightgallery">
+				<div class="inner">
+					<h2>Screenshots</h2>
+					<div class="gallery">
+						{% capture preview_folder %}/assets/caps/{{ page.legNo }}/tn/{% endcapture %}
+						{% capture image_folder %}/assets/caps/{{ page.legNo }}/{% endcapture %}
+						{% assign index = 0 %}
+
+						{% for file in site.static_files %}
+						{% if file.path contains preview_folder %}
+
+						{% assign filenameparts = file.path | split: "/" %}
+						{% assign filename = filenameparts | last %}
+
+						{% assign caption = filename %}
+						{% assign preview = preview_folder | append: filename %}
+						{% assign image = image_folder | append: filename %}
+
+						<a class="gallery-image" href="#" data-index="{{ index }}">
+							<img src="{{ preview }}">
+						</a>
+
+						{% assign index = index | plus: 1 %}
+						{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+
+
+			{% capture replay %}/assets/replay/{{page.legNo}}-landing.mp4{% endcapture %}
+			{% for file in site.static_files %}
+			{% if file.path contains replay %}
+
+			<section>
+				<video id="my-video" class="video-js" controls preload="auto" width="640" height="264" data-setup="{}">
+					<source src="/assets/replay/{{page.legNo}}-landing.mp4" type="video/mp4" />
+					<p class="vjs-no-js">
+						To view this video please enable JavaScript, and consider upgrading to a
+						web browser that
+						<a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+					</p>
+				</video>
+
+				<a href="">Landing Replay</a>
+			</section>
+
+			{% endif %}
+			{% endfor %}
+
+		</div>
+
+		{% include footer.html %}
+	</div>
+	{% include menu.html %}
 	{% include scripts.html %}
 </body>
 

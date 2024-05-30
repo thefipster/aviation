@@ -1,43 +1,23 @@
-import Chart from 'chart.js/auto'
+import {
+  Chart,
+  BarController,
+  BarElement,
+  LinearScale,
+  CategoryScale,
+} from "chart.js";
+import { getDefaultConfig } from "../components/_chart";
+
+Chart.register(BarController, BarElement, LinearScale, CategoryScale);
+
 export function generate() {
-    $.getJSON("/assets/api/line-groundspeed.json", function (data) {
-        const chartObj = document.getElementById("chart-speed");
-        const config = {
-            type: 'bar',
-            data: {
-                datasets: [{
-                    label: "Maximum Ground Speed [km/h]",
-                    data: data.y,
-                }],
-                labels: data.x
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 90,
-                            minRotation: 90,
-                            color: "#fff"
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            color: "#fff"
-                        }
-                    }
-                }
-            }
-        }
-  
-        new Chart(
-            chartObj,
-            config
-        );
+  const fetchPromise = fetch("/assets/api/line-groundspeed.json");
+  fetchPromise
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      const element = document.getElementById("chart-speed");
+      const config = getDefaultConfig(data, "Maximum Ground Speed [km/h]");
+      new Chart(element, config);
     });
 }

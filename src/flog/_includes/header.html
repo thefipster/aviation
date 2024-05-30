@@ -1,29 +1,14 @@
-<!-- Wrapper -->
-<div id="wrapper">
-
-	<!-- Header -->
-	<header id="header" {% if page.layout=="landing" or page.layout=="aircraft" %} class="alt style2" {% endif %} {% if
-		page.layout=="index" %} class="alt" {% endif %}>
-		<a href="/" class="logo">
-			<strong>{{ site.title }}</strong>
-			<span>{{ site.subtitle }}</span>
-		</a>
-		<nav>
-			<a href="#menu">Menu</a>
-		</nav>
-	</header>
-
-	<!-- Menu -->
-	<nav id="menu">
-		<ul class="links">
-			{% assign pages = site.html_pages | where: "navmenu","true" | sort: "navorder" %}
-			{% for page in pages %}
-			<li>
-				<a class="navmenu-item" href="{{ page.url }}">
-					<i class="phi ph-bold ph-{{ page.icon }}"></i>
-					<span>{{ page.navtitle }}</span>
-				</a>
-			</li>
-			{% endfor %}
-		</ul>
-	</nav>
+<header id="header">
+	<a href="/" class="logo">
+		<strong>{{ site.title }}</strong>
+		<span>{{ site.subtitle }}</span>
+	</a>
+	<a href="#menu" class="menu-button">
+		<span>Menu</span>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32">
+			<line x1="0" y1="10" x2="24" y2="10" />
+			<line x1="0" y1="16" x2="24" y2="16" />
+			<line x1="0" y1="22" x2="24" y2="22" />
+		</svg>
+	</a>
+</header>

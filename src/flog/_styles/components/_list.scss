@@ -1,0 +1,51 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  font-size: 1.2em;
+
+  li {
+    padding: 15px 0;
+    border-top: 1px solid val($palette, border);
+
+    &:first-of-type {
+      border-top: 0;
+    }
+  }
+}
+
+dl {
+  display: flex;
+  flex-flow: row wrap;
+
+  font-size: 1.2em;
+
+  dt {
+    padding: 15px 0;
+
+    flex-basis: 40%;
+    border-top: 1px solid val($palette, border);
+
+    &:first-of-type {
+      border-top: 0;
+    }
+
+  }
+  dd {
+    padding: 15px 0;
+
+    flex-basis: 40%;
+    flex-grow: 1;
+
+    text-align: right;
+    border-top: 1px solid val($palette, border);
+
+    &:first-of-type {
+      border-top: 0;
+    }
+
+  }
+}

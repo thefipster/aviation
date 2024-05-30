@@ -1,0 +1,70 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+#flight {
+  margin: 40px 0;
+
+  > .inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 80px;
+
+    .col {
+        flex: 1 0 26%;
+    }
+
+    @media only screen and (max-width: val($breakpoints, medium)) {
+      .col {
+        flex: 1 0 34%;
+      }      
+      
+      .col:last-of-type {
+        display: flex;
+        gap: 40px;
+        flex-direction: row;
+
+        > * {
+          flex: 1 0 34%;
+        }
+      }
+    }
+
+    @media only screen and (max-width: val($breakpoints, small)) {
+      .col {
+        flex: 1 0 100%;
+      }      
+      
+      .col:last-of-type {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+      }
+    }
+  }
+
+  @media only screen and (max-width: val($breakpoints, medium)) {
+    > .inner {
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+  }
+
+  @media only screen and (max-width: val($breakpoints, small)) {
+    > .inner {
+      flex-wrap: nowrap;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  .fi {
+    margin-left: 20px;
+  }
+
+  h2 {
+    i {
+      margin-right: 20px;
+    }
+  }
+}

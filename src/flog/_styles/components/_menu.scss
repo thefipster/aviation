@@ -1,0 +1,56 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+#menu {
+  display: flex;
+  visibility: hidden;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000;
+
+  transition: val($duration, menu);
+  background-color: val($palette, bg-light);
+  backdrop-filter: blur(0px);
+  opacity: 0;
+
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(10px);
+}
+
+  ul {
+    list-style: none;
+
+    li {
+      font-weight: 600;
+
+      border-top: 1px solid val($palette, border);
+
+      a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        padding: 20px 50px;
+        gap: 20px;
+
+        i {
+          font-size: 1.2em;
+        }
+      }
+
+      &:first-child {
+        border-top: 0;
+      }
+    }
+  }
+}

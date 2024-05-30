@@ -1,0 +1,77 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+.spotlights {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  section {
+    transition: 0.5s ease-in-out;
+
+    display: flex;
+    flex-direction: row;
+    height: 450px;
+
+    background-color: desaturate(lighten(val($palette, bg-alt), 2), 1);
+
+    &:nth-child(2n) {
+      flex-direction: row-reverse;
+      background-color: desaturate(lighten(val($palette, bg-alt), 4), 2);
+    }
+
+    @media only screen and (max-width: val($breakpoints, small)) {
+      &:nth-child(2n) {
+        flex-direction: column;
+      }
+    }
+
+    .chrome {
+      transition: 0.5s ease-in-out;
+      width: 40%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    .content {
+      transition: 0.5s ease-in-out;
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media only screen and (max-width: val($breakpoints, medium)) {
+      .chrome {
+        width: 50%;
+      }
+      .content {
+        width: 50%;
+      }
+    }
+
+    @media only screen and (max-width: val($breakpoints, small)) {
+      .chrome {
+        width: 100%;
+        height: 300px;
+        min-height: 300px;
+      }
+      .content {
+        width: 100%;
+      }
+    }
+  }
+
+  @media only screen and (max-width: val($breakpoints, small)) {
+    section {
+    height: unset;
+    flex-direction: column;
+    }
+  }
+}

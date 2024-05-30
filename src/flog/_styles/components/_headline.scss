@@ -1,0 +1,36 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+.headline {
+    padding: 20px 0;
+
+    h2 {
+        font-size: 2em;
+        border-bottom: 2px solid val($palette, fg);
+        padding-bottom: 15px;
+        margin: 15px 0;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        border-bottom: 2px solid val($palette, fg);
+        padding-bottom: 7px;
+        margin: 7px 0;
+    }
+
+    > span {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+        
+        font-size: 0.8em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+
+        .fi {
+            font-size: 1.25em;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+body {
+    color: val($palette, fg);
+}
+
+a {
+    transition: val($duration, link) ease-in-out;
+    color: val($palette, fg);
+    text-decoration: none;
+
+    &:hover {
+        color: val($palette, focus);
+    }
+}
+
+svg {
+    transition: val($duration, link) ease-in-out;
+    stroke: val($palette, fg);
+    stroke-width: 2px;
+}
+
+h1 {
+    .smaller {
+        font-size: 0.4em;
+        font-weight: normal;
+    }
+}

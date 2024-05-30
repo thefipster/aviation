@@ -297,8 +297,6 @@ namespace TheFipster.Aviation.Domain.Simbrief.Xml
         [JsonPropertyName("atis")]
         public object Atis { get; set; }
 
-        [JsonPropertyName("notam")]
-        public List<Dictionary<string, string>> Notam { get; set; }
     }
 
     public partial class Atc
@@ -450,8 +448,6 @@ namespace TheFipster.Aviation.Domain.Simbrief.Xml
         [JsonPropertyName("atis")]
         public string Atis { get; set; }
 
-        //[JsonPropertyName("notam")]
-        //public List<Dictionary<string, string>> Notam { get; set; }
     }
 
     public partial class Notam
@@ -1256,8 +1252,6 @@ namespace TheFipster.Aviation.Domain.Simbrief.Xml
         [JsonPropertyName("atis")]
         public object Atis { get; set; }
 
-        [JsonPropertyName("notam")]
-        public List<Dictionary<string, string>> Notam { get; set; }
     }
 
     public partial class Params

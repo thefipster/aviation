@@ -4,23 +4,27 @@
 {% include head.html %}
 
 <body>
-    {% include header.html %}
+    <div id="wrapper">
 
-    <section id="banner" class="{{ page.accent }}">
-        <div class="inner">
-            <span class="image">
+        {% include header.html %}
+
+        <section id="banner" class="accent{{ page.navorder }} {{ page.imagePosition }} fade dark">
+            <span class="banner-image">
                 <img src="{{ site.baseurl }}/{{ page.image }}" alt="">
             </span>
-            <header class="major">
-                <h1>{{ page.title }}</h1>
-                <p>{{ page.description }}</p>
-            </header>
-        </div>
-    </section>
+            <div class="inner">
+                <div class="headline">
+                    <h1>{{ page.title }}</h1>
+                    <span>{{ page.description }}</span>
+                </div>
+            </div>
+        </section>
 
-    {{ content }}
+        {{ content }}
 
-    {% include footer.html %}
+        {% include footer.html %}
+    </div>
+    {% include menu.html %}
     {% include scripts.html %}
 </body>
 

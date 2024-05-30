@@ -1,19 +1,13 @@
-<section id="one" class="tiles">
+<div class="tiles">
   {% for tile in include.tiles %}
-  <article class="{{ tile.imagePosition }}">
-    <span class="image">
+  <a href="{{ tile.url  | relative_url }}" class="tile {{ tile.imagePosition }} accent{{ tile.navorder }} dark">
+    <span class="tile-image">
       <img src="{{ tile.image }}" alt="{{ tile.title }}" />
     </span>
-    <header class="major">
-      <h3>
-        <a href="{{ tile.url  | relative_url }}" class="link">
-          {{ tile.title }}
-        </a>
-      </h3>
-      <p>
-        {{ tile.description }}
-      </p>
-    </header>
-  </article>
+    <div class="headline">
+      <h2>{{ tile.title }}</h2>
+      <span>{{ tile.description }}</span>
+    </div>
+  </a>
   {% endfor %}
-</section>
+</div>

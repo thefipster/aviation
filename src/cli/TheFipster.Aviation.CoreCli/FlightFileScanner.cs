@@ -91,8 +91,20 @@ namespace TheFipster.Aviation.CoreCli
                 case ".txt":
                     {
                         return scanTxt(file);
-                    }    
+                    }
+                case ".mp4":
+                    {
+                        return scanMp4(file);
+                    }
             }
+
+            return FileTypes.Unknown;
+        }
+
+        private FileTypes scanMp4(string file)
+        {
+            if (file.Contains("Landing"))
+                return FileTypes.ReplayLanding;
 
             return FileTypes.Unknown;
         }

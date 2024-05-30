@@ -1,0 +1,50 @@
+@use "../libs/vars" as *;
+@use "../libs/functions" as *;
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.2em;
+
+  thead tr {
+    text-align: left;
+  }
+
+  tr {
+    border-bottom: 1px solid val($palette, border);
+
+    &.clickable {
+      transition: val($duration, link) ease-in-out;
+      cursor: pointer;
+    }
+
+    &.clickable:hover {
+      color: val($palette, focus);
+    }
+  }
+
+  tbody {
+    tr:nth-of-type(odd) {
+      background-color: val($palette, bg-alt);
+    }
+  }
+
+  th,
+  td {
+    padding: 15px 15px;
+  }
+
+  @media only screen and (max-width: val($breakpoints, small)) {
+    th.hide-small,
+    td.hide-small {
+      display: none;
+    }
+  }  
+  
+  @media only screen and (max-width: val($breakpoints, medium)) {
+    th.hide-medium,
+    td.hide-medium {
+      display: none;
+    }
+  }
+}
