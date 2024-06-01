@@ -14,11 +14,7 @@ namespace TheFipster.Aviation.FlightCli.Commands
             Console.WriteLine();
 
             this.config = Guard.EnsureConfig(config);
-
-            runTerminalCommand("npm run fonts", "Bundling css.");
-            runTerminalCommand("npm run css");
-            runTerminalCommand("npm run js", "Bundling js.");
-            runTerminalCommand("bundle exec jekyll build --incremental", "Building jekyll");
+            runTerminalCommand("npm run build");
         }
 
         private void runTerminalCommand(string command, string message = null)

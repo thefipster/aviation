@@ -69,7 +69,7 @@ namespace TheFipster.Aviation.Modules.Jekyll.Components
                 if (!Directory.Exists(replayFolder))
                     Directory.CreateDirectory(replayFolder);
 
-                File.Move(landingFile, newFile, overwrite);
+                File.Copy(landingFile, newFile, overwrite);
             }
             catch (Exception)
             {

@@ -66,9 +66,6 @@ namespace TheFipster.Aviation.Domain.Simbrief
         [JsonPropertyName("weights")]
         public Weights Weights { get; set; }
 
-        [JsonPropertyName("impacts")]
-        public Dictionary<string, Impact> Impacts { get; set; }
-
         [JsonPropertyName("crew")]
         public Crew Crew { get; set; }
 

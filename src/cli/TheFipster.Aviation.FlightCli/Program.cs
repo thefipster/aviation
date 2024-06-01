@@ -8,8 +8,7 @@ using TheFipster.Aviation.FlightCli.Options;
 //   , "-d", "EDDL", "-a", "EDDL"
 //   , "-i", "E:\\aviation\\Data\\OurAirports\\import", "-o", "E:\\aviation\\Data\\OurAirports\\export"
 //   , "-w", "400", "-h", "300"
-
-//args = new[] { "process", "-d", "RJEC", "-a", "RJSR" };
+//args = new[] { "flog", "-d", "RJTT", "-a", "RJBE" };
 
 try
 {
@@ -53,9 +52,9 @@ static void executeCommand(string[] args, IConfig config)
     var optionTypes = findTypesByAttribute<VerbAttribute>().OrderBy(x => x.FullName).ToArray();
     Parser.Default.ParseArguments(args, optionTypes)
         .WithParsed<NewManualFlightOptions>(options => { new NewManualFlightCommand().Run(options, config); })
-        .WithParsed<NewDispatchFlightOptions>(options => { new NewDispatchFlightCommand().Run(options, config); })
-
         .WithParsed<CreateNavigraphFlightOptions>(options => { new CreateNavigraphFlightCommand().Run(options, config); })
+
+        .WithParsed<NewDispatchFlightOptions>(options => { new NewDispatchFlightCommand().Run(options, config); })
         .WithParsed<CreateSimbriefFlightOptions>(options => { new CreateSimbriefFlightCommand().Run(options, config); })
 
         .WithParsed<BlackboxRecorderOptions>(options => { new BlackboxRecorderCommand().Run(options, config); })
@@ -64,11 +63,11 @@ static void executeCommand(string[] args, IConfig config)
         .WithParsed<ImportCombinerOptions>(options => { new ImportCombinerCommand().Run(options, config); })
         .WithParsed<ImportProcessorOptions>(options => { new ImportProcessorCommand().Run(options, config); })
 
+        .WithParsed<JekyllCreateOptions>(options => { new JekyllCreateCommand().Run(options, config); })
         .WithParsed<JekyllBuildOptions>(options => { new JekyllBuildCommand().Run(options, config); })
 
         .WithParsed<OurAirportsFilterOptions>(options => { new OurAirportsFilterCommand().Run(options, config); })
         .WithParsed<ScanFolderOptions>(options => { new ScanFolderCommand().Run(options, config); })
-        .WithParsed<JekyllCreateOptions>(options => { new JekyllCreateCommand().Run(options, config); })
 
         .WithNotParsed(_ => Console.WriteLine());
 }

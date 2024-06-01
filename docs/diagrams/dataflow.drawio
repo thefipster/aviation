@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net" modified="2024-05-31T19:08:10.640Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="Aq758t4TdmuGFtOFYDcI" version="24.2.5" type="device">
+  <diagram name="Page-1" id="7CdtHr26_QUvcH8pgVzI">
+    <mxGraphModel dx="1430" dy="781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-1" value="Pilot" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="30" y="340" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-2" target="JgEXoo-3QQdjxL71ndQJ-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-2" value="Simbrief" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="520" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-3" target="JgEXoo-3QQdjxL71ndQJ-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-3" value="Route" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="350" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-4" target="JgEXoo-3QQdjxL71ndQJ-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-4" value="Manual" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="180" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-5" target="JgEXoo-3QQdjxL71ndQJ-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-5" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;route&lt;div&gt;kml&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+          <mxGeometry x="130" y="340" width="50" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-8" target="JgEXoo-3QQdjxL71ndQJ-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-8" value="Chrome" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="485" width="80" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-9" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="JgEXoo-3QQdjxL71ndQJ-8">
+          <mxGeometry y="30" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-10" value="Simbrief Dispatch" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="JgEXoo-3QQdjxL71ndQJ-8">
+          <mxGeometry y="60" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-11" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="JgEXoo-3QQdjxL71ndQJ-8">
+          <mxGeometry y="90" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-18" target="JgEXoo-3QQdjxL71ndQJ-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-18" value="Download&amp;nbsp;&lt;div&gt;Simbrief OFP&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="515" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-20" target="JgEXoo-3QQdjxL71ndQJ-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-20" value="Collect&lt;div&gt;Manual Flight Information&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="175" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-21" target="JgEXoo-3QQdjxL71ndQJ-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-21" value="Import&lt;div&gt;&amp;nbsp;Planned Route&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="345" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-24" target="JgEXoo-3QQdjxL71ndQJ-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-24" value="Create&lt;div&gt;Flight Folder&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="345" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-28" target="JgEXoo-3QQdjxL71ndQJ-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-28" target="JgEXoo-3QQdjxL71ndQJ-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-28" target="JgEXoo-3QQdjxL71ndQJ-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="JgEXoo-3QQdjxL71ndQJ-28" target="JgEXoo-3QQdjxL71ndQJ-35">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-28" value="Record&lt;div&gt;MSFS Flight&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="800" y="345" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-31" value="Collect&lt;div&gt;Navigraph&amp;nbsp;&lt;/div&gt;&lt;div&gt;Charts&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-32" value="Collect&lt;div&gt;SimToolkitPro&lt;/div&gt;&lt;div&gt;Flight&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-35" value="Collect Screenshots" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="520" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="JgEXoo-3QQdjxL71ndQJ-36" value="Collect&amp;nbsp;&lt;div&gt;Flight Control Replay&lt;/div&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="280" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

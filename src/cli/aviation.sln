@@ -33,7 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Tests.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.OurAirports", "TheFipster.Aviation.Modules.OurAirports\TheFipster.Aviation.Modules.OurAirports.csproj", "{D15433CF-9B2E-4370-8335-D4E8F681AAF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Modules.SimConnectClient", "TheFipster.Aviation.Modules.SimConnectClient\TheFipster.Aviation.Modules.SimConnectClient.csproj", "{7B263E1B-6729-4FCE-A45F-AC922CE978FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.Modules.SimConnectClient", "TheFipster.Aviation.Modules.SimConnectClient\TheFipster.Aviation.Modules.SimConnectClient.csproj", "{7B263E1B-6729-4FCE-A45F-AC922CE978FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheFipster.Aviation.FlightApp", "TheFipster.Aviation.FlightApp\TheFipster.Aviation.FlightApp.csproj", "{B652B43B-3346-4134-A9D9-63B64C7F6B96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheFipster.Aviation.Tasks", "TheFipster.Aviation.Tasks\TheFipster.Aviation.Tasks.csproj", "{76258CFC-2CB6-45DE-90CA-51FFC9418211}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{5DBCD437-E889-42C6-A842-88F5F33D6D85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +99,16 @@ Global
 		{7B263E1B-6729-4FCE-A45F-AC922CE978FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B263E1B-6729-4FCE-A45F-AC922CE978FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B263E1B-6729-4FCE-A45F-AC922CE978FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B652B43B-3346-4134-A9D9-63B64C7F6B96}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{76258CFC-2CB6-45DE-90CA-51FFC9418211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76258CFC-2CB6-45DE-90CA-51FFC9418211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76258CFC-2CB6-45DE-90CA-51FFC9418211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76258CFC-2CB6-45DE-90CA-51FFC9418211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +120,7 @@ Global
 		{67D0852C-56FE-469E-8F67-16278227BD29} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 		{0BDC0504-D398-4E68-8919-3CB06CBF4B0C} = {6679851C-774A-4D38-ACD4-823B849B41E9}
 		{72A66B91-D818-4AEA-94DD-C9101F0E9FFC} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
+		{6E14BEB4-EBAE-447C-84FB-24B201B9BFCB} = {5DBCD437-E889-42C6-A842-88F5F33D6D85}
 		{7F0978F5-F058-4B46-8E24-0E775F413402} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 		{785A9DB5-8CD9-4464-B9AF-A4E79AD288AA} = {293AACA7-2C57-482C-AFE1-C1F4E7FFAC1F}
 		{EEC19771-D7D6-4A2C-BA88-9B3FEA6B3E8F} = {0137FFC2-C78D-483F-8BAD-960F09B75897}
